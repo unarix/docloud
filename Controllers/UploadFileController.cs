@@ -38,11 +38,11 @@ namespace doCloud.Controllers
                         file.CopyTo(stream);
                     }
                 }
-                return Json("Upload Successful.");
+                return Json("El archivo se ha subido correctamente!");
             }
             catch (System.Exception ex)
             {
-                return Json("Upload Failed: " + ex.Message);
+                return Json("Ha ocurrido un error al subir el archivo: " + ex.Message);
             }
         }
     }
