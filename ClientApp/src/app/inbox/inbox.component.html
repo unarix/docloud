@@ -1,3 +1,16 @@
-<p>
-  inbox works!!!!
-</p>
+<h1>Sube tus archivos</h1>
+<input #file type="file" multiple (change)="upload(file.files)" />
+<br/>
+<span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
+  {{progress}}%
+</span>
+
+<span style="font-weight:bold;color:green;" *ngIf="message">
+  {{message}}
+</span>
+
+<li [routerLinkActive]='["link-active"]'>
+    <a [routerLink]='["/upload"]' (click)='collapse()'>
+       <span class='glyphicon glyphicon-upload'></span> Upload
+    </a>
+ </li>

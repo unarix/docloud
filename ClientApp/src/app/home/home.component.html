@@ -1,4 +1,10 @@
-<h1>Hello!</h1>
+<h1>doCLoud!</h1>
+<h2>Carga tus documentos para ver resultados aqui</h2>
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+</div>
+
+
 
 <accordion>
   <accordion-group heading="Static Header, initially expanded">
@@ -14,3 +20,7 @@
     <p>Some content</p>
   </accordion-group>
 </accordion>
+
+
+
+<button type="button" class="btn btn-primary" (click)="add()">Add more</button>
