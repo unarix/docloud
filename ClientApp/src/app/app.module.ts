@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { FileDropModule } from 'ngx-file-drop';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -27,6 +28,7 @@ import { InboxComponent } from './inbox/inbox.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    FileDropModule,
     AccordionModule.forRoot(),
     AlertModule.forRoot(),
     RouterModule.forRoot([

@@ -1,23 +1,37 @@
-<h1>Sube tus archivos</h1>
+  <br>
+  <div class="jumbotron">
+    <h1>Sube tus archivos</h1>
+    <p class="lead">Suelta tus archivos sobra nube para cargarlos, cuando hayas terminado, haz click en upload!</p>
+    
+    <file-drop (onFileDrop)="dropped($event)" customstyle="my-style" >
+              <img style="width: 90px;" src="http://www.myiconfinder.com/uploads/iconsets/256-256-37736f35fd7d98b10b35287679b223b8.png">
+    </file-drop>
+  </div>
 
-<br/>
-
-<div *ngFor="let alert of alerts">
-  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+<div class="upload-table">
+    <table id="" class="table">
+        <tbody class="upload-name-style">
+            <tr *ngFor="let item of files; let i=index">
+                <td> 
+                  Subiendo archivo <strong>{{ item.relativePath }}</strong> ... 
+                  <span style="font-weight:bold;color:green;" >
+                    {{progress}}%
+                  </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
-<input #file type="file" multiple (change)="upload(file.files)" />
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
 
-<span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
-  {{progress}}%
-</span>
 
-<span style="font-weight:bold;color:green;" *ngIf="message">
-  {{message}}
-</span>
 
-<li [routerLinkActive]='["link-active"]'>
-    <a [routerLink]='["/upload"]' (click)='collapse()'>
-       <span class='glyphicon glyphicon-upload'></span> Upload
-    </a>
- </li>
+
+
+
+    
+
+

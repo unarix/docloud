@@ -19,6 +19,7 @@ namespace doCloud.Controllers
         [HttpPost, DisableRequestSizeLimit]
         public ActionResult UploadFile()   
         {
+            string fileName = "";
             try
             {
                 var file = Request.Form.Files[0];
@@ -31,14 +32,14 @@ namespace doCloud.Controllers
                 }
                 if (file.Length > 0)
                 {
-                    string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     string fullPath = Path.Combine(newPath, fileName);
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
                         file.CopyTo(stream);
                     }
                 }
-                return Json("El archivo se ha subido correctamente!");
+                return Json("El archivo " + fileName + " se ha subido correctamente!");
             }
             catch (System.Exception ex)
             {
