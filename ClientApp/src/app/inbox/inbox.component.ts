@@ -1,7 +1,11 @@
-import { Component, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, ElementRef, NgZone, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { AlertComponent } from 'ngx-bootstrap/alert/alert.component';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http'
 import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { viewClassName } from '@angular/compiler';
+import { ViewChild } from '@angular/core'
 
 @Component({
   selector: 'app-inbox',
@@ -10,6 +14,8 @@ import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry 
 })
 export class InboxComponent {
 
+  @ViewChild('template') ventanaModal: TemplateRef<any>;
+
   // // mensaje que se despliega al iniciar el componente
    alerts: any[] = [{
   //   type: 'info',
@@ -17,11 +23,14 @@ export class InboxComponent {
   //   timeout: 5000
    }];
 
-  public progress: number =0;
-  
-  public message: string;
-  constructor(private ref: ChangeDetectorRef,private http: HttpClient) { }
+  public progress: number =0;  
+  public message: string = 'hola!';
+  modalRef: BsModalRef;
   public files: UploadFile[] = [];
+
+  constructor(private ref: ChangeDetectorRef, private http: HttpClient, private modalService: BsModalService) { 
+
+  }
   
   public dropped(event: UploadEvent) {
     
@@ -59,8 +68,12 @@ export class InboxComponent {
  
   public mostrarMensaje(mensajex)
   {
-    alert(mensajex);
-    location.reload();
+    // Abro la ventana modal
+    this.openModal(this.ventanaModal);
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
   public fileOver(event){
@@ -70,7 +83,5 @@ export class InboxComponent {
   public fileLeave(event){
     //console.log(event);
   }
-
-  
 
 }

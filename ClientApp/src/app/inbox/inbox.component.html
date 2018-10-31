@@ -1,11 +1,12 @@
   <br>
   <div class="jumbotron">
-    <h1>Sube tus archivos</h1>
-    <p class="lead">Suelta tus archivos sobra nube para cargarlos, cuando hayas terminado, haz click en upload!</p>
-    
+    <h1>Up the doc</h1>
+    <p class="lead">Suelta tus documentos sobre la nube para cargarlos</p>
+    <br>
     <file-drop (onFileDrop)="dropped($event)" customstyle="my-style" >
               <img style="width: 90px;" src="http://www.myiconfinder.com/uploads/iconsets/256-256-37736f35fd7d98b10b35287679b223b8.png">
     </file-drop>
+    <br>
   </div>
 
 <div class="upload-table">
@@ -13,7 +14,7 @@
         <tbody class="upload-name-style">
             <tr *ngFor="let item of files; let i=index">
                 <td> 
-                  Subiendo archivo <strong>{{ item.relativePath }}</strong> ... 
+                  Subiendo documento <strong>{{ item.relativePath }}</strong> ... 
                   <span style="font-weight:bold;color:green;" >
                     {{progress}}%
                   </span>
@@ -26,6 +27,20 @@
 <div *ngFor="let alert of alerts">
   <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
 </div>
+
+<!--button id="openModalButton" type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button-->
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Listo!</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Tu archivo, ya fue cargado.
+  </div>
+</ng-template>
 
 
 
