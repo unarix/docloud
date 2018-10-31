@@ -1,24 +1,45 @@
-<h1>Weather forecast</h1>
+<div class="container-fluid" *ngIf="documentTypes">
 
-<p>This component demonstrates fetching data from the server.</p>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        doCloud
+      </a>
+    </div>
+    <span class="navbar-right"> </span>
+    <button type="button" class="btn btn-default navbar-btn navbar-right"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nueva Carpeta</button>
+    
+  </div>
+</nav>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
+<h1>Mis Carpetas</h1>
+<p class="lead">Organiza tu documentacion</p>
 
-<table class='table' *ngIf="forecasts">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Temp. (C)</th>
-      <th>Temp. (F)</th>
-      <th>Summary</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td>{{ forecast.dateFormatted }}</td>
-      <td>{{ forecast.temperatureC }}</td>
-      <td>{{ forecast.temperatureF }}</td>
-      <td>{{ forecast.summary }}</td>
-    </tr>
-  </tbody>
-</table>
+<p *ngIf="!documentTypes"><em>Loading...</em></p>
+
+
+  
+  <div class="row" >
+    <div class="col-xs-6 col-md-3" *ngFor="let documentTypes of documentTypes">
+      <div class="thumbnail">
+        <a href="#">
+            <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTY2YzgwOGJmYWUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjZjODA4YmZhZSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OC44MDQ2ODc1IiB5PSIxMDUuMSI+MjQyeDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" alt="...">
+          </a>
+          <div class="caption">
+            <h3>{{ documentTypes.sd_descripcion }}</h3>  
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-info">
+                  <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-danger">
+                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+            </div>
+          </div>
+        </div>  
+    </div>
+
+  </div>
+
+</div>

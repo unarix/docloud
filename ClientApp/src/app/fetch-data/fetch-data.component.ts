@@ -6,18 +6,22 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './fetch-data.component.html'
 })
 export class FetchDataComponent {
-  public forecasts: WeatherForecast[];
+  public documentTypes: DocumentType[];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<WeatherForecast[]>(baseUrl + 'api/SampleData/WeatherForecasts').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+    http.get<DocumentType[]>(baseUrl + 'api/DocumentType/GetDocumentTypes').subscribe(result => {
+      this.documentTypes = result;
+    }, error => alert(error)); //console.error(error));
   }
 }
 
-interface WeatherForecast {
-  dateFormatted: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+
+interface DocumentType {
+  idns_documento_tipo: string;
+  sd_descripcion: string;
+  h_alta: string;
+  n_responsable : string;
+  n_aeropuertos : string;
+  n_clientes : string;
+  n_destinatarios : string;
 }
