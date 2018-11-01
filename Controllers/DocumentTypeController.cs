@@ -47,6 +47,12 @@ namespace doCloud.Controllers
 
             return doctypeLst;
         }
+
+        [HttpPost("[action]")]
+        public string PostNewDocumentType(string sd_descripcion)
+        {
+            return("se creo la carpeta correctamente!");
+        }
     }
 
 
