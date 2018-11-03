@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { InboxComponent } from './inbox/inbox.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { InboxComponent } from './inbox/inbox.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    InboxComponent
+    InboxComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,6 +40,7 @@ import { InboxComponent } from './inbox/inbox.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'inbox', component: InboxComponent },
+      { path: 'user-settings', component: UserSettingsComponent },
     ])
   ],
   providers: [],

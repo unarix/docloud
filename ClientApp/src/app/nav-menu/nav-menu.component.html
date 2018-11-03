@@ -7,7 +7,12 @@
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </button>
-            <a class='navbar-brand' [routerLink]='["/"]'> doCloud </a>
+            
+            <a class='navbar-brand' [routerLink]='["/"]'> 
+                <span><img src="../imgs/cloud.ico" style="width: 20px;" > </span>
+                doCloud
+            </a>
+            
         </div>
         <div class='clearfix'></div>
         
@@ -41,7 +46,7 @@
                     </a>
                 </li>
                 <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/settings"]' (click)='collapse()'>
+                    <a [routerLink]='["/user-settings"]' (click)='collapse()'>
                         <span class='glyphicon glyphicon-th-list'></span> Configuracion
                     </a>
                 </li>
