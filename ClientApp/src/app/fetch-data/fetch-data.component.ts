@@ -1,4 +1,4 @@
-import { Component, Inject, TemplateRef } from '@angular/core';
+import { Component, Inject, TemplateRef, ElementRef } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -48,6 +48,9 @@ export class FetchDataComponent {
 
   openModal(new_folder: TemplateRef<any>) {
     this.modalRef = this.modalService.show(new_folder);
+    
+    var age = document.getElementById('folderName');
+    age.focus();
   }
  
   openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {
@@ -58,8 +61,6 @@ export class FetchDataComponent {
 
   newFolder(foldername: string)
   {
-    console.log(foldername)
-
     var date = new Date();
 
     let doc: DocumentType = {
@@ -72,16 +73,14 @@ export class FetchDataComponent {
       n_destinatarios : 0
     };
     
-    console.log(doc);
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
     
-    let url = this.baseUrl +  'api/DocumentType/PostNewDocumentType';
-    console.log(url);
+    let url = this.baseUrl +  'api/DocumentType/NewDocumentType';
+
     this.http.post<DocumentType>(url, doc, httpOptions).subscribe
     (
       res => {console.log(res); this.modalRef.hide(); this.loadFolders();}
@@ -95,6 +94,51 @@ export class FetchDataComponent {
     
   }
 
+  onKeydown(event, name:string) {
+    if (event.key === "Enter") {
+      console.log(event);
+      this.newFolder(name);
+    }
+  }
+  deleteFolder(id:number)
+  {
+    var resp = confirm("Esta seguro de borrar esta carpeta?");
+
+    if(resp)
+    {
+      var date = new Date();
+
+      let doc: DocumentType = {
+        idns_documento_tipo: id,
+        sd_descripcion: "",
+        h_alta: date,
+        n_responsable : 0,
+        n_aeropuertos : 0,
+        n_clientes : 0,
+        n_destinatarios : 0
+      };
+      
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      };
+
+      let url = this.baseUrl +  'api/DocumentType/DeleteDocumentType/';
+      console.log(url);
+
+      this.http.post<DocumentType>(url, doc, httpOptions).subscribe
+      (
+        res => {console.log(res); this.loadFolders();}
+        , 
+        error => { 
+          this.openModalAlert(this.ventanaModal,"Error!",error); 
+          this.loadFolders(); 
+          console.error(error) 
+        }
+      );
+    }
+  }
 
 
 }

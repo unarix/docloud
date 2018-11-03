@@ -50,8 +50,8 @@ namespace doCloud.Controllers
         }
 
         [HttpPost]
-        [Route("PostNewDocumentType")]
-        public DocumentType PostNewDocumentType([FromBody] DocumentType doc)
+        [Route("NewDocumentType")]
+        public DocumentType NewDocumentType([FromBody] DocumentType doc)
         {
             try
             {
@@ -88,6 +88,39 @@ namespace doCloud.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        [Route("DeleteDocumentType")]
+        public IActionResult DeleteDocumentType([FromBody] DocumentType doc)
+        {
+            try
+            {
+                if(doc.idns_documento_tipo!=0)
+                {
+                    string qry = "delete from dar_documento_tipo where idns_documento_tipo = :id";
+
+                    using (var conn = new NpgsqlConnection(connString))
+                    {
+                        conn.Open();
+
+                        //using (var cmd = new NpgsqlCommand("insert into login (Name, Password) values(:name, :pw)", conn))
+                        using (var cmd = new NpgsqlCommand(qry, conn))
+                        {
+                            cmd.Parameters.Add(new NpgsqlParameter("id", doc.idns_documento_tipo));
+                            cmd.ExecuteNonQuery();
+                        }
+                    }                    
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+
+            return NoContent();
+        }
+
     }
 
 }
