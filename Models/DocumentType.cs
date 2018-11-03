@@ -10,5 +10,4 @@ public class DocumentType
     public int n_clientes { get; set; }
     public int n_destinatarios { get; set; }
     
-
 }

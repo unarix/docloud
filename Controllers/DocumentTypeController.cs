@@ -1,4 +1,5 @@
 using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,12 +11,12 @@ namespace doCloud.Controllers
     [Route("api/[controller]")]
     public class DocumentTypeController : Controller
     {
+        string connString = "Host=127.0.0.1;Username=dar_user;Password=nar123;Database=dar";
+
         [HttpGet("[action]")]
         public List<DocumentType> GetDocumentTypes()
         {
             List<DocumentType> doctypeLst = new List<DocumentType>();
-
-            var connString = "Host=127.0.0.1;Username=dar_user;Password=nar123;Database=dar";
 
             using (var conn = new NpgsqlConnection(connString))
             {
@@ -48,12 +49,45 @@ namespace doCloud.Controllers
             return doctypeLst;
         }
 
-        [HttpPost("[action]")]
-        public string PostNewDocumentType(string sd_descripcion)
+        [HttpPost]
+        [Route("PostNewDocumentType")]
+        public DocumentType PostNewDocumentType([FromBody] DocumentType doc)
         {
-            return("se creo la carpeta correctamente!");
+            try
+            {
+                if(doc.sd_descripcion!= "")
+                {
+                    string qry = "insert into dar_documento_tipo (SD_DESCRIPCION, H_ALTA, N_RESPONSABILIDADES, N_AEROPUERTOS, N_CLIENTES, N_DESTINATARIOS) values (:sd_desc ,current_timestamp, 0,0,0,0)";
+
+                    using (var conn = new NpgsqlConnection(connString))
+                    {
+                        conn.Open();
+
+                        //using (var cmd = new NpgsqlCommand("insert into login (Name, Password) values(:name, :pw)", conn))
+                        using (var cmd = new NpgsqlCommand(qry, conn))
+                        {
+                            cmd.Parameters.Add(new NpgsqlParameter("sd_desc", doc.sd_descripcion));
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    DocumentType Docu = new DocumentType();
+                    Docu.sd_descripcion = "Se creo la carpeta " + doc.sd_descripcion + " correctamente...";
+                    return Docu;
+                }
+                else
+                {
+                    DocumentType Docu = new DocumentType();
+                    Docu.idns_documento_tipo = 0;
+                    Docu.sd_descripcion = "Error, no se cargo el nombre de la nueva carpeta";
+                    return Docu;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
     }
-
 
 }
