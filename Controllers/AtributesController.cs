@@ -15,39 +15,115 @@ namespace doCloud.Controllers
         string connString = Startup.connectionString ;
 
         [HttpGet("[action]")]
-        public List<Document> GetAtributesByDocumentId(int ns_documento_tipo)
+        public List<Atributes> GetAtributesByDocumentId(Atributes atr)
         {
-            List<DocumentType> doctypeLst = new List<DocumentType>();
+            List<Atributes> attributesLst = new List<Atributes>();
 
             using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("SELECT * from dar_documento_tipo", conn))
-                using (var dr = cmd.ExecuteReader())
-                    while (dr.Read())
-                    {
-                        Console.WriteLine(dr.GetString(1));
-                        
-                        DocumentType docType = new DocumentType();
-                        
-                        docType.idns_documento_tipo = dr.IsDBNull(dr.GetOrdinal("idns_documento_tipo")) ? 0 : dr.GetDouble(dr.GetOrdinal("idns_documento_tipo"));
-                        docType.sd_descripcion = dr.IsDBNull(dr.GetOrdinal("sd_descripcion")) ? "" : dr.GetString(dr.GetOrdinal("sd_descripcion"));
-                        // docType.sd_descripcion = reader.GetString(1);
-                        // docType.h_alta = (DateTime) reader.GetOrdinal("user_ruler_id");;
-                        // docType.n_responsable = (int) reader.GetOrdinal("user_ruler_id");;
-                        // docType.n_aeropuertos = (int) reader.GetOrdinal("user_ruler_id");;
-                        // docType.n_clientes = (int) reader.GetOrdinal("user_ruler_id");;
-                        // docType.n_destinatarios = (int) reader.GetOrdinal("user_ruler_id");;
-                        
-                        doctypeLst.Add(docType);
-                    }
-                        
+                using (var cmd = new NpgsqlCommand("SELECT * FROM DAR_ATRIBUTO WHERE NS_DOCUMENTO_TIPO = :ns_doc_tipo", conn))
+                {
+                    cmd.Parameters.Add(new NpgsqlParameter("ns_doc_tipo", atr.NS_DOCUMENTO_TIPO));
+
+                    using (var dr = cmd.ExecuteReader())
+                        while (dr.Read())
+                        {
+                            Console.WriteLine(dr.GetString(1));
+                            
+                            Atributes atrib = new Atributes();
+                            
+                            atrib.IDNS_ATRIBUTO = dr.IsDBNull(dr.GetOrdinal("IDNS_ATRIBUTO")) ? 0 : dr.GetInt32(dr.GetOrdinal("IDNS_ATRIBUTO"));
+                            atrib.SD_ATRIBUTO = dr.IsDBNull(dr.GetOrdinal("SD_ATRIBUTO")) ? "" : dr.GetString(dr.GetOrdinal("SD_ATRIBUTO"));
+                            atrib.NS_DOCUMENTO_TIPO = dr.IsDBNull(dr.GetOrdinal("NS_DOCUMENTO_TIPO")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_DOCUMENTO_TIPO"));
+                            atrib.NS_ATRIBUTO_TIPO = dr.IsDBNull(dr.GetOrdinal("NS_ATRIBUTO_TIPO")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_ATRIBUTO_TIPO"));
+                            atrib.H_ALTA = dr.IsDBNull(dr.GetOrdinal("H_ALTA")) ? DateTime.Now : dr.GetDateTime(dr.GetOrdinal("H_ALTA"));
+                            atrib.SD_OPCIONES = dr.IsDBNull(dr.GetOrdinal("SD_OPCIONES")) ? "" : dr.GetString(dr.GetOrdinal("SD_OPCIONES"));
+                            
+                            
+                            attributesLst.Add(atrib);
+                        }
+                }           
             }
 
 
-            return null;
+            return attributesLst;
         }
+        
+        [HttpPost("[action]")]
+        public List<Atributes> InsertAtribute(Atributes atr)
+        {
+            List<Atributes> attributesLst = new List<Atributes>();
+
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+
+                // Retrieve all rows
+                using (var cmd = new NpgsqlCommand("INSERT INTO DAR_ATRIBUTO VALUES (:SD_ATRIBUTO,:NS_DOCUMENTO_TIPO,:NS_ATRIBUTO_TIPO,:H_ALTA,:SD_OPCIONES)", conn))
+                {
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.SD_ATRIBUTO));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.NS_DOCUMENTO_TIPO));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.NS_ATRIBUTO_TIPO));
+                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.H_ALTA));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.SD_OPCIONES));
+                    cmd.ExecuteNonQuery();
+                }           
+            }
+
+            return attributesLst;
+        }
+
+        [HttpPost("[action]")]
+        public List<Atributes> UpdateAtribute(Atributes atr)
+        {
+            List<Atributes> attributesLst = new List<Atributes>();
+
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+
+                // Retrieve all rows
+                using (var cmd = new NpgsqlCommand("UPDATE DAR_ATRIBUTO set (SD_ATRIBUTO, NS_DOCUMENTO_TIPO, NS_ATRIBUTO_TIPO, H_ALTA, SD_OPCIONES) = (:SD_ATRIBUTO,:NS_DOCUMENTO_TIPO,:NS_ATRIBUTO_TIPO,:H_ALTA,:SD_OPCIONES) WHERE IDNS_ATRIBUTO = :IDNS_ATRIBUTO", conn))
+                {
+                    cmd.Parameters.Add(new NpgsqlParameter("IDNS_ATRIBUTO", atr.IDNS_ATRIBUTO));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.SD_ATRIBUTO));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.NS_DOCUMENTO_TIPO));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.NS_ATRIBUTO_TIPO));
+                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.H_ALTA));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.SD_OPCIONES));
+                    cmd.ExecuteNonQuery();
+                }           
+            }
+            
+            return attributesLst;
+        }
+
+        [HttpPost("[action]")]
+        public List<Atributes> DeleteAtribute(Atributes atr)
+        {
+            List<Atributes> attributesLst = new List<Atributes>();
+
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+
+                // Retrieve all rows
+                using (var cmd = new NpgsqlCommand("DELETE FROM DAR_ATRIBUTO WHERE IDNS_ATRIBUTO = :IDNS_ATRIBUTO", conn))
+                {
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.SD_ATRIBUTO));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.NS_DOCUMENTO_TIPO));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.NS_ATRIBUTO_TIPO));
+                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.H_ALTA));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.SD_OPCIONES));
+                    cmd.ExecuteNonQuery();
+                }           
+            }
+            
+            return attributesLst;
+        }
+
     }
 }

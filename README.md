@@ -1,10 +1,10 @@
 # docloud
 Your documents everywere!
 
-doCloud is a platform for protection and search of digital documents; DOCloud allows:
- - Upload text images, make OCR (if its possible)
- - Read through AI and extract the metadata
- - Store them according to CID
- - Search them using AI with elasticSearch
- - Identify types of documents with AI
- - Tag with custom metadata
+doCloud is a platform for search and save documents; it allows:
+ - Upload pdf's or images and make the OCR (if its possible).
+ - Read through machine learning and extract the metadata.
+ - Search them using machine learning with elasticSearch
+ - Store the data files according to CID.
+ - Identify types of documents with AI (auto recognition)
+ - Tag with custom metadata (personal atributes)
