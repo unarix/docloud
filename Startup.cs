@@ -10,9 +10,12 @@ namespace doCloud
 {
     public class Startup
     {
+        static public string connectionString; 
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            connectionString = Configuration["ConnectionStrings:DefaultConnection"];
         }
 
         public IConfiguration Configuration { get; }

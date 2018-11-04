@@ -11,8 +11,8 @@ namespace doCloud.Controllers
     [Route("api/[controller]")]
     public class DocumentTypeController : Controller
     {
-        string connString = "Host=127.0.0.1;Username=dar_user;Password=nar123;Database=dar";
-
+        string connString = Startup.connectionString ;
+        
         [HttpGet("[action]")]
         public List<DocumentType> GetDocumentTypes()
         {

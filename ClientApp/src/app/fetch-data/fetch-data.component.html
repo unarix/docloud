@@ -23,13 +23,11 @@
     <div class="row" >
       <div class="col-xs-6 col-md-3" *ngFor="let documentTypes of documentTypes">
         <div class="thumbnail">
-          <a href="#">
-              <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTY2YzgwOGJmYWUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjZjODA4YmZhZSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OC44MDQ2ODc1IiB5PSIxMDUuMSI+MjQyeDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" alt="...">
-            </a>
+            <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTY2YzgwOGJmYWUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjZjODA4YmZhZSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OC44MDQ2ODc1IiB5PSIxMDUuMSI+MjQyeDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" alt="...">
             <div class="caption">
               <h3>{{ documentTypes.sd_descripcion }} </h3>  
               <div class="btn-group" role="group" aria-label="...">
-                  <button type="button" class="btn btn-info">
+                  <button type="button" class="btn btn-info" (click)="openModalSettings(folder_settings, documentTypes.idns_documento_tipo)">
                     <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
                   </button>
                   <button type="button" class="btn btn-danger" (click)="deleteFolder( documentTypes.idns_documento_tipo )">
@@ -85,22 +83,27 @@
           <h4 class="modal-title pull-left">
             Propiedades de la carpeta
           </h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalFolder_settings.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <h3>Si creas una nueva carpeta...</h3>
-        <span>Puedes organizar tus documentos para encontrarlos mas facilmente! </span>
+        <h3>Agregar atributos</h3>
         <div style="margin-top:1em" class="input-group">
-          <span class="input-group-addon">@ Mis Carpetas /</span>
-          <input id="folderName" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
+          <span class="input-group-addon">Nombre del Atributo</span>
+          <input id="atributeName" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
         </div>
+
+        <div style="margin-top:1em" class="input-group">
+          <span class="input-group-addon">Tipo de Atributo</span>
+          <input id="atributeType" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
+        </div>
+
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary mr-auto" (click)="newFolder((folderName.value))">
+            <button type="button" class="btn btn-primary mr-auto" (click)="newAtribute((folderName.value))">
               <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
             </button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Cerrar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalFolder_settings.hide()">Cerrar</button>
         </div>
       </div>
     </ng-template>

@@ -10,12 +10,12 @@ namespace doCloud.Controllers
     [Route("api/[controller]")]
     public class DocumentsDataController : Controller
     {
+        string connString = Startup.connectionString ;
+
         [HttpGet("[action]")]
         public List<Document> GetDocuments()
         {
             List<Document> DocLst = new List<Document>();
-
-            var connString = "Host=127.0.0.1;Username=dar_user;Password=nar123;Database=dar";
 
             using (var conn = new NpgsqlConnection(connString))
             {

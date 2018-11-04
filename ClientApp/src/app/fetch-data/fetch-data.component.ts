@@ -13,9 +13,12 @@ import { withLatestFrom } from 'rxjs/operator/withLatestFrom';
 export class FetchDataComponent {
   public documentTypes: DocumentType[];
   
+  // **** Ventanas Modales ****
   modalRef: BsModalRef;
   modalRefAlert: BsModalRef;
-
+  modalFolder_settings: BsModalRef;
+  
+  // **** Variables globales ****
   baseUrl : string;
   http: HttpClient;
   headers: Headers;
@@ -52,7 +55,20 @@ export class FetchDataComponent {
     var age = document.getElementById('folderName');
     age.focus();
   }
+
+  openModalSettings(template: TemplateRef<any>, ns_documento_tipo) 
+  {
+    console.log("cargando atributos del doc id:" + ns_documento_tipo)
+    this.loadAtributes(ns_documento_tipo);
+    this.modalFolder_settings = this.modalService.show(template);
+  }
  
+  loadAtributes(ns_documento_tipo)
+  {
+    //Aca se llama a la api para obtener los atributos de ese tipo de documento...
+    //alert("cargando atributos del doc id:" + ns_documento_tipo);
+  }
+
   openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {
     this.message = msg;
     this.title = (ttl=="") ? "Alerta" : ttl;
