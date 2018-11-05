@@ -88,22 +88,48 @@
         </button>
       </div>
       <div class="modal-body">
-        <h3>Agregar atributos</h3>
-        <div style="margin-top:1em" class="input-group">
-          <span class="input-group-addon">Nombre del Atributo</span>
-          <input id="atributeName" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
-        </div>
-
-        <div style="margin-top:1em" class="input-group">
-          <span class="input-group-addon">Tipo de Atributo</span>
-          <input id="atributeType" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
-        </div>
+        <tabset>
+          <tab heading="Atributos" id="tab1">
+            <table datatable [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
+              <thead>
+                <tr>
+                  <th>Atributo</th>
+                  <th>Tipo</th>
+                  <th>Regex</th>
+                  <th>Alta</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rec of this.data">
+                  <td>{{rec.sd_atributo}}</td>
+                  <td>{{rec.ns_atributo_tipo}}</td>
+                  <td>{{rec.sd_opciones}}</td>
+                  <td>{{rec.h_alta}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </tab>
+          <tab heading="Nuevo Atributo">
+            <div style="margin-top:1em" class="input-group">
+              <span class="input-group-addon">Nombre del Atributo</span>
+              <input id="atributeName" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
+            </div>
+    
+            <div style="margin-top:1em" class="input-group">
+              <span class="input-group-addon">Tipo de Atributo</span>
+              <input id="atributeType" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
+            </div>
+    
+            <div class="margin-top:1em">
+                <button type="button" class="btn btn-primary mr-auto" (click)="newAtribute((folderName.value))">
+                  <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
+                </button>
+            </div>
+          </tab>
+        </tabset>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary mr-auto" (click)="newAtribute((folderName.value))">
-              <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
-            </button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalFolder_settings.hide()">Cerrar</button>
+            doCloud
         </div>
       </div>
     </ng-template>

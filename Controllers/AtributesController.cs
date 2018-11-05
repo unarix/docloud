@@ -15,8 +15,12 @@ namespace doCloud.Controllers
         string connString = Startup.connectionString ;
 
         [HttpGet("[action]")]
-        public List<Atributes> GetAtributesByDocumentId(Atributes atr)
+        [Route("GetAtributesByDocumentId")]
+        public List<Atributes> GetAtributesByDocumentId()
         {
+            Atributes atr = new Atributes();
+            atr.ns_documento_tipo = 5;
+
             List<Atributes> attributesLst = new List<Atributes>();
 
             using (var conn = new NpgsqlConnection(connString))
@@ -26,7 +30,7 @@ namespace doCloud.Controllers
                 // Retrieve all rows
                 using (var cmd = new NpgsqlCommand("SELECT * FROM DAR_ATRIBUTO WHERE NS_DOCUMENTO_TIPO = :ns_doc_tipo", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("ns_doc_tipo", atr.NS_DOCUMENTO_TIPO));
+                    cmd.Parameters.Add(new NpgsqlParameter("ns_doc_tipo", atr.ns_documento_tipo));
 
                     using (var dr = cmd.ExecuteReader())
                         while (dr.Read())
@@ -35,12 +39,12 @@ namespace doCloud.Controllers
                             
                             Atributes atrib = new Atributes();
                             
-                            atrib.IDNS_ATRIBUTO = dr.IsDBNull(dr.GetOrdinal("IDNS_ATRIBUTO")) ? 0 : dr.GetInt32(dr.GetOrdinal("IDNS_ATRIBUTO"));
-                            atrib.SD_ATRIBUTO = dr.IsDBNull(dr.GetOrdinal("SD_ATRIBUTO")) ? "" : dr.GetString(dr.GetOrdinal("SD_ATRIBUTO"));
-                            atrib.NS_DOCUMENTO_TIPO = dr.IsDBNull(dr.GetOrdinal("NS_DOCUMENTO_TIPO")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_DOCUMENTO_TIPO"));
-                            atrib.NS_ATRIBUTO_TIPO = dr.IsDBNull(dr.GetOrdinal("NS_ATRIBUTO_TIPO")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_ATRIBUTO_TIPO"));
-                            atrib.H_ALTA = dr.IsDBNull(dr.GetOrdinal("H_ALTA")) ? DateTime.Now : dr.GetDateTime(dr.GetOrdinal("H_ALTA"));
-                            atrib.SD_OPCIONES = dr.IsDBNull(dr.GetOrdinal("SD_OPCIONES")) ? "" : dr.GetString(dr.GetOrdinal("SD_OPCIONES"));
+                            atrib.idns_atributo = dr.IsDBNull(dr.GetOrdinal("IDNS_ATRIBUTO")) ? 0 : dr.GetInt32(dr.GetOrdinal("IDNS_ATRIBUTO"));
+                            atrib.sd_atributo = dr.IsDBNull(dr.GetOrdinal("SD_ATRIBUTO")) ? "" : dr.GetString(dr.GetOrdinal("SD_ATRIBUTO"));
+                            atrib.ns_documento_tipo = dr.IsDBNull(dr.GetOrdinal("NS_DOCUMENTO_TIPO")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_DOCUMENTO_TIPO"));
+                            atrib.ns_atributo_tipo = dr.IsDBNull(dr.GetOrdinal("NS_ATRIBUTO_TIPO")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_ATRIBUTO_TIPO"));
+                            atrib.h_alta = dr.IsDBNull(dr.GetOrdinal("H_ALTA")) ? DateTime.Now : dr.GetDateTime(dr.GetOrdinal("H_ALTA"));
+                            atrib.sd_opciones = dr.IsDBNull(dr.GetOrdinal("SD_OPCIONES")) ? "" : dr.GetString(dr.GetOrdinal("SD_OPCIONES"));
                             
                             
                             attributesLst.Add(atrib);
@@ -64,11 +68,11 @@ namespace doCloud.Controllers
                 // Retrieve all rows
                 using (var cmd = new NpgsqlCommand("INSERT INTO DAR_ATRIBUTO VALUES (:SD_ATRIBUTO,:NS_DOCUMENTO_TIPO,:NS_ATRIBUTO_TIPO,:H_ALTA,:SD_OPCIONES)", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.SD_ATRIBUTO));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.NS_DOCUMENTO_TIPO));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.NS_ATRIBUTO_TIPO));
-                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.H_ALTA));
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.SD_OPCIONES));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.sd_atributo));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.ns_documento_tipo));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.ns_atributo_tipo));
+                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.h_alta));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.sd_opciones));
                     cmd.ExecuteNonQuery();
                 }           
             }
@@ -88,12 +92,12 @@ namespace doCloud.Controllers
                 // Retrieve all rows
                 using (var cmd = new NpgsqlCommand("UPDATE DAR_ATRIBUTO set (SD_ATRIBUTO, NS_DOCUMENTO_TIPO, NS_ATRIBUTO_TIPO, H_ALTA, SD_OPCIONES) = (:SD_ATRIBUTO,:NS_DOCUMENTO_TIPO,:NS_ATRIBUTO_TIPO,:H_ALTA,:SD_OPCIONES) WHERE IDNS_ATRIBUTO = :IDNS_ATRIBUTO", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("IDNS_ATRIBUTO", atr.IDNS_ATRIBUTO));
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.SD_ATRIBUTO));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.NS_DOCUMENTO_TIPO));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.NS_ATRIBUTO_TIPO));
-                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.H_ALTA));
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.SD_OPCIONES));
+                    cmd.Parameters.Add(new NpgsqlParameter("IDNS_ATRIBUTO", atr.idns_atributo));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.sd_atributo));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.ns_documento_tipo));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.ns_atributo_tipo));
+                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.h_alta));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.sd_opciones));
                     cmd.ExecuteNonQuery();
                 }           
             }
@@ -113,11 +117,11 @@ namespace doCloud.Controllers
                 // Retrieve all rows
                 using (var cmd = new NpgsqlCommand("DELETE FROM DAR_ATRIBUTO WHERE IDNS_ATRIBUTO = :IDNS_ATRIBUTO", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.SD_ATRIBUTO));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.NS_DOCUMENTO_TIPO));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.NS_ATRIBUTO_TIPO));
-                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.H_ALTA));
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.SD_OPCIONES));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.sd_atributo));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.ns_documento_tipo));
+                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.ns_atributo_tipo));
+                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.h_alta));
+                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.sd_opciones));
                     cmd.ExecuteNonQuery();
                 }           
             }

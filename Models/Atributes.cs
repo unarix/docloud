@@ -2,10 +2,10 @@ using System;
 
 public class Atributes
 {
-    public int IDNS_ATRIBUTO { get; set; }
-    public string SD_ATRIBUTO { get; set; }
-    public int NS_DOCUMENTO_TIPO { get; set; }
-    public int NS_ATRIBUTO_TIPO { get; set; }
-    public DateTime H_ALTA { get; set; }
-    public string SD_OPCIONES { get; set; }
+    public int idns_atributo { get; set; }
+    public string sd_atributo { get; set; }
+    public int ns_documento_tipo { get; set; }
+    public int ns_atributo_tipo { get; set; }
+    public DateTime h_alta { get; set; }
+    public string sd_opciones { get; set; }
 }

@@ -15,7 +15,8 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
-
+import { DataTablesModule } from 'angular-datatables';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,8 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
     AccordionModule.forRoot(),
     AlertModule.forRoot(),
     ModalModule.forRoot(),
+    TabsModule.forRoot(),
+    DataTablesModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },

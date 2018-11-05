@@ -4,42 +4,60 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ViewChild } from '@angular/core'
-import { withLatestFrom } from 'rxjs/operator/withLatestFrom';
+import { DataTablesModule } from 'angular-datatables';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-fetch-data',
   templateUrl: './fetch-data.component.html'
 })
 export class FetchDataComponent {
-  public documentTypes: DocumentType[];
-  
+
   // **** Ventanas Modales ****
   modalRef: BsModalRef;
   modalRefAlert: BsModalRef;
   modalFolder_settings: BsModalRef;
   
   // **** Variables globales ****
-  baseUrl : string;
-  http: HttpClient;
-  headers: Headers;
-  options: RequestOptions;
-  message: string;
-  title: string;
+  public documentTypes: DocumentType[];
+  public Atributes: Atribute[];
+  
+  public data: Object;
+  public temp_var: Object=false;
+  public dtOptions: DataTables.Settings = {};
 
+  public baseUrl : string;
+  public http: HttpClient;
+  public headers: Headers;
+  public options: RequestOptions;
+  public message: string;
+  public title: string;
+  
   @ViewChild('alertwin') ventanaModal: TemplateRef<any>;
-
+  
+  // Constructor
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: BsModalService) {
     this.baseUrl = baseUrl;
     this.http = http;
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
     let options = new RequestOptions({ headers: headers });
-
-    // http.get<DocumentType[]>(baseUrl + 'api/DocumentType/GetDocumentTypes').subscribe(result => {
-    //   this.documentTypes = result;
-    // }, error => alert(error)); //console.error(error));
-
-    this.loadFolders();
   }
+
+  // Al inicio
+  ngOnInit(): void {
+    this.dtOptions = {
+      "pagingType": "numbers",
+      "search": {
+        "smart": true
+      },
+      "lengthChange": false,
+      "info": false,
+      "searching": false
+    };
+
+    // Al iniciar la pagina, cargo las carpteas...
+    this.loadFolders();
+}
 
   loadFolders()
   {
@@ -47,7 +65,6 @@ export class FetchDataComponent {
       this.documentTypes = result;
     }, error => alert(error)); //console.error(error));
   }
-
 
   openModal(new_folder: TemplateRef<any>) {
     this.modalRef = this.modalService.show(new_folder);
@@ -66,8 +83,14 @@ export class FetchDataComponent {
   loadAtributes(ns_documento_tipo)
   {
     //Aca se llama a la api para obtener los atributos de ese tipo de documento...
-    //alert("cargando atributos del doc id:" + ns_documento_tipo);
+
+    this.http.get(this.baseUrl + 'api/Atributes/GetAtributesByDocumentId').subscribe((res: Response) => {
+      this.data=res;
+      this.temp_var=true;
+    });
+
   }
+
 
   openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {
     this.message = msg;
@@ -167,4 +190,20 @@ interface DocumentType {
   n_aeropuertos : number;
   n_clientes : number;
   n_destinatarios : number;
+}
+
+class Atribute {
+  idns_atributo: number;
+  sd_atributo: string;
+  ns_documento_tipo: number;
+  ns_atributo_tipo : number;
+  h_alta : Date;
+  sd_opciones : string;
+}
+
+class DataTablesResponse {
+  data: any[];
+  draw: number;
+  recordsFiltered: number;
+  recordsTotal: number;
 }
