@@ -6,6 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ViewChild } from '@angular/core'
 import { DataTablesModule } from 'angular-datatables';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 @Component({
   selector: 'app-fetch-data',
@@ -32,9 +33,14 @@ export class FetchDataComponent {
   public options: RequestOptions;
   public message: string;
   public title: string;
+  public id_folder_selected: number;
   
   @ViewChild('alertwin') ventanaModal: TemplateRef<any>;
-  
+  @ViewChild('atributeName') _atributeName: ElementRef;
+  @ViewChild('atributeType') _atributeType: ElementRef;
+  @ViewChild('regexType') _regexType: ElementRef;
+  @ViewChild('myForm') formValues;
+
   // Constructor
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: BsModalService) {
     this.baseUrl = baseUrl;
@@ -84,18 +90,67 @@ export class FetchDataComponent {
   {
     //Aca se llama a la api para obtener los atributos de ese tipo de documento...
 
-    this.http.get(this.baseUrl + 'api/Atributes/GetAtributesByDocumentId').subscribe((res: Response) => {
+    this.id_folder_selected = ns_documento_tipo;
+
+    this.http.get(this.baseUrl + 'api/Atributes/'+ns_documento_tipo).subscribe((res: Response) => {
       this.data=res;
       this.temp_var=true;
     });
 
   }
 
-
   openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {
     this.message = msg;
     this.title = (ttl=="") ? "Alerta" : ttl;
     this.modalRefAlert = this.modalService.show(template, { class: 'second' });
+  }
+
+
+  newAtribute(nombre_atributo: string, tipo_atributo: number, regex: string)
+  {
+    //console.log(this._atributeName.nativeElement.value);
+
+    var date = new Date();
+
+    let atr: Atribute = {
+      idns_atributo: 0,
+      sd_atributo: nombre_atributo,
+      ns_documento_tipo: this.id_folder_selected,
+      ns_atributo_tipo : tipo_atributo,
+      h_alta : date,
+      sd_opciones : regex,
+    };
+
+    console.log(atr);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    
+    let url = this.baseUrl +  'api/Atributes/InsertAtribute';
+
+    this.http.post<Atribute>(url, atr, httpOptions).subscribe
+    (
+      res => {
+        console.log(res); 
+        this.loadAtributes(this.id_folder_selected);
+        this.openModalAlert(this.ventanaModal,"Exito!","Se creo su nuevo atributo con exito!"); 
+      }
+      , 
+      error => { 
+        this.openModalAlert(this.ventanaModal,"Error!",error); 
+        console.error(error) 
+      }
+    );
+    
+    
+    this.formValues.resetForm();
+
+    // this._atributeName.nativeElement.value = null;
+    // this._atributeType.nativeElement.value = null;
+    // this._regexType.nativeElement.value = null;
   }
 
   newFolder(foldername: string)

@@ -1,6 +1,6 @@
 using System;
 
-public class Atributes
+public class Atribute
 {
     public int idns_atributo { get; set; }
     public string sd_atributo { get; set; }

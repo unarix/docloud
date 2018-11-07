@@ -14,14 +14,14 @@ namespace doCloud.Controllers
     {
         string connString = Startup.connectionString ;
 
-        [HttpGet("[action]")]
-        [Route("GetAtributesByDocumentId")]
-        public List<Atributes> GetAtributesByDocumentId()
-        {
-            Atributes atr = new Atributes();
-            atr.ns_documento_tipo = 5;
 
-            List<Atributes> attributesLst = new List<Atributes>();
+        [HttpGet("{id:int}")]
+        public List<Atribute> GetById(int id)
+        {
+            Atribute atr = new Atribute();
+            atr.ns_documento_tipo = id;
+
+            List<Atribute> attributesLst = new List<Atribute>();
 
             using (var conn = new NpgsqlConnection(connString))
             {
@@ -37,7 +37,7 @@ namespace doCloud.Controllers
                         {
                             Console.WriteLine(dr.GetString(1));
                             
-                            Atributes atrib = new Atributes();
+                            Atribute atrib = new Atribute();
                             
                             atrib.idns_atributo = dr.IsDBNull(dr.GetOrdinal("IDNS_ATRIBUTO")) ? 0 : dr.GetInt32(dr.GetOrdinal("IDNS_ATRIBUTO"));
                             atrib.sd_atributo = dr.IsDBNull(dr.GetOrdinal("SD_ATRIBUTO")) ? "" : dr.GetString(dr.GetOrdinal("SD_ATRIBUTO"));
@@ -55,18 +55,17 @@ namespace doCloud.Controllers
 
             return attributesLst;
         }
-        
+                
         [HttpPost("[action]")]
-        public List<Atributes> InsertAtribute(Atributes atr)
+        [Route("InsertAtribute")]
+        public Atribute InsertAtribute([FromBody] Atribute atr)
         {
-            List<Atributes> attributesLst = new List<Atributes>();
-
             using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("INSERT INTO DAR_ATRIBUTO VALUES (:SD_ATRIBUTO,:NS_DOCUMENTO_TIPO,:NS_ATRIBUTO_TIPO,:H_ALTA,:SD_OPCIONES)", conn))
+                using (var cmd = new NpgsqlCommand("INSERT INTO DAR_ATRIBUTO (SD_ATRIBUTO,NS_DOCUMENTO_TIPO,NS_ATRIBUTO_TIPO,H_ALTA,SD_OPCIONES) VALUES (:SD_ATRIBUTO,:NS_DOCUMENTO_TIPO,:NS_ATRIBUTO_TIPO,:H_ALTA,:SD_OPCIONES)", conn))
                 {
                     cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.sd_atributo));
                     cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.ns_documento_tipo));
@@ -76,14 +75,16 @@ namespace doCloud.Controllers
                     cmd.ExecuteNonQuery();
                 }           
             }
-
-            return attributesLst;
+            Atribute atrib = new Atribute();
+            atrib.sd_atributo = "Se creo el atributo correctamente";
+            return atrib;
         }
 
         [HttpPost("[action]")]
-        public List<Atributes> UpdateAtribute(Atributes atr)
+        [Route("UpdateAtribute")]
+        public List<Atribute> UpdateAtribute([FromBody] Atribute atr)
         {
-            List<Atributes> attributesLst = new List<Atributes>();
+            List<Atribute> attributesLst = new List<Atribute>();
 
             using (var conn = new NpgsqlConnection(connString))
             {
@@ -106,9 +107,10 @@ namespace doCloud.Controllers
         }
 
         [HttpPost("[action]")]
-        public List<Atributes> DeleteAtribute(Atributes atr)
+        [Route("DeleteAtribute")]
+        public List<Atribute> DeleteAtribute([FromBody] Atribute atr)
         {
-            List<Atributes> attributesLst = new List<Atributes>();
+            List<Atribute> attributesLst = new List<Atribute>();
 
             using (var conn = new NpgsqlConnection(connString))
             {

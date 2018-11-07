@@ -89,7 +89,7 @@
       </div>
       <div class="modal-body">
         <tabset>
-          <tab heading="Atributos" id="tab1">
+          <tab heading="Atributos" id="tabGrillaAtr">
             <table datatable [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
               <thead>
                 <tr>
@@ -110,21 +110,27 @@
             </table>
           </tab>
           <tab heading="Nuevo Atributo">
-            <div style="margin-top:1em" class="input-group">
-              <span class="input-group-addon">Nombre del Atributo</span>
-              <input id="atributeName" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
-            </div>
-    
-            <div style="margin-top:1em" class="input-group">
-              <span class="input-group-addon">Tipo de Atributo</span>
-              <input id="atributeType" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
-            </div>
-    
-            <div class="margin-top:1em">
-                <button type="button" class="btn btn-primary mr-auto" (click)="newAtribute((folderName.value))">
-                  <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
-                </button>
-            </div>
+            <form #myForm="ngForm" id="myForm" style="padding-top: 1em; padding-bottom: 1em">
+              <div class="form-group">
+                <label >Nombre del Atributo</label>
+                <input #atributeName type="text" required="required" class="form-control"  aria-describedby="basic-addon3" placeholder="Nombre del atributo que vas a completar cuando agregues un documento" >
+              </div>
+      
+              <div class="form-group">
+                <label >Tipo de Atributo</label>
+                <input #atributeType type="number" required="required" class="form-control"  aria-describedby="basic-addon3" placeholder="Tipo de dato que vas a cargar en el atributo" >
+              </div>
+      
+              <div class="form-group">
+                <label >Regex</label>
+                <input #regexType type="text" class="form-control"  aria-describedby="basic-addon3" placeholder="Expreción regular">
+              </div>
+
+              
+              <button type="button" class="btn btn-primary mr-auto pull-right float-right" (click)="newAtribute(atributeName.value, atributeType.value, regexType.value)">
+                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
+              </button>
+            </form>
           </tab>
         </tabset>
 
