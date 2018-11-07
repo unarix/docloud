@@ -41,6 +41,8 @@ export class FetchDataComponent {
   @ViewChild('regexType') _regexType: ElementRef;
   @ViewChild('myForm') formValues;
 
+  table = $('#datatable').DataTable();
+
   // Constructor
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: BsModalService) {
     this.baseUrl = baseUrl;
@@ -58,7 +60,8 @@ export class FetchDataComponent {
       },
       "lengthChange": false,
       "info": false,
-      "searching": false
+      "searching": false,
+      "pageLength": 5
     };
 
     // Al iniciar la pagina, cargo las carpteas...
@@ -89,6 +92,8 @@ export class FetchDataComponent {
   loadAtributes(ns_documento_tipo)
   {
     //Aca se llama a la api para obtener los atributos de ese tipo de documento...
+
+    this.table.destroy()
 
     this.id_folder_selected = ns_documento_tipo;
 
@@ -144,9 +149,6 @@ export class FetchDataComponent {
         console.error(error) 
       }
     );
-    
-    
-    this.formValues.resetForm();
 
     // this._atributeName.nativeElement.value = null;
     // this._atributeType.nativeElement.value = null;
@@ -232,6 +234,46 @@ export class FetchDataComponent {
         }
       );
     }
+  }
+
+  deleteAtribute(_idns_atributo:number)
+  {
+    alert(_idns_atributo);
+
+    var date = new Date();
+
+    let atr: Atribute = {
+      idns_atributo: _idns_atributo,
+      sd_atributo: "",
+      ns_documento_tipo: this.id_folder_selected,
+      ns_atributo_tipo : 0,
+      h_alta : date,
+      sd_opciones : "",
+    };
+
+    console.log(atr);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    
+    let url = this.baseUrl +  'api/Atributes/DeleteAtribute';
+
+    this.http.post<Atribute>(url, atr, httpOptions).subscribe
+    (
+      res => {
+        console.log(res); 
+        this.loadAtributes(this.id_folder_selected);
+        this.openModalAlert(this.ventanaModal,"Exito!","Se elimino el atributo con exito!"); 
+      }
+      , 
+      error => { 
+        this.openModalAlert(this.ventanaModal,"Error!",error); 
+        console.error(error) 
+      }
+    );
   }
 
 

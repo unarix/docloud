@@ -90,13 +90,14 @@
       <div class="modal-body">
         <tabset>
           <tab heading="Atributos" id="tabGrillaAtr">
-            <table datatable [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
+            <table datatable id="datatable" [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
               <thead>
                 <tr>
                   <th>Atributo</th>
                   <th>Tipo</th>
                   <th>Regex</th>
                   <th>Alta</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -105,6 +106,11 @@
                   <td>{{rec.ns_atributo_tipo}}</td>
                   <td>{{rec.sd_opciones}}</td>
                   <td>{{rec.h_alta}}</td>
+                  <td>
+                    <button type="button" class="btn btn-danger" (click)="deleteAtribute(rec.idns_atributo)">
+                      <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
+                    </button>                 
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -127,7 +133,7 @@
               </div>
 
               
-              <button type="button" class="btn btn-primary mr-auto pull-right float-right" (click)="newAtribute(atributeName.value, atributeType.value, regexType.value)">
+              <button type="button" class="btn btn-primary mr-auto" (click)="newAtribute(atributeName.value, atributeType.value, regexType.value)">
                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
               </button>
             </form>
