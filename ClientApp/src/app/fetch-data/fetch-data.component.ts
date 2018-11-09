@@ -37,15 +37,16 @@ export class FetchDataComponent {
   public title: string;
   public id_folder_selected: number;
   
+  // Referencias a los elementos HTML
   @ViewChild('alertwin') ventanaModal: TemplateRef<any>;
   @ViewChild('atributeName') _atributeName: ElementRef;
   @ViewChild('atributeType') _atributeType: ElementRef;
   @ViewChild('regexType') _regexType: ElementRef;
   @ViewChild('myForm') formValues;
 
-  table = $('#datatable').DataTable();
+  table = $('#datatable').DataTable(); // creamos esta variable para la tabla de atributos.
 
-  // Constructor
+  // Constructor del componente
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: BsModalService) {
     this.baseUrl = baseUrl;
     this.http = http;
@@ -53,8 +54,10 @@ export class FetchDataComponent {
     let options = new RequestOptions({ headers: headers });
   }
 
-  // Al inicio
+  // Al inicio, equivale al onInit()
   ngOnInit(): void {
+    
+    // Estos dtOptions son las propiedades de la Datatable
     this.dtOptions = {
       "pagingType": "numbers",
       "search": {
@@ -68,44 +71,57 @@ export class FetchDataComponent {
 
     // Al iniciar la pagina, cargo las carpteas...
     this.loadFolders();
-}
+  }
 
+  // Carga las carpetas
   loadFolders()
   {
     this.http.get<DocumentType[]>(this.baseUrl + 'api/DocumentType/GetDocumentTypes').subscribe(result => {
       this.documentTypes = result;
-    }, error => alert(error)); //console.error(error));
+    }, error => {
+        this.openModalAlert(this.ventanaModal,"Error!", JSON.stringify(error)); 
+        console.log(error);
+      }
+    ); 
   }
 
+  // Abre la ventana modal para crear una carpeta
   openModal(new_folder: TemplateRef<any>) {
     this.modalRef = this.modalService.show(new_folder);
-    
-    var age = document.getElementById('folderName');
-    age.focus();
+    var inputFolder = document.getElementById('folderName');
+    inputFolder.focus();
   }
 
+  // Abre la ventana modal que muestra las propiedades de la carpeta
   openModalSettings(template: TemplateRef<any>, ns_documento_tipo) 
   {
-    console.log("cargando atributos del doc id:" + ns_documento_tipo)
+    console.log("Cargando atributos del doc id:" + ns_documento_tipo)
     this.loadAtributes(ns_documento_tipo);
     this.loadAtributeTypes();
     this.modalFolder_settings = this.modalService.show(template);
   }
  
+  // Abre una ventana modal que muestra el error personalizado
+  openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {
+    this.message = msg;
+    this.title = (ttl=="") ? "Alerta" : ttl;
+    this.modalRefAlert = this.modalService.show(template, { class: 'second' });
+  }
+
+  // Carga los atributos de la carpeta
   loadAtributes(ns_documento_tipo)
   {
-    //Aca se llama a la api para obtener los atributos de ese tipo de documento...
-
-    this.table.destroy()
-
+    this.table.destroy() // Trato de destruir la Datatable
     this.id_folder_selected = ns_documento_tipo;
 
+    //Aca se llama a la api para obtener los atributos de ese tipo de documento...
     this.http.get(this.baseUrl + 'api/Atributes/'+ns_documento_tipo).subscribe((res: Response) => {
       this.data=res;
       this.temp_var=true;
     });
   }
 
+  // Carga los atributos de una carpeta
   loadAtributeTypes()
   {
     this.http.get<AtributeType[]>(this.baseUrl + 'api/AtributesType/').subscribe(result => {
@@ -113,20 +129,16 @@ export class FetchDataComponent {
       console.log(result);
       console.log(this.AtributeTypes);
       this.load_atrTypes=true;
-    }, error => alert(error)); //console.error(error));
-    
+    }, error => {
+      this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
+      console.log(error);
+    }
+    ); 
   }
 
-  openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {
-    this.message = msg;
-    this.title = (ttl=="") ? "Alerta" : ttl;
-    this.modalRefAlert = this.modalService.show(template, { class: 'second' });
-  }
-
+  // Crea un nuevo atributo
   newAtribute(nombre_atributo: string, tipo_atributo: number, regex: string)
   {
-    //console.log(this._atributeName.nativeElement.value);
-
     var date = new Date();
 
     let atr: Atribute = {
@@ -157,16 +169,19 @@ export class FetchDataComponent {
       }
       , 
       error => { 
-        this.openModalAlert(this.ventanaModal,"Error!",error); 
+        this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
         console.error(error) 
       }
     );
+
+    // Aca hay que borrar el contenido de los input, pero no consigo. 
 
     // this._atributeName.nativeElement.value = null;
     // this._atributeType.nativeElement.value = null;
     // this._regexType.nativeElement.value = null;
   }
 
+  // Crea una nueva carpeta
   newFolder(foldername: string)
   {
     var date = new Date();
@@ -194,7 +209,7 @@ export class FetchDataComponent {
       res => {console.log(res); this.modalRef.hide(); this.loadFolders();}
       , 
       error => { 
-        this.openModalAlert(this.ventanaModal,"Error!",error); 
+        this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
         this.loadFolders(); 
         console.error(error) 
       }
@@ -202,12 +217,15 @@ export class FetchDataComponent {
     
   }
 
+  // cada vez que aprieta una tecla me fijo si es un enter, si lo es llamo a crear carpeta
   onKeydown(event, name:string) {
     if (event.key === "Enter") {
       console.log(event);
       this.newFolder(name);
     }
   }
+
+  // Elimina un carpeta
   deleteFolder(id:number)
   {
     var resp = confirm("Esta seguro de borrar esta carpeta?");
@@ -240,7 +258,7 @@ export class FetchDataComponent {
         res => {console.log(res); this.loadFolders();}
         , 
         error => { 
-          this.openModalAlert(this.ventanaModal,"Error!",error); 
+          this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
           this.loadFolders(); 
           console.error(error) 
         }
@@ -248,6 +266,7 @@ export class FetchDataComponent {
     }
   }
 
+  // Elimina un atributo
   deleteAtribute(_idns_atributo:number)
   {
     alert(_idns_atributo);
@@ -282,7 +301,7 @@ export class FetchDataComponent {
       }
       , 
       error => { 
-        this.openModalAlert(this.ventanaModal,"Error!",error); 
+        this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
         console.error(error) 
       }
     );
@@ -290,6 +309,8 @@ export class FetchDataComponent {
 
 
 }
+
+/* ******************************* MODELOS ******************************* */
 
 interface DocumentType {
   idns_documento_tipo: number;
