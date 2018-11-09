@@ -22,9 +22,11 @@ export class FetchDataComponent {
   // **** Variables globales ****
   public documentTypes: DocumentType[];
   public Atributes: Atribute[];
+  public AtributeTypes : AtributeType[];
   
   public data: Object;
   public temp_var: Object=false;
+  public load_atrTypes: Object=false;
   public dtOptions: DataTables.Settings = {};
 
   public baseUrl : string;
@@ -86,6 +88,7 @@ export class FetchDataComponent {
   {
     console.log("cargando atributos del doc id:" + ns_documento_tipo)
     this.loadAtributes(ns_documento_tipo);
+    this.loadAtributeTypes();
     this.modalFolder_settings = this.modalService.show(template);
   }
  
@@ -101,7 +104,17 @@ export class FetchDataComponent {
       this.data=res;
       this.temp_var=true;
     });
+  }
 
+  loadAtributeTypes()
+  {
+    this.http.get<AtributeType[]>(this.baseUrl + 'api/AtributesType/').subscribe(result => {
+      this.AtributeTypes = result;
+      console.log(result);
+      console.log(this.AtributeTypes);
+      this.load_atrTypes=true;
+    }, error => alert(error)); //console.error(error));
+    
   }
 
   openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {
@@ -109,7 +122,6 @@ export class FetchDataComponent {
     this.title = (ttl=="") ? "Alerta" : ttl;
     this.modalRefAlert = this.modalService.show(template, { class: 'second' });
   }
-
 
   newAtribute(nombre_atributo: string, tipo_atributo: number, regex: string)
   {
@@ -303,4 +315,9 @@ class DataTablesResponse {
   draw: number;
   recordsFiltered: number;
   recordsTotal: number;
+}
+
+class AtributeType {
+  idns_atributo_tipo: number;
+  sd_tipo: string;
 }

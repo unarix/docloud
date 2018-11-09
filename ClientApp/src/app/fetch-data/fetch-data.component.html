@@ -121,10 +121,14 @@
                 <label >Nombre del Atributo</label>
                 <input #atributeName type="text" required="required" class="form-control"  aria-describedby="basic-addon3" placeholder="Nombre del atributo que vas a completar cuando agregues un documento" >
               </div>
-      
+
               <div class="form-group">
-                <label >Tipo de Atributo</label>
-                <input #atributeType type="number" required="required" class="form-control"  aria-describedby="basic-addon3" placeholder="Tipo de dato que vas a cargar en el atributo" >
+                <label for="atributeType">Tipo de Atributo</label>
+                <select #atributeType class="form-control" id="atributeType">
+                  <option *ngFor="let AtributeType of AtributeTypes" value={{AtributeType.idns_atributo_tipo}}>
+                      {{AtributeType.sd_tipo}}
+                  </option>
+                </select>
               </div>
       
               <div class="form-group">
