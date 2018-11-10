@@ -14,6 +14,32 @@ namespace doCloud.Controllers
     {
         string connString = Startup.connectionString ;
 
+        // This is a test method without arguments just for test the new workflow
+        [HttpGet]
+        public List<Atribute> TestNewLogic()
+        {
+            try
+            {
+                // Make connection
+                Support.NpgSQL.Connector con = new Support.NpgSQL.Connector(connString);
+
+                // Set parameters
+                List<NpgsqlParameter> lstParams = new List<NpgsqlParameter>();
+                lstParams.Add(new NpgsqlParameter("ns_doc_tipo", 5));
+
+                // Execute store and retrieving data
+                NpgsqlDataReader dr = con.ExecuteStore("SELECT * FROM DAR_ATRIBUTO WHERE NS_DOCUMENTO_TIPO = :ns_doc_tipo", lstParams);
+
+                // Map values
+                List<Atribute> lstAttributes = new List<Atribute>();
+                while(dr.Read()) { lstAttributes.Add(new Atribute(dr)); }
+
+                // Return result
+                return lstAttributes;
+            }
+            catch (System.Exception ex) { throw ex; }
+        }
+
 
         [HttpGet("{id:int}")]
         public List<Atribute> GetById(int id)
@@ -36,17 +62,14 @@ namespace doCloud.Controllers
                         while (dr.Read())
                         {
                             Console.WriteLine(dr.GetString(1));
-                            
+
                             Atribute atrib = new Atribute();
-                            
                             atrib.idns_atributo = dr.IsDBNull(dr.GetOrdinal("IDNS_ATRIBUTO")) ? 0 : dr.GetInt32(dr.GetOrdinal("IDNS_ATRIBUTO"));
                             atrib.sd_atributo = dr.IsDBNull(dr.GetOrdinal("SD_ATRIBUTO")) ? "" : dr.GetString(dr.GetOrdinal("SD_ATRIBUTO"));
                             atrib.ns_documento_tipo = dr.IsDBNull(dr.GetOrdinal("NS_DOCUMENTO_TIPO")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_DOCUMENTO_TIPO"));
                             atrib.ns_atributo_tipo = dr.IsDBNull(dr.GetOrdinal("NS_ATRIBUTO_TIPO")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_ATRIBUTO_TIPO"));
                             atrib.h_alta = dr.IsDBNull(dr.GetOrdinal("H_ALTA")) ? DateTime.Now : dr.GetDateTime(dr.GetOrdinal("H_ALTA"));
                             atrib.sd_opciones = dr.IsDBNull(dr.GetOrdinal("SD_OPCIONES")) ? "" : dr.GetString(dr.GetOrdinal("SD_OPCIONES"));
-                            
-                            
                             attributesLst.Add(atrib);
                         }
                 }           
