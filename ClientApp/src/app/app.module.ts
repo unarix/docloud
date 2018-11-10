@@ -17,6 +17,7 @@ import { InboxComponent } from './inbox/inbox.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { DataTablesModule } from 'angular-datatables';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { MydocsComponent } from './mydocs/mydocs.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     CounterComponent,
     FetchDataComponent,
     InboxComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    MydocsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -40,7 +42,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     DataTablesModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
+      { path: 'mydocs', component: MydocsComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'inbox', component: InboxComponent },
       { path: 'user-settings', component: UserSettingsComponent },

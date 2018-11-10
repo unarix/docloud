@@ -1,4 +1,16 @@
-  <br>
+<div class="container-fluid">
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          doCloud
+        </a>
+      </div>
+      <span class="navbar-right"> </span>
+    </div>
+  </nav>
+
   <div class="jumbotron">
     <h1>Up the doc</h1>
     <p class="lead">Suelta tus documentos sobre la nube para cargarlos</p>
@@ -9,39 +21,39 @@
     <br>
   </div>
 
-<div class="upload-table">
-    <table id="" class="table">
-        <tbody class="upload-name-style">
-            <tr *ngFor="let item of files; let i=index">
-                <td> 
-                  Subiendo documento <strong>{{ item.relativePath }}</strong> ... 
-                  <span style="font-weight:bold;color:green;" >
-                    {{progress}}%
-                  </span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div *ngFor="let alert of alerts">
-  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
-</div>
-
-<!--button id="openModalButton" type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button-->
-
-<ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Listo!</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+  <div class="upload-table">
+      <table id="" class="table">
+          <tbody class="upload-name-style">
+              <tr *ngFor="let item of files; let i=index">
+                  <td> 
+                    Subiendo documento <strong>{{ item.relativePath }}</strong> ... 
+                    <span style="font-weight:bold;color:green;" >
+                      {{progress}}%
+                    </span>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
   </div>
-  <div class="modal-body">
-    Tu archivo, ya fue cargado.
-  </div>
-</ng-template>
 
+  <div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+  </div>
+
+  <!--button id="openModalButton" type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button-->
+
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Listo!</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Tu archivo, ya fue cargado.
+    </div>
+  </ng-template>
+</div>
 
 
 

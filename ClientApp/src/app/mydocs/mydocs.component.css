@@ -1,0 +1,30 @@
+.my-dropzone
+{
+    width: 1em;
+}
+
+.random-custom-class {
+    border: 5px solid #00FF00; /* Something obviously different than the default */
+}
+
+.drop-zone[_ngcontent-c3] {
+    margin: auto;
+    height: 100px;
+    border: 2px dotted #0782d0;
+    border-radius: 30px; }
+
+  .content[_ngcontent-c3] {
+    color: #0782d0;
+    height: auto !important;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+
+  .over[_ngcontent-c3] {
+    background-color: rgba(147, 147, 147, 0.5); }

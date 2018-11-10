@@ -6,3 +6,31 @@
    height:600px; 
    background:url(/imgs/loading.gif) center center no-repeat;
 }
+
+
+.drop-zone[_ngcontent-c3] 
+{
+    margin: auto;
+    height: auto !important;
+    border: 0px !important;;
+    border-radius: 30px; }
+
+.content[_ngcontent-c3] 
+{
+    color: #0782d0;
+    height: auto !important;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; 
+}
+
+.over[_ngcontent-c3] 
+{
+    background-color: rgba(147, 147, 147, 0.5); 
+}
