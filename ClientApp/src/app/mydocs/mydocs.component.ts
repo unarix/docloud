@@ -5,6 +5,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { ViewChild } from '@angular/core'
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import {Router, NavigationExtras} from "@angular/router";
 
 @Component({
   selector: 'app-mydocs',
@@ -29,7 +30,7 @@ export class MydocsComponent implements OnInit {
   // Referencias a los elementos HTML
   @ViewChild('alertwin') ventanaModal: TemplateRef<any>;
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: BsModalService) {
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: BsModalService, private router: Router) {
     this.baseUrl = baseUrl;
     this.http = http;
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
@@ -49,6 +50,20 @@ export class MydocsComponent implements OnInit {
         console.log(error);
       }
     ); 
+  }
+
+  openFolder(idns_documento:number, sd_descripcion: string)
+  {
+    //this.openModalAlert(this.ventanaModal,"Ok funciono", idns_documento.toString());
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+          "idns_documento": idns_documento,
+          "sd_descripcion": sd_descripcion
+      }
+    };
+
+    this.router.navigate(["mydocsdetail"], navigationExtras);
   }
 
   openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {

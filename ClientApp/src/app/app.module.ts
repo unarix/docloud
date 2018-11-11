@@ -18,6 +18,7 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { DataTablesModule } from 'angular-datatables';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MydocsComponent } from './mydocs/mydocs.component';
+import { MydocsdetailComponent } from './mydocsdetail/mydocsdetail.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MydocsComponent } from './mydocs/mydocs.component';
     FetchDataComponent,
     InboxComponent,
     UserSettingsComponent,
-    MydocsComponent
+    MydocsComponent,
+    MydocsdetailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -46,6 +48,7 @@ import { MydocsComponent } from './mydocs/mydocs.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'inbox', component: InboxComponent },
       { path: 'user-settings', component: UserSettingsComponent },
+      { path: 'mydocsdetail', component: MydocsdetailComponent },
     ])
   ],
   providers: [],
