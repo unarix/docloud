@@ -5,7 +5,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { ViewChild } from '@angular/core'
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
-import {Router, NavigationExtras} from "@angular/router";
+import { Router, NavigationExtras} from "@angular/router";
 
 @Component({
   selector: 'app-mydocs',

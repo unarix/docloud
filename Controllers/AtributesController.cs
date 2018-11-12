@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using doCloud.Models;
 using Npgsql;
 
 namespace doCloud.Controllers
