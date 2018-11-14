@@ -51,5 +51,85 @@ namespace doCloud.Controllers
 
             return DocLst;
         }
+
+
+        [HttpPost]
+        [Route("NewDocumentType")]
+        public Document NewDocument([FromBody] Document doc)
+        {
+            try
+            {
+                if(doc.ns_documento_tipo != 0)
+                {
+                    string qry = "INSERT INTO DAR_DOCUMENTO (H_FECHA,NS_DOCUMENTO_TIPO,NS_USUARIO_CARGA,SD_METADATA,NS_DOCUMENTO_FS,NS_DOCUMENTO_SUBTIPO,SD_NULO) VALUES (current_timestamp,:NS_DOCUMENTO_TIPO,0,'',0,0,'1')";
+
+                    using (var conn = new NpgsqlConnection(connString))
+                    {
+                        conn.Open();
+
+                        //using (var cmd = new NpgsqlCommand("insert into login (Name, Password) values(:name, :pw)", conn))
+                        using (var cmd = new NpgsqlCommand(qry, conn))
+                        {
+                            cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", doc.ns_documento_tipo));
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    Document Docu = new Document();
+                    Docu.sd_metadata = "Se creo el documento tipo " + doc.ns_documento_tipo + " correctamente...";
+                    return Docu;
+                }
+                else
+                {
+                    Document Docu = new Document();
+                    Docu.sd_metadata = "Error, no se cargo el nombre de la nueva carpeta";
+                    return Docu;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Document insertDocument(Document doc)
+        {
+            try
+            {
+                Object res;
+
+                if(doc.ns_documento_tipo != 0)
+                {
+                    string qry = "INSERT INTO DAR_DOCUMENTO (H_FECHA,NS_DOCUMENTO_TIPO,NS_USUARIO_CARGA,SD_METADATA,NS_DOCUMENTO_FS,NS_DOCUMENTO_SUBTIPO,SD_NULO) VALUES (current_timestamp,:NS_DOCUMENTO_TIPO,0,'',0,0,'1') RETURNING idns_documento";
+
+                    using (var conn = new NpgsqlConnection(connString))
+                    {
+                        conn.Open();
+
+                        //using (var cmd = new NpgsqlCommand("insert into login (Name, Password) values(:name, :pw)", conn))
+                        using (var cmd = new NpgsqlCommand(qry, conn))
+                        {
+                            cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", doc.ns_documento_tipo));
+                            res = cmd.ExecuteScalar();
+                        }
+                    }
+
+                    Document Docu = new Document();
+                    Docu.idns_documento = int.Parse(res.ToString());
+                    Docu.sd_metadata = "Se creo el documento tipo " + doc.ns_documento_tipo + " correctamente...";
+                    return Docu;
+                }
+                else
+                {
+                    Document Docu = new Document();
+                    Docu.sd_metadata = "Error, no se cargo el nombre de la nueva carpeta";
+                    return Docu;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

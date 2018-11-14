@@ -72,7 +72,7 @@ export class MydocsComponent implements OnInit {
     this.modalRefAlert = this.modalService.show(template, { class: 'second' });
   }
 
-  public dropped(event: UploadEvent) 
+  public dropped(event: UploadEvent, idns_documento_tipo: string) 
   {  
     this.files = event.files;
     var respuesta;
@@ -85,6 +85,7 @@ export class MydocsComponent implements OnInit {
  
           const formData = new FormData()
           formData.append('doc_', file, droppedFile.relativePath)
+          formData.append('inds_', idns_documento_tipo)
 
           const uploadReq = new HttpRequest('POST', 'api/UploadFile', formData, {
             reportProgress: true,
