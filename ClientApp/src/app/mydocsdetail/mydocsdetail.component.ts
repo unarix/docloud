@@ -14,7 +14,9 @@ import { ViewChild } from '@angular/core'
 export class MydocsdetailComponent implements OnInit {
 
   modalRefAlert: BsModalRef;
+  viewFileModal: BsModalRef;
 
+  public pdfSrc: string = '/Cloud/2018/11/13/';
   public documents: Document[];
   public idns_documento: number;
   public sd_descripcion: string;
@@ -27,6 +29,7 @@ export class MydocsdetailComponent implements OnInit {
   public options: RequestOptions;
 
   @ViewChild('alertwin') ventanaModal: TemplateRef<any>;
+  @ViewChild('viewFile') ventanaFileModal: TemplateRef<any>;
 
   constructor(private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: BsModalService) {
     this.baseUrl = baseUrl;
@@ -66,6 +69,19 @@ export class MydocsdetailComponent implements OnInit {
     this.message = msg;
     this.title = (ttl=="") ? "Alerta" : ttl;
     this.modalRefAlert = this.modalService.show(template, { class: 'second' });
+  }
+
+  openFile(template: TemplateRef<any>, idns_documento : string, fecha : string)
+  {
+    var dt = new Date(fecha);
+
+    var day = dt.getDate();
+    var month = dt.getMonth() + 1; //months from 1-12
+    var year = dt.getFullYear();
+
+    this.pdfSrc = '/Cloud/' + year + "/" + month + "/" + day + '/' + idns_documento + ".pdf";
+    console.log(this.pdfSrc);
+    this.viewFileModal = this.modalService.show(template, { class: 'second' });
   }
 
 }

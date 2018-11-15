@@ -19,6 +19,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MydocsComponent } from './mydocs/mydocs.component';
 import { MydocsdetailComponent } from './mydocsdetail/mydocsdetail.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MydocsdetailComponent } from './mydocsdetail/mydocsdetail.component';
     HttpClientModule,
     FormsModule,
     FileDropModule,
+    PdfViewerModule,
     AccordionModule.forRoot(),
     AlertModule.forRoot(),
     ModalModule.forRoot(),

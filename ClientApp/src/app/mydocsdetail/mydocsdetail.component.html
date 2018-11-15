@@ -17,7 +17,7 @@
   <p *ngIf="!documents"><em>Loading...</em></p>
   <div class="row" >
     <div class="col-xs-6 col-md-3" *ngFor="let documents of documents">
-          <div class="thumbnail" style="cursor: pointer">          
+          <div class="thumbnail" style="cursor: pointer" (click)="openFile(viewFile,documents.idns_documento, documents.h_fecha)">          
             <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTY2YzgwOGJmYWUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjZjODA4YmZhZSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OC44MDQ2ODc1IiB5PSIxMDUuMSI+MjQyeDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" alt="...">
             <div class="caption">
               <h3># {{ documents.idns_documento }}</h3>
@@ -36,6 +36,32 @@
     </div>
     <div class="modal-body">
       {{message}}
+    </div>
+  </ng-template>
+
+
+  <ng-template #viewFile>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+          Archivo
+        </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="viewFileModal.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <pdf-viewer style="display: block;max-height: 500px;overflow-y: hidden;"
+        [src]="pdfSrc" 
+        [render-text]="true"
+        [original-size]="false"
+        [autoresize]="true"
+        >con g
+        </pdf-viewer>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="viewFileModal.hide()">Cerrar</button>
+      </div>
     </div>
   </ng-template>
 
