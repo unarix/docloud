@@ -84,7 +84,7 @@ namespace doCloud.Controllers
                         file.CopyTo(stream);
                     }
                 }
-                return Json("El archivo " + fileName + " se ha subido correctamente!");
+                return Json(doc.idns_documento);
             }
             catch (System.Exception ex)
             {

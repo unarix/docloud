@@ -40,4 +40,23 @@
     </div>
   </ng-template>
 
+  <ng-template #ventanaAtributes>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">TEST</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefAtribute.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div [innerHtml]="htmlToAdd"></div>   
+    </div>
+
+    
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" data-dismiss="modal" (click)="saveAtrs()">Guardar</button>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRefAtribute.hide()">Cerrar</button>
+  </div>
+  </ng-template>
+
 </div>

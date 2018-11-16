@@ -6,6 +6,7 @@ import { ViewChild } from '@angular/core'
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { Router, NavigationExtras} from "@angular/router";
+import { VariableAst } from '@angular/compiler';
 
 @Component({
   selector: 'app-mydocs',
@@ -15,6 +16,7 @@ import { Router, NavigationExtras} from "@angular/router";
 export class MydocsComponent implements OnInit {
 
   modalRefAlert: BsModalRef;
+  modalRefAtribute: BsModalRef;
 
   // **** Variables globales ****
   public documentTypes: DocumentType[];
@@ -26,9 +28,12 @@ export class MydocsComponent implements OnInit {
   public title: string = "Titulo";
   public progress: number =0;  
   public files: UploadFile[] = [];
+  public htmlToAdd: string;
+  public Atributes: Atribute[];
 
   // Referencias a los elementos HTML
   @ViewChild('alertwin') ventanaModal: TemplateRef<any>;
+  @ViewChild('ventanaAtributes') ventanaAtributes: TemplateRef<any>;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: BsModalService, private router: Router) {
     this.baseUrl = baseUrl;
@@ -72,12 +77,65 @@ export class MydocsComponent implements OnInit {
     this.modalRefAlert = this.modalService.show(template, { class: 'second' });
   }
 
+  openModalAtributes(template: TemplateRef<any>,idns_documento: string, idns_documento_tipo: string) 
+  {
+    // Debo contruir el html para completar los atributos
+
+    console.log("obteniendo atributos");
+
+    this.http.get<Atribute[]>(this.baseUrl + 'api/Atributes/' + idns_documento_tipo).subscribe(result => {
+      this.Atributes = result;
+      console.log(result);
+      console.log(this.Atributes);
+    }, error => {
+      this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
+      console.log(error);
+    }, () => {
+      
+      this.htmlToAdd = '<div style="margin-top:1em" class="input-group">';
+
+      this.Atributes.forEach(element => {
+        //this.htmlToAdd = this.htmlToAdd + '<span class="input-group-addon">' + element.sd_atributo + '</span>';
+        this.htmlToAdd = this.htmlToAdd + '<input id="'+ element.idns_atributo + '_atr" type="text" required="required" class="form-control">';
+        //element.idns_atributo
+      });
+      
+      this.htmlToAdd = this.htmlToAdd + '</div>';
+      
+      console.log(this.htmlToAdd);
+
+      this.modalRefAtribute = this.modalService.show(template, { class: 'second' });
+
+    }
+    );     
+  }
+
+
+  loadAtributes(idns_documento_tipo :string)
+  {
+    let AtributesX: Atribute[];
+
+    console.log("obteniendo atributos");
+    this.http.get<Atribute[]>(this.baseUrl + 'api/Atributes/' + idns_documento_tipo).subscribe(result => {
+      AtributesX = result;
+      console.log(result);
+      console.log(AtributesX);
+    }, error => {
+      this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
+      console.log(error);
+    }, () => {
+      constructHTML() 
+    }
+    ); 
+  }
+
   public dropped(event: UploadEvent, idns_documento_tipo: string) 
   {  
     this.files = event.files;
-    var respuesta;
+    var idns_documento_resp;
 
-    for (const droppedFile of event.files) {
+    for (const droppedFile of event.files) 
+    {
       // Is it a file?
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
@@ -98,20 +156,23 @@ export class MydocsComponent implements OnInit {
             {
               console.log(this.message);
               console.log(event.body.toString());
-              respuesta = event.body.toString();
+              idns_documento_resp = event.body.toString();
             }
       
           });
         });
-      } else {
+      } 
+      else 
+      {
         // It was a directory (empty directories are added, otherwise only files)
         const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
         alert("" + droppedFile.relativePath + fileEntry);
       }
     }
     
-    setTimeout( () => { this.openModalAlert(this.ventanaModal, "Respuesta: ", respuesta); }, 1000 );
-    
+    //setTimeout( () => { this.openModalAlert(this.ventanaModal, "Respuesta: ", respuesta); }, 1000 );
+    // Una vez que me respondieron ok, espera 1 segundo y abri la modal
+    setTimeout( () => { this.openModalAtributes(this.ventanaAtributes, idns_documento_resp, idns_documento_tipo); }, 1000 );
   }
 
   public fileOver(event){
@@ -122,4 +183,13 @@ export class MydocsComponent implements OnInit {
     //console.log(event);
   }
 
+}
+
+class Atribute {
+  idns_atributo: number;
+  sd_atributo: string;
+  ns_documento_tipo: number;
+  ns_atributo_tipo : number;
+  h_alta : Date;
+  sd_opciones : string;
 }
