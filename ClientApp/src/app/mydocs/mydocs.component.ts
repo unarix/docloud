@@ -31,6 +31,8 @@ export class MydocsComponent implements OnInit {
   public htmlToAdd: string;
   public Atributes: Atribute[];
 
+  dynamicFormConfig = [];
+
   // Referencias a los elementos HTML
   @ViewChild('alertwin') ventanaModal: TemplateRef<any>;
   @ViewChild('ventanaAtributes') ventanaAtributes: TemplateRef<any>;
@@ -80,6 +82,7 @@ export class MydocsComponent implements OnInit {
   openModalAtributes(template: TemplateRef<any>,idns_documento: string, idns_documento_tipo: string) 
   {
     // Debo contruir el html para completar los atributos
+    this.dynamicFormConfig = [];
 
     console.log("obteniendo atributos");
 
@@ -96,8 +99,10 @@ export class MydocsComponent implements OnInit {
 
       this.Atributes.forEach(element => {
         //this.htmlToAdd = this.htmlToAdd + '<span class="input-group-addon">' + element.sd_atributo + '</span>';
-        this.htmlToAdd = this.htmlToAdd + '<input id="'+ element.idns_atributo + '_atr" type="text" required="required" class="form-control">';
+        //this.htmlToAdd = this.htmlToAdd + '<input id="'+ element.idns_atributo + '_atr" type="text" required="required" class="form-control">';
         //element.idns_atributo
+
+        this.dynamicFormConfig.push({type:'input',name:'query', inputType:'text',placeholder: element.sd_atributo});
       });
       
       this.htmlToAdd = this.htmlToAdd + '</div>';
@@ -124,7 +129,7 @@ export class MydocsComponent implements OnInit {
       this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
       console.log(error);
     }, () => {
-      constructHTML() 
+      
     }
     ); 
   }

@@ -34,3 +34,8 @@
 {
     background-color: rgba(147, 147, 147, 0.5); 
 }
+
+.__ngx-form-container {
+    display: block !important; 
+    flex-wrap: wrap; 
+}

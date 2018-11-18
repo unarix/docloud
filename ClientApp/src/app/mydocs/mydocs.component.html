@@ -42,16 +42,19 @@
 
   <ng-template #ventanaAtributes>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">TEST</h4>
+      <h4 class="modal-title pull-left">Que es lo que estas guardando?</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefAtribute.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
-      <div [innerHtml]="htmlToAdd"></div>   
-    </div>
 
+    <div class="modal-body">
+      <h5>
+        Completa los atributos del documento para esta carpeta:
+      </h5>
+      <dynamic-form #dynamicFormName='dynamicForm' [config]='dynamicFormConfig' (submit)='doSomethingCool($event)'></dynamic-form>
     
+    </div>
 
     <div class="modal-footer">
       <button type="button" class="btn btn-success" data-dismiss="modal" (click)="saveAtrs()">Guardar</button>

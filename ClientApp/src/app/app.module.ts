@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { FileDropModule } from 'ngx-file-drop';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { DynamicFormModule } from 'ngx-dynamic-form';
+import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -39,6 +41,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     FormsModule,
     FileDropModule,
     PdfViewerModule,
+    ReactiveFormsModule,
+    CommonModule,
+    DynamicFormModule,
     AccordionModule.forRoot(),
     AlertModule.forRoot(),
     ModalModule.forRoot(),
