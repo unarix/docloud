@@ -95,22 +95,16 @@ export class MydocsComponent implements OnInit {
       console.log(error);
     }, () => {
       
-      this.htmlToAdd = '<div style="margin-top:1em" class="input-group">';
-
+      // Por cada atributo cargo un fomr control (input)
       this.Atributes.forEach(element => {
-        //this.htmlToAdd = this.htmlToAdd + '<span class="input-group-addon">' + element.sd_atributo + '</span>';
-        //this.htmlToAdd = this.htmlToAdd + '<input id="'+ element.idns_atributo + '_atr" type="text" required="required" class="form-control">';
-        //element.idns_atributo
-
-        this.dynamicFormConfig.push({type:'input',name:'query', inputType:'text',placeholder: element.sd_atributo});
+        this.dynamicFormConfig.push({type:'input', name:element.idns_atributo, inputType:'text', placeholder: element.sd_atributo});
       });
-      
-      this.htmlToAdd = this.htmlToAdd + '</div>';
-      
-      console.log(this.htmlToAdd);
 
+      // Cargo el boton que guardara los atributos
+      this.dynamicFormConfig.push({type: 'button', label: '', labelClass: '', text: 'Search', inputType: 'submit', class: 'btn btn-primary', name: 'submit'});
+
+      // Muestro la ventana
       this.modalRefAtribute = this.modalService.show(template, { class: 'second' });
-
     }
     );     
   }
