@@ -109,6 +109,7 @@ export class MydocsComponent implements OnInit {
         // Muestro la ventana
         this.modalRefAtribute = this.modalService.show(template, { class: 'second' });
 
+        console.log("guardando id docuemtno: " + idns_documento)
         this.idns_documento_droped = +idns_documento;
       }
     );     
@@ -117,14 +118,17 @@ export class MydocsComponent implements OnInit {
   saveAtributes(model: any) {
     // creo un date
     let date = new Date(); 
+    this.atributeValues = [];
+
     // por cada keyValue en el array creo un AtributeValue
     for (var k in model){
       if (model.hasOwnProperty(k)) {
           if(!k.includes("submit"))
           {
-            let atributeValue: AtributeValue;
+            let atributeValue = new AtributeValue();
+            console.log(this.idns_documento_droped)
 
-            atributeValue.ns_documento  = this.idns_documento_droped;
+            atributeValue.ns_documento  = 40;
             atributeValue.h_fecha_alta  = date;
             atributeValue.ns_atributo  = +k; // el "+" convierte el string a un entero
             atributeValue.ns_valor  = 0; // CUIDADO!!!
