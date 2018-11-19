@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, TemplateRef, ElementRef } from '@angular/core';
-import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http'
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { ViewChild } from '@angular/core'
@@ -30,6 +30,8 @@ export class MydocsComponent implements OnInit {
   public files: UploadFile[] = [];
   public htmlToAdd: string;
   public Atributes: Atribute[];
+  public atributeValues: AtributeValue[];
+  public idns_documento_droped: number;
 
   dynamicFormConfig = [];
 
@@ -86,40 +88,78 @@ export class MydocsComponent implements OnInit {
 
     console.log("obteniendo atributos");
 
-    this.http.get<Atribute[]>(this.baseUrl + 'api/Atributes/' + idns_documento_tipo).subscribe(result => {
-      this.Atributes = result;
-      console.log(result);
-      console.log(this.Atributes);
-    }, error => {
-      this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
-      console.log(error);
-    }, () => {
-      
-      // Por cada atributo cargo un fomr control (input)
-      this.Atributes.forEach(element => {
-        this.dynamicFormConfig.push({type:'input', name:element.idns_atributo, inputType:'text', placeholder: element.sd_atributo});
-      });
+    this.http.get<Atribute[]>(this.baseUrl + 'api/Atributes/' + idns_documento_tipo).subscribe(result => 
+      {
+        this.Atributes = result;
+        console.log(result);
+        console.log(this.Atributes);
+      }, error => {
+        this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
+        console.log(error);
+      }, () => {
+        
+        // Por cada atributo cargo un fomr control (input)
+        this.Atributes.forEach(element => {
+          this.dynamicFormConfig.push({type:'input', name:element.idns_atributo, inputType:'text', placeholder: element.sd_atributo});
+        });
 
-      // Cargo el boton que guardara los atributos
-      this.dynamicFormConfig.push({type: 'button', label: '', labelClass: '', text: 'Guardar', inputType: 'submit', class: 'btn btn-primary', name: 'submit'});
+        // Cargo el boton que guardara los atributos
+        this.dynamicFormConfig.push({type: 'button', label: '', labelClass: '', text: 'Guardar', inputType: 'submit', class: 'btn btn-primary', name: 'submit'});
 
-      // Muestro la ventana
-      this.modalRefAtribute = this.modalService.show(template, { class: 'second' });
-    }
+        // Muestro la ventana
+        this.modalRefAtribute = this.modalService.show(template, { class: 'second' });
+
+        this.idns_documento_droped = +idns_documento;
+      }
     );     
   }
 
   saveAtributes(model: any) {
-    console.log(model);
+    // creo un date
+    let date = new Date(); 
+    // por cada keyValue en el array creo un AtributeValue
     for (var k in model){
       if (model.hasOwnProperty(k)) {
           if(!k.includes("submit"))
           {
-            
+            let atributeValue: AtributeValue;
+
+            atributeValue.ns_documento  = this.idns_documento_droped;
+            atributeValue.h_fecha_alta  = date;
+            atributeValue.ns_atributo  = +k; // el "+" convierte el string a un entero
+            atributeValue.ns_valor  = 0; // CUIDADO!!!
+            atributeValue.sd_valor  = model[k];
+            atributeValue.h_valor = date;
+
+            this.atributeValues.push(atributeValue);
             console.log("Key is " + k + ", value is" + model[k]);
           }
       }
-  }
+    }
+
+    // ESCRIBO EN LA DB LOS ATRIBUTOS
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    
+    let url = this.baseUrl +  'api/AtributesValue/InsertAtributeValue';
+
+    this.http.post<AtributeValue[]>(url, this.atributeValues, httpOptions).subscribe
+    (
+      res => {
+        console.log(res); 
+      }
+      , 
+      error => { 
+        this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
+        console.error(error) 
+      }, () => {
+        this.openModalAlert(this.ventanaModal,"Exito!","Se creo su nuevo atributo con exito!"); 
+      }
+    );
 
   }
 
@@ -204,4 +244,14 @@ class Atribute {
   ns_atributo_tipo : number;
   h_alta : Date;
   sd_opciones : string;
+}
+
+class AtributeValue {
+  idns_atributo_valor: number;
+  ns_atributo: number;
+  sd_valor: string;
+  ns_documento : number;
+  h_fecha_alta : Date;
+  h_valor : Date;
+  ns_valor : number;
 }
