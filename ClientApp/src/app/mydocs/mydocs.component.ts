@@ -101,7 +101,7 @@ export class MydocsComponent implements OnInit {
       });
 
       // Cargo el boton que guardara los atributos
-      this.dynamicFormConfig.push({type: 'button', label: '', labelClass: '', text: 'Search', inputType: 'submit', class: 'btn btn-primary', name: 'submit'});
+      this.dynamicFormConfig.push({type: 'button', label: '', labelClass: '', text: 'Guardar', inputType: 'submit', class: 'btn btn-primary', name: 'submit'});
 
       // Muestro la ventana
       this.modalRefAtribute = this.modalService.show(template, { class: 'second' });
@@ -109,6 +109,19 @@ export class MydocsComponent implements OnInit {
     );     
   }
 
+  saveAtributes(model: any) {
+    console.log(model);
+    for (var k in model){
+      if (model.hasOwnProperty(k)) {
+          if(!k.includes("submit"))
+          {
+            
+            console.log("Key is " + k + ", value is" + model[k]);
+          }
+      }
+  }
+
+  }
 
   loadAtributes(idns_documento_tipo :string)
   {

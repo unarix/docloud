@@ -52,12 +52,11 @@
       <h5>
         Completa los atributos del documento para esta carpeta:
       </h5>
-      <dynamic-form #dynamicFormName='dynamicForm' [config]='dynamicFormConfig' (submit)='doSomethingCool($event)'></dynamic-form>
+      <dynamic-form #dynamicFormName='dynamicForm' [config]='dynamicFormConfig' (submit)='saveAtributes($event)'></dynamic-form>
     
     </div>
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-success" data-dismiss="modal" (click)="saveAtrs()">Guardar</button>
       <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRefAtribute.hide()">Cerrar</button>
   </div>
   </ng-template>
