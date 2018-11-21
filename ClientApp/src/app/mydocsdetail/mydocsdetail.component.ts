@@ -96,4 +96,15 @@ class Document {
   ns_documento_fs : number;
   ns_documento_subtipo : number;
   sd_nulo : string;
+  atriutos : AtributeValue[];
+}
+
+class AtributeValue {
+  idns_atributo_valor: number;
+  ns_atributo: number;
+  sd_valor: string;
+  ns_documento : number;
+  h_fecha_alta : Date;
+  h_valor : Date;
+  ns_valor : number;
 }

@@ -128,7 +128,7 @@ export class MydocsComponent implements OnInit {
             let atributeValue = new AtributeValue();
             console.log(this.idns_documento_droped)
 
-            atributeValue.ns_documento  = 40;
+            atributeValue.ns_documento  = this.idns_documento_droped;
             atributeValue.h_fecha_alta  = date;
             atributeValue.ns_atributo  = +k; // el "+" convierte el string a un entero
             atributeValue.ns_valor  = 0; // CUIDADO!!!
