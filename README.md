@@ -1,7 +1,7 @@
 # docloud
-Your documents everywere!
+Your documents everywere: doCloud is a platform for search and save documents
 
-# doCloud is a platform for search and save documents; it allows:
+# It allows:
  - Upload pdf's or images and make the OCR (if its possible).
  - Read through machine learning and extract the metadata.
  - Search them using machine learning with elasticSearch
