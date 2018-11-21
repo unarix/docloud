@@ -98,7 +98,10 @@ namespace doCloud.Controllers
             {
                 if(doc.idns_documento_tipo!=0)
                 {
-                    string qry = "delete from dar_documento_tipo where idns_documento_tipo = :id";
+                    //string qry = "delete from dar_documento_tipo where idns_documento_tipo = :id";
+                    string qry = "DELETE FROM dar_documento WHERE ns_documento_tipo IN (select idns_documento_tipo from dar_documento_tipo where idns_documento_tipo = :id); DELETE FROM dar_documento_tipo where idns_documento_tipo = :id;";
+                    
+
 
                     using (var conn = new NpgsqlConnection(connString))
                     {
