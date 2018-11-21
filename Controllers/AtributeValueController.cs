@@ -69,12 +69,12 @@ namespace doCloud.Controllers
                     conn.Open();
 
                     // Retrieve all rows
-                    using (var cmd = new NpgsqlCommand("INSERT INTO DAR_ATRIBUTO_VALOR (NS_ATRIBUTO,SD_VALOR,NS_DOCUMENTO,H_FECHA_LTA,H_VALOR,NS_VALOR) VALUES (:NS_ATRIBUTO,:SD_VALOR,:NS_DOCUMENTO,:H_FECHA_LTA,:H_VALOR,:NS_VALOR)", conn))
+                    using (var cmd = new NpgsqlCommand("INSERT INTO DAR_ATRIBUTO_VALOR (NS_ATRIBUTO,SD_VALOR,NS_DOCUMENTO,H_FECHA_ALTA,H_VALOR,NS_VALOR) VALUES (:NS_ATRIBUTO,:SD_VALOR,:NS_DOCUMENTO,current_timestamp,:H_VALOR,:NS_VALOR)", conn))
                     {
                         cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO", atr.ns_atributo));
                         cmd.Parameters.Add(new NpgsqlParameter("SD_VALOR", atr.sd_valor));
                         cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO", atr.ns_documento));
-                        cmd.Parameters.Add(new NpgsqlParameter("H_FECHA_LTA", atr.h_fecha_alta));
+                        //cmd.Parameters.Add(new NpgsqlParameter("H_FECHA_ALTA", atr.h_fecha_alta)); // Va el current date
                         cmd.Parameters.Add(new NpgsqlParameter("H_VALOR", atr.h_valor));
                         cmd.Parameters.Add(new NpgsqlParameter("NS_VALOR", atr.ns_valor));
                         cmd.ExecuteNonQuery();
