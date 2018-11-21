@@ -8,3 +8,11 @@ doCloud is a platform for search and save documents; it allows:
  - Store the data files according to CID.
  - Identify types of documents with AI (auto recognition)
  - Tag with custom metadata (personal atributes)
+
+ doCloud uses:
+ - Angular
+ - NodeJs
+ - ElasticSearch
+ - NET Core
+ - PostgreSQL
+
