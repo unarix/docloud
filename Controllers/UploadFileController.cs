@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Net.Http.Headers;
 using doCloud.Models;
+using System.Drawing.Imaging;
 
 namespace doCloud.Controllers
 {
@@ -17,38 +18,6 @@ namespace doCloud.Controllers
         {
             _hostingEnvironment = hostingEnvironment;
         }
-        
-        // Sube un documento a la bandeja inbox
-        // [HttpPost, DisableRequestSizeLimit]
-        // public ActionResult UploadFile()   
-        // {
-        //     string fileName = "";
-        //     try
-        //     {
-        //         var file = Request.Form.Files[0];
-        //         string folderName = "Upload";
-        //         string webRootPath = _hostingEnvironment.WebRootPath;
-        //         string newPath = Path.Combine(webRootPath, folderName);
-        //         if (!Directory.Exists(newPath))
-        //         {
-        //             Directory.CreateDirectory(newPath);
-        //         }
-        //         if (file.Length > 0)
-        //         {
-        //             fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-        //             string fullPath = Path.Combine(newPath, fileName);
-        //             using (var stream = new FileStream(fullPath, FileMode.Create))
-        //             {
-        //                 file.CopyTo(stream);
-        //             }
-        //         }
-        //         return Json("El archivo " + fileName + " se ha subido correctamente!");
-        //     }
-        //     catch (System.Exception ex)
-        //     {
-        //         return Json("Ha ocurrido un error al subir el archivo: " + ex.Message);
-        //     }
-        // }
 
         // Inserta un documento en la base de datos
         [HttpPost, DisableRequestSizeLimit]
@@ -63,6 +32,7 @@ namespace doCloud.Controllers
             DocumentController docCtrl = new DocumentController();
             doc = docCtrl.insertDocument(doc);
 
+            string fullPath = "";
             string fileName = "";
             try
             {
@@ -78,12 +48,20 @@ namespace doCloud.Controllers
                 {
                     
                     fileName = doc.idns_documento.ToString() + System.IO.Path.GetExtension(file.FileName); //ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    string fullPath = Path.Combine(newPath, fileName);
+                    fullPath = Path.Combine(newPath, fileName);
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
                         file.CopyTo(stream);
                     }
                 }
+                
+                var pdfFile = fullPath;
+                var pdfToImg = new NReco.PdfRenderer.PdfToImageConverter();
+                pdfToImg.ScaleTo = 140; // fit 200x200 box
+                //pdfToImg.GenerateImage( pdfFile, 1, ImageFormat.Jpeg, "Sample1.jpg" );
+                System.Drawing.Image img = pdfToImg.GenerateImage(pdfFile,1);
+                img.Save(fullPath.Replace(".pdf",".gif"), System.Drawing.Imaging.ImageFormat.Gif);
+
                 return Json(doc.idns_documento);
             }
             catch (System.Exception ex)
@@ -91,5 +69,8 @@ namespace doCloud.Controllers
                 return Json("Ha ocurrido un error al subir el archivo: " + ex.Message);
             }
         }
+
+
+        
     }
 }

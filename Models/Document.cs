@@ -14,7 +14,7 @@ namespace doCloud.Models
         public int ns_documento_fs  { get; set; }
         public int ns_documento_subtipo  { get; set; }
         public string sd_nulo  { get; set; }
-
+        public string thumbail  { get; set; }
         public List<AtributeValue> atriutos { get; set; }
         
     }

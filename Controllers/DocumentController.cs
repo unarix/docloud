@@ -42,7 +42,7 @@ namespace doCloud.Controllers
                         doc.ns_documento_fs = dr.IsDBNull(dr.GetOrdinal("NS_DOCUMENTO_FS")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_DOCUMENTO_FS"));
                         doc.ns_documento_subtipo = dr.IsDBNull(dr.GetOrdinal("NS_DOCUMENTO_SUBTIPO")) ? 0 : dr.GetInt32(dr.GetOrdinal("NS_DOCUMENTO_SUBTIPO"));
                         doc.sd_nulo = dr.IsDBNull(dr.GetOrdinal("SD_NULO")) ? "" : dr.GetString(dr.GetOrdinal("SD_NULO"));
-
+                        doc.thumbail = "/Cloud/" + doc.h_fecha.Year + "/" + doc.h_fecha.Month + "/" + doc.h_fecha.Day + "/" + doc.idns_documento + ".gif";
                         DocLst.Add(doc);
                     }
                 }     
