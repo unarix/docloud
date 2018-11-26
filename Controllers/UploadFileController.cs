@@ -3,8 +3,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Net.Http.Headers;
-using doCloud.Models;
 using System.Drawing.Imaging;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using NReco;
+using doCloud.Models;
+using Tesseract;
 
 namespace doCloud.Controllers
 {
@@ -54,13 +61,17 @@ namespace doCloud.Controllers
                         file.CopyTo(stream);
                     }
                 }
-                
+
+                // Generate the Thhumbail                
                 var pdfFile = fullPath;
                 var pdfToImg = new NReco.PdfRenderer.PdfToImageConverter();
                 pdfToImg.ScaleTo = 140; // fit 200x200 box
                 //pdfToImg.GenerateImage( pdfFile, 1, ImageFormat.Jpeg, "Sample1.jpg" );
                 System.Drawing.Image img = pdfToImg.GenerateImage(pdfFile,1);
                 img.Save(fullPath.Replace(".pdf",".gif"), System.Drawing.Imaging.ImageFormat.Gif);
+
+
+                //var text = GetText(fullPath);
 
                 return Json(doc.idns_documento);
             }
@@ -70,7 +81,17 @@ namespace doCloud.Controllers
             }
         }
 
-
-        
+        public string GetText(string fullPath)
+        {
+			using (var engine = new TesseractEngine(@"/home/unarix/Documentos/code/docloud/docloud/wwwroot/tessdata", "eng", EngineMode.Default)) {
+				var inputFilename = fullPath;
+				using (var img = Pix.LoadFromFile(inputFilename)) {
+					using (var page = engine.Process(img, inputFilename, PageSegMode.SingleLine)) {
+						var text = page.GetText();
+                        return text;
+					}
+				}
+			}
+        }
     }
 }
