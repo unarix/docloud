@@ -7,6 +7,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DataTablesModule } from 'angular-datatables';
 import { ViewChild } from '@angular/core'
+import { Alert } from 'selenium-webdriver';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-inbox',
@@ -61,6 +63,7 @@ export class InboxComponent {
       "pageLength": 10
     };
 
+    Observable.interval(5000).takeWhile(() => true).subscribe(() => this.loadFiles());
 
     this.loadFiles()
   }
@@ -86,37 +89,49 @@ export class InboxComponent {
   public dropped(event: UploadEvent) {
     
     this.files = event.files;
-    for (const droppedFile of event.files) {
-      // Is it a file?
-      if (droppedFile.fileEntry.isFile) {
+    for (const droppedFile of event.files) 
+    {
+      if (droppedFile.fileEntry.isFile && droppedFile.fileEntry.name.includes(".pdf")) 
+      {
+
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
  
           const formData = new FormData()
           formData.append('logo', file, droppedFile.relativePath)
 
-          const uploadReq = new HttpRequest('POST', 'api/UploadFile', formData, {
+          const uploadReq = new HttpRequest('POST', 'api/UploadFile/UploadInputFile', formData, {
             reportProgress: true,
           });
       
-          this.http.request(uploadReq).subscribe(event => {
-            if (event.type === HttpEventType.UploadProgress)
-              this.progress = Math.round(100 * event.loaded / event.total);
-            else if (event.type === HttpEventType.Response)
-            {
-              this.mostrarMensaje(event.body.toString());
-            }
-      
-          });
+          this.http.request(uploadReq).subscribe
+          (
+            event => 
+              {
+                if (event.type === HttpEventType.UploadProgress) {
+                  this.progress = Math.round(100 * event.loaded / event.total);
+                }
+                else if (event instanceof HttpResponse) {
+                  
+                }
+              }
+          );
+
         });
-      } else {
+      } 
+      else 
+      {
         // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        alert("" + droppedFile.relativePath + fileEntry);
+        //const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+        //alert("" + droppedFile.relativePath + fileEntry + droppedFile.fileEntry.name);
+        this.openModalAlert(this.ventanaModal,"No no... :) ", droppedFile.fileEntry.name + ", no es un tipo de archivo admitido. Asegurate de subir solo archivos .PDF!")
       }
     }
+
+    setTimeout( () => { this.loadFiles() , 2000 });
+
   }
- 
+
   public mostrarMensaje(mensajex)
   {
     

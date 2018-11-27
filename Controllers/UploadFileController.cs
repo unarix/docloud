@@ -81,6 +81,43 @@ namespace doCloud.Controllers
             }
         }
 
+        
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("UploadInputFile")]
+        public ActionResult UploadInputFile()   
+        {
+            
+            string fullPath = "";
+            string fileName = "";
+            try
+            {
+                var file = Request.Form.Files[0];
+                string folderName = "Cloud/Input";
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                string newPath = Path.Combine(webRootPath, folderName);
+                if (!Directory.Exists(newPath))
+                {
+                    Directory.CreateDirectory(newPath);
+                }
+                if (file.Length > 0)
+                {
+                    
+                    fileName =  ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    fullPath = Path.Combine(newPath, fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+                
+                return Json("El documento se cargo correctamente");
+            }
+            catch (System.Exception ex)
+            {
+                return Json("Ha ocurrido un error al subir el archivo: " + ex.Message);
+            }
+        }
+
         public string GetText(string fullPath)
         {
 			using (var engine = new TesseractEngine(@"/home/unarix/Documentos/code/docloud/docloud/wwwroot/tessdata", "eng", EngineMode.Default)) {

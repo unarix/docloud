@@ -44,19 +44,20 @@
       <tr>
         <th>Nombre</th>
         <th>Fecha</th>
-        <th>Tamaño</th>
-        <th></th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let rec of this.data">
         <td>{{rec.name}}</td>
         <td>{{rec.LastWriteTime}}</td>
-        <td>{{rec.Length}}</td>
         <td>
+          <button type="button" class="btn btn-primary" (click)="deleteAtribute(rec.name)">
+              <span class="glyphicon glyphicon-open-file" aria-hidden="true" ></span>
+          </button>
           <button type="button" class="btn btn-danger" (click)="deleteAtribute(rec.name)">
             <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
-          </button>                 
+          </button>
         </td>
       </tr>
     </tbody>
