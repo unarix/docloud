@@ -4,22 +4,23 @@
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">
-          Scanner Inbox
+            <span><img style="width:1.3em" src="http://www.myiconfinder.com/uploads/iconsets/256-256-37736f35fd7d98b10b35287679b223b8.png"> Scanner Inbox</span>
         </a>
       </div>
-      <span class="navbar-right"> </span>
+      <span class="navbar-right">
+          
+      </span>
+      <span class="navbar-right">
+          <file-drop (onFileDrop)="dropped($event)" customstyle="container" >
+              
+              <div class="overlay">
+                  <div class="text">Suelta aqui tus archivos</div>
+              </div>
+          </file-drop>  
+      </span>
+      
     </div>
   </nav>
-
-  <div class="jumbotron">
-    <h1>Up the doc</h1>
-    <p class="lead">Suelta tus documentos sobre la nube para cargarlos</p>
-    <br>
-    <file-drop (onFileDrop)="dropped($event)" customstyle="my-style" >
-              <img style="width: 90px;" src="http://www.myiconfinder.com/uploads/iconsets/256-256-37736f35fd7d98b10b35287679b223b8.png">
-    </file-drop>
-    <br>
-  </div>
 
   <div class="upload-table">
       <table id="" class="table">
@@ -36,21 +37,46 @@
       </table>
   </div>
 
+  <p>Estos son los archivos que estan en inbox, haz click en alguno de ellos para ingresarlos al sistema</p>
+
+  <table datatable id="datatable" [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Fecha</th>
+        <th>Tamaño</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rec of this.data">
+        <td>{{rec.name}}</td>
+        <td>{{rec.LastWriteTime}}</td>
+        <td>{{rec.Length}}</td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="deleteAtribute(rec.name)">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
+          </button>                 
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
   <div *ngFor="let alert of alerts">
     <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
   </div>
 
   <!--button id="openModalButton" type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button-->
 
-  <ng-template #template>
+  <ng-template #alertwin>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Listo!</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <h4 class="modal-title pull-left">{{title}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefAlert.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      Tu archivo, ya fue cargado.
+      {{message}}
     </div>
   </ng-template>
 </div>

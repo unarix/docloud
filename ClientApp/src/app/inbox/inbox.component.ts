@@ -1,10 +1,11 @@
-import { Component, ElementRef, NgZone, ChangeDetectorRef, TemplateRef } from '@angular/core';
-import { AlertComponent } from 'ngx-bootstrap/alert/alert.component';
+import { Component, OnInit, Inject, TemplateRef, ElementRef } from '@angular/core';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http'
+import { ActivatedRoute} from "@angular/router";
 import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { viewClassName } from '@angular/compiler';
+import { DataTablesModule } from 'angular-datatables';
 import { ViewChild } from '@angular/core'
 
 @Component({
@@ -14,7 +15,23 @@ import { ViewChild } from '@angular/core'
 })
 export class InboxComponent {
 
-  @ViewChild('template') ventanaModal: TemplateRef<any>;
+  public progress: number =0;  
+  modalRefAlert: BsModalRef;
+  public files: UploadFile[] = [];
+  public baseUrl : string;
+  public http: HttpClient;
+  public headers: Headers;
+  public options: RequestOptions;
+  public message: string;
+  public title: string;
+
+  public dtOptions: DataTables.Settings = {};
+  public Files: Filex[];
+  public data: Object;
+  public temp_var: Object=false;
+
+  @ViewChild('alertwin') ventanaModal: TemplateRef<any>;
+  table = $('#datatable').DataTable(); // creamos esta variable para la tabla de atributos.
 
   // // mensaje que se despliega al iniciar el componente
    alerts: any[] = [{
@@ -22,16 +39,50 @@ export class InboxComponent {
   //   msg: 'Selecciona el archivo que quieres cargar y luego haz click en "subir"',
   //   timeout: 5000
    }];
-
-  public progress: number =0;  
-  public message: string = 'hola!';
-  modalRef: BsModalRef;
-  public files: UploadFile[] = [];
-
-  constructor(private ref: ChangeDetectorRef, private http: HttpClient, private modalService: BsModalService) { 
-
+ 
+  constructor(private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string, private modalService: BsModalService) {
+    this.baseUrl = baseUrl;
+    this.http = http;
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    let options = new RequestOptions({ headers: headers });
   }
   
+
+  ngOnInit() {
+    // Estos dtOptions son las propiedades de la Datatable
+    this.dtOptions = {
+      "pagingType": "numbers",
+      "search": {
+        "smart": true
+      },
+      "lengthChange": false,
+      "info": false,
+      "searching": false,
+      "pageLength": 10
+    };
+
+
+    this.loadFiles()
+  }
+
+  public loadFiles()
+  {
+    this.table.destroy() // Trato de destruir la Datatable
+
+    //Aca se llama a la api para obtener los atributos de ese tipo de documento...
+    this.http.get(this.baseUrl + 'api/InputFile').subscribe((res: Response) => {
+      this.data=res;
+      this.temp_var=true;
+    });
+  }
+
+  openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {
+    this.message = msg;
+    this.title = (ttl=="") ? "Alerta" : ttl;
+    this.modalRefAlert = this.modalService.show(template, { class: 'second' });
+  }
+
+
   public dropped(event: UploadEvent) {
     
     this.files = event.files;
@@ -68,12 +119,7 @@ export class InboxComponent {
  
   public mostrarMensaje(mensajex)
   {
-    // Abro la ventana modal
-    this.openModal(this.ventanaModal);
-  }
-
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    
   }
 
   public fileOver(event){
@@ -84,4 +130,22 @@ export class InboxComponent {
     //console.log(event);
   }
 
+}
+
+/* ******************************* MODELOS ******************************* */
+
+
+class DataTablesResponse {
+  data: any[];
+  draw: number;
+  recordsFiltered: number;
+  recordsTotal: number;
+}
+
+
+class Filex
+{
+    name : string;
+    LastWriteTime : Date;
+    Length : number;
 }
