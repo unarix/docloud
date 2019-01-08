@@ -13,7 +13,6 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
@@ -28,7 +27,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     FetchDataComponent,
     InboxComponent,
     UserSettingsComponent,

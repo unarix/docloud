@@ -96,74 +96,76 @@ namespace doCloud.Controllers
         }
 
         [HttpPost("[action]")]
-        [Route("InsertAtribute")]
-        public Atribute InsertAtribute([FromBody] Atribute atr)
+        [Route("InsertUser")]
+        public bool InsertUser([FromBody] User us)
         {
             using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("INSERT INTO DAR_ATRIBUTO (SD_ATRIBUTO,NS_DOCUMENTO_TIPO,NS_ATRIBUTO_TIPO,H_ALTA,SD_OPCIONES) VALUES (:SD_ATRIBUTO,:NS_DOCUMENTO_TIPO,:NS_ATRIBUTO_TIPO,:H_ALTA,:SD_OPCIONES)", conn))
+                using (var cmd = new NpgsqlCommand("INSERT INTO DAR_USUARIOS (usuario_id, usuario, password, nombre, apellido, telefono, email, documento ) VALUES (:p_usuario, :password, :p_nombre, :p_apellido, :p_telefono, :p_email, :p_documento,)", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.sd_atributo));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.ns_documento_tipo));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.ns_atributo_tipo));
-                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.h_alta));
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.sd_opciones));
+ 
+                    cmd.Parameters.Add(new NpgsqlParameter("p_usuario",  us.usuario));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_password", us.password));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_nombre", us.nombre));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_apellido", us.apellido));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_telefono", us.telefono));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_email", us.email));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_documento",  us.documento));
+                    
                     cmd.ExecuteNonQuery();
                 }
             }
-            Atribute atrib = new Atribute();
-            atrib.sd_atributo = "Se creo el atributo correctamente";
-            return atrib;
+
+            return true;
         }
 
         [HttpPost("[action]")]
-        [Route("UpdateAtribute")]
-        public List<Atribute> UpdateAtribute([FromBody] Atribute atr)
+        [Route("UpdateUser")]
+        public bool UpdateUser([FromBody] User us)
         {
-            List<Atribute> attributesLst = new List<Atribute>();
-
+            
             using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("UPDATE DAR_ATRIBUTO set (SD_ATRIBUTO, NS_DOCUMENTO_TIPO, NS_ATRIBUTO_TIPO, H_ALTA, SD_OPCIONES) = (:SD_ATRIBUTO,:NS_DOCUMENTO_TIPO,:NS_ATRIBUTO_TIPO,:H_ALTA,:SD_OPCIONES) WHERE IDNS_ATRIBUTO = :IDNS_ATRIBUTO", conn))
+                using (var cmd = new NpgsqlCommand("UPDATE DAR_USERS set (USUARIO, NOMBRE, APELLIDO, TELEFONO, EMAIL) = (:p_usuario,:p_nombre,:p_apellido,:p_telefono,:p_email) WHERE USUARIO_ID = :p_usuario_id", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("IDNS_ATRIBUTO", atr.idns_atributo));
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_ATRIBUTO", atr.sd_atributo));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_DOCUMENTO_TIPO", atr.ns_documento_tipo));
-                    cmd.Parameters.Add(new NpgsqlParameter("NS_ATRIBUTO_TIPO", atr.ns_atributo_tipo));
-                    cmd.Parameters.Add(new NpgsqlParameter("H_ALTA", atr.h_alta));
-                    cmd.Parameters.Add(new NpgsqlParameter("SD_OPCIONES", atr.sd_opciones));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_usuario_id", us.usuario_id));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_usuario", us.usuario));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_nombre", us.nombre));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_apellido", us.apellido));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_telefono", us.telefono));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_email", us.email));
+
                     cmd.ExecuteNonQuery();
                 }
             }
 
-            return attributesLst;
+            return true;
         }
 
-        [HttpPost("[action]")]
-        [Route("DeleteAtribute")]
-        public List<Atribute> DeleteAtribute([FromBody] Atribute atr)
-        {
-            List<Atribute> attributesLst = new List<Atribute>();
+        [HttpGet("{id:int}")]
+        [Route("DeleteUser")]
+        public bool DeleteUser(int iduser)
+        {           
 
             using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("DELETE FROM DAR_ATRIBUTO WHERE IDNS_ATRIBUTO = :IDNS_ATRIBUTO", conn))
+                using (var cmd = new NpgsqlCommand("DELETE FROM DAR_USERS WHERE ID_USERS = :usuario_id", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("IDNS_ATRIBUTO", atr.idns_atributo));
+                    cmd.Parameters.Add(new NpgsqlParameter("usuario_id", iduser));
                     cmd.ExecuteNonQuery();
                 }
             }
 
-            return attributesLst;
+            return true;
         }
 
     }
