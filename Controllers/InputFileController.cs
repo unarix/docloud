@@ -28,7 +28,6 @@ namespace doCloud.Controllers
 
             DirectoryInfo d = new DirectoryInfo(newPath); //Assuming Test is your Folder
             FileInfo[] Files = d.GetFiles("*.pdf"); //Getting Text files
-            string str = "";
 
             List<Models.File> fls = new List<Models.File>();
             
