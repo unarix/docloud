@@ -49,7 +49,7 @@ ngOnInit() {
     // Elimina un atributo
     deleteUser(_idns_user:number)
     {
-      // alert(_idns_user);
+      alert(_idns_user);
   
       // var date = new Date();
   
