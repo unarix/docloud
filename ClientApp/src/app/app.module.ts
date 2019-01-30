@@ -21,6 +21,9 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MydocsComponent } from './mydocs/mydocs.component';
 import { MydocsdetailComponent } from './mydocsdetail/mydocsdetail.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { UsersComponent } from './users/users.component';
+import { ProfilesComponent } from './profiles/profiles.component';
+import { AccessComponent } from './access/access.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     InboxComponent,
     UserSettingsComponent,
     MydocsComponent,
-    MydocsdetailComponent
+    MydocsdetailComponent,
+    UsersComponent,
+    ProfilesComponent,
+    AccessComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

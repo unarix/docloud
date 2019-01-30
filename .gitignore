@@ -234,3 +234,4 @@ _Pvt_Extensions
 
 # IGNORAR TODO LO QUE ESTE DENTRO DEL REPOSITORIO
 wwwroot/Cloud/
+/PdfRenderer

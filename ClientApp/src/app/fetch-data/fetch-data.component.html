@@ -1,150 +1,150 @@
-<div class="container-fluid">
+<div class="container-fluid container-main">
 
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
           Mis Carpetas
         </a>
-      </div>
-      <span class="navbar-right"> </span>
-      <button type="button" class="btn btn-success navbar-btn navbar-right" (click)="openModal(new_folder)"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nueva Carpeta</button>
-      
-    </div>
-  </nav>
-  
-  <h1>Mis Carpetas</h1>
-  <p class="lead">Organiza tu documentacion</p>
-  
-  <p *ngIf="!documentTypes"><em>Loading...</em></p>
-  <div class="row" >
-    <div class="col-xs-6 col-md-3" *ngFor="let documentTypes of documentTypes">
-      <div class="thumbnail">
-          <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTY2YzgwOGJmYWUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjZjODA4YmZhZSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OC44MDQ2ODc1IiB5PSIxMDUuMSI+MjQyeDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" alt="...">
-          <div class="caption">
-            <h3>{{ documentTypes.sd_descripcion }} </h3>  
-            <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-info" (click)="openModalSettings(folder_settings, documentTypes.idns_documento_tipo)">
+            </div>
+            <span class="navbar-right"> </span>
+            <button type="button" class="btn btn-success navbar-btn navbar-right" (click)="openModal(new_folder)"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nueva Carpeta</button>
+
+        </div>
+    </nav>
+
+    <h1>Mis Carpetas</h1>
+    <p class="lead">Organiza tu documentacion</p>
+
+    <p *ngIf="!documentTypes"><em>Loading...</em></p>
+    <div class="row">
+        <div class="col-xs-6 col-md-3" *ngFor="let documentTypes of documentTypes">
+            <div class="thumbnail">
+                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTY2YzgwOGJmYWUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjZjODA4YmZhZSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OC44MDQ2ODc1IiB5PSIxMDUuMSI+MjQyeDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg=="
+                    alt="...">
+                <div class="caption">
+                    <h3>{{ documentTypes.sd_descripcion }} </h3>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-info" (click)="openModalSettings(folder_settings, documentTypes.idns_documento_tipo)">
                   <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
                 </button>
-                <button type="button" class="btn btn-danger" (click)="deleteFolder( documentTypes.idns_documento_tipo )">
+                        <button type="button" class="btn btn-danger" (click)="deleteFolder( documentTypes.idns_documento_tipo )">
                   <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
                 </button>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>  
-    </div>
-  </div>
-  
-    
-    <ng-template #alertwin>
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">{{title}}</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefAlert.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {{message}}
-      </div>
-    </ng-template>
-  
-    <ng-template #new_folder>
-      <div class="modal-header">
-          <h4 class="modal-title pull-left">
-            Nueva Carpeta
-          </h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h3>Si creas una nueva carpeta...</h3>
-        <span>Puedes organizar tus documentos para encontrarlos mas facilmente! </span>
-        <div style="margin-top:1em" class="input-group">
-          <span class="input-group-addon">@ Mis Carpetas /</span>
-          <input id="folderName" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control"  aria-describedby="basic-addon3" >
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary mr-auto" (click)="newFolder((folderName.value))">
+    </div>
+
+
+    <ng-template #alertwin>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">{{title}}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefAlert.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            {{message}}
+        </div>
+    </ng-template>
+
+    <ng-template #new_folder>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">
+                Nueva Carpeta
+            </h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <h3>Si creas una nueva carpeta...</h3>
+            <span>Puedes organizar tus documentos para encontrarlos mas facilmente! </span>
+            <div style="margin-top:1em" class="input-group">
+                <span class="input-group-addon">@ Mis Carpetas /</span>
+                <input id="folderName" #folderName type="text" (keydown)="onKeydown($event,folderName.value)" required="required" class="form-control" aria-describedby="basic-addon3">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary mr-auto" (click)="newFolder((folderName.value))">
               <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
             </button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Cerrar</button>
+            </div>
         </div>
-      </div>
     </ng-template>
-  
+
     <ng-template #folder_settings>
-      <div class="modal-header">
-          <h4 class="modal-title pull-left">
-            Propiedades de la carpeta
-          </h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalFolder_settings.hide()">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">
+                Propiedades de la carpeta
+            </h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalFolder_settings.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <tabset>
-          <tab heading="Atributos" id="tabGrillaAtr">
-            <table datatable id="datatable" [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
-              <thead>
-                <tr>
-                  <th>Atributo</th>
-                  <th>Tipo</th>
-                  <th>Regex</th>
-                  <th>Alta</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let rec of this.data">
-                  <td>{{rec.sd_atributo}}</td>
-                  <td>{{rec.ns_atributo_tipo}}</td>
-                  <td>{{rec.sd_opciones}}</td>
-                  <td>{{rec.h_alta}}</td>
-                  <td>
-                    <button type="button" class="btn btn-danger" (click)="deleteAtribute(rec.idns_atributo)">
+        </div>
+        <div class="modal-body">
+            <tabset>
+                <tab heading="Atributos" id="tabGrillaAtr">
+                    <table datatable id="datatable" [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
+                        <thead>
+                            <tr>
+                                <th>Atributo</th>
+                                <th>Tipo</th>
+                                <th>Regex</th>
+                                <th>Alta</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let rec of this.data">
+                                <td>{{rec.sd_atributo}}</td>
+                                <td>{{rec.ns_atributo_tipo}}</td>
+                                <td>{{rec.sd_opciones}}</td>
+                                <td>{{rec.h_alta}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" (click)="deleteAtribute(rec.idns_atributo)">
                       <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
-                    </button>                 
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </tab>
-          <tab heading="Nuevo Atributo">
-            <form #myForm="ngForm" id="myForm" style="padding-top: 1em; padding-bottom: 1em">
-              <div class="form-group">
-                <label >Nombre del Atributo</label>
-                <input #atributeName type="text" required="required" class="form-control"  aria-describedby="basic-addon3" placeholder="Nombre del atributo que vas a completar cuando agregues un documento" >
-              </div>
+                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tab>
+                <tab heading="Nuevo Atributo">
+                    <form #myForm="ngForm" id="myForm" style="padding-top: 1em; padding-bottom: 1em">
+                        <div class="form-group">
+                            <label>Nombre del Atributo</label>
+                            <input #atributeName type="text" required="required" class="form-control" aria-describedby="basic-addon3" placeholder="Nombre del atributo que vas a completar cuando agregues un documento">
+                        </div>
 
-              <div class="form-group">
-                <label for="atributeType">Tipo de Atributo</label>
-                <select #atributeType class="form-control" id="atributeType">
+                        <div class="form-group">
+                            <label for="atributeType">Tipo de Atributo</label>
+                            <select #atributeType class="form-control" id="atributeType">
                   <option *ngFor="let AtributeType of AtributeTypes" value={{AtributeType.idns_atributo_tipo}}>
                       {{AtributeType.sd_tipo}}
                   </option>
                 </select>
-              </div>
-      
-              <div class="form-group">
-                <label >Regex</label>
-                <input #regexType type="text" class="form-control"  aria-describedby="basic-addon3" placeholder="Expreción regular">
-              </div>
+                        </div>
 
-              
-              <button type="button" class="btn btn-primary mr-auto" (click)="newAtribute(atributeName.value, atributeType.value, regexType.value)">
+                        <div class="form-group">
+                            <label>Regex</label>
+                            <input #regexType type="text" class="form-control" aria-describedby="basic-addon3" placeholder="Expreción regular">
+                        </div>
+
+
+                        <button type="button" class="btn btn-primary mr-auto" (click)="newAtribute(atributeName.value, atributeType.value, regexType.value)">
                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
               </button>
-            </form>
-          </tab>
-        </tabset>
+                    </form>
+                </tab>
+            </tabset>
 
-        <div class="modal-footer">
-            Mis Carpetas
+            <div class="modal-footer">
+                Mis Carpetas
+            </div>
         </div>
-      </div>
     </ng-template>
 
-  </div>
-  
+</div>

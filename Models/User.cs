@@ -14,6 +14,7 @@ namespace doCloud.Models
         public string email  { get; set; }
         public int documento  { get; set; }
         public DateTime alta_fecha  { get; set; }
+        public DateTime modif_fecha { get; set; }
         public List<Family> familias { get; set; }
         
     }

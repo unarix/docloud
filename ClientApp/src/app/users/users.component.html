@@ -1,0 +1,30 @@
+<div class="container-main">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let usuario of usuarios">
+                <td>{{usuario.usuario}}</td>
+                <td>{{usuario.nombre}}</td>
+                <td>{{usuario.apellido}}</td>
+                <td>{{usuario.telefono}}</td>
+                <td>{{usuario.email}}</td>
+                <td>
+                    <button type="button" class="btn btn-warning">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true" ></span>
+                      </button>
+                    <button type="button" class="btn btn-danger">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
+              </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

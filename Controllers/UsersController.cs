@@ -104,7 +104,7 @@ namespace doCloud.Controllers
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("INSERT INTO DAR_USUARIOS (usuario_id, usuario, password, nombre, apellido, telefono, email, documento ) VALUES (:p_usuario, :password, :p_nombre, :p_apellido, :p_telefono, :p_email, :p_documento,)", conn))
+                using (var cmd = new NpgsqlCommand("INSERT INTO DAR_USUARIOS (usuario, password, nombre, apellido, telefono, email, documento ) VALUES (:p_usuario, :password, :p_nombre, :p_apellido, :p_telefono, :p_email, :p_documento)", conn))
                 {
  
                     cmd.Parameters.Add(new NpgsqlParameter("p_usuario",  us.usuario));
