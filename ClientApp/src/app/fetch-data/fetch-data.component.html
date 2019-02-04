@@ -14,9 +14,9 @@
     </nav>
 
     <h1>Mis Carpetas</h1>
-    <p class="lead">Organiza tu documentacion</p>
+    <p class="lead">Organiza tu documentación</p>
 
-    <p *ngIf="!documentTypes"><em>Loading...</em></p>
+    <p *ngIf="!documentTypes"><em>Cargando...</em></p>
     <div class="row">
         <div class="col-xs-6 col-md-3" *ngFor="let documentTypes of documentTypes">
             <div class="thumbnail">
@@ -87,7 +87,7 @@
         <div class="modal-body">
             <tabset>
                 <tab heading="Atributos" id="tabGrillaAtr">
-                    <table datatable id="datatable" [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
+                    <table datatable id="datatable" [dtOptions]="dtOptions" class="table" *ngIf="this.temp_var">
                         <thead>
                             <tr>
                                 <th>Atributo</th>
@@ -116,7 +116,7 @@
                     <form #myForm="ngForm" id="myForm" style="padding-top: 1em; padding-bottom: 1em">
                         <div class="form-group">
                             <label>Nombre del Atributo</label>
-                            <input #atributeName type="text" required="required" class="form-control" aria-describedby="basic-addon3" placeholder="Nombre del atributo que vas a completar cuando agregues un documento">
+                            <input #atributeName type="text" required class="form-control" aria-describedby="basic-addon3" placeholder="Nombre del atributo que vas a completar cuando agregues un documento">
                         </div>
 
                         <div class="form-group">
@@ -130,11 +130,11 @@
 
                         <div class="form-group">
                             <label>Regex</label>
-                            <input #regexType type="text" class="form-control" aria-describedby="basic-addon3" placeholder="Expreción regular">
+                            <input #regexType type="text" class="form-control" aria-describedby="basic-addon3" placeholder="Expresión regular">
                         </div>
 
 
-                        <button type="button" class="btn btn-primary mr-auto" (click)="newAtribute(atributeName.value, atributeType.value, regexType.value)">
+                        <button type="button" [disabled]="!myForm.form.valid" class="btn btn-primary mr-auto" (click)="newAtribute(atributeName.value, atributeType.value, regexType.value)">
                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
               </button>
                     </form>

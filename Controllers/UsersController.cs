@@ -44,7 +44,7 @@ namespace doCloud.Controllers
                                 User.password = dr.IsDBNull(dr.GetOrdinal("password")) ? "" : dr.GetString(dr.GetOrdinal("password"));
                                 User.nombre = dr.IsDBNull(dr.GetOrdinal("nombre")) ? "" : dr.GetString(dr.GetOrdinal("nombre"));
                                 User.apellido = dr.IsDBNull(dr.GetOrdinal("apellido")) ? "" : dr.GetString(dr.GetOrdinal("apellido"));
-                                User.telefono = dr.IsDBNull(dr.GetOrdinal("telefono")) ? "" : dr.GetString(dr.GetOrdinal("telefono"));
+                                User.telefono = dr.IsDBNull(dr.GetOrdinal("telefono")) ? "": dr.GetString(dr.GetOrdinal("telefono"));
                                 User.email = dr.IsDBNull(dr.GetOrdinal("email")) ? "" : dr.GetString(dr.GetOrdinal("email"));
                                 User.documento = dr.IsDBNull(dr.GetOrdinal("documento")) ? 0 : dr.GetInt32(dr.GetOrdinal("documento"));
 
@@ -99,7 +99,10 @@ namespace doCloud.Controllers
         [Route("InsertUser")]
         public bool InsertUser([FromBody] User us)
         {
-            using (var conn = new NpgsqlConnection(connString))
+            
+           try
+           {
+                using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
 
@@ -108,7 +111,7 @@ namespace doCloud.Controllers
                 {
  
                     cmd.Parameters.Add(new NpgsqlParameter("p_usuario",  us.usuario));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_password", us.password));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_password", us.password ));
                     cmd.Parameters.Add(new NpgsqlParameter("p_nombre", us.nombre));
                     cmd.Parameters.Add(new NpgsqlParameter("p_apellido", us.apellido));
                     cmd.Parameters.Add(new NpgsqlParameter("p_telefono", us.telefono));
@@ -120,6 +123,12 @@ namespace doCloud.Controllers
             }
 
             return true;
+           }
+           catch (System.Exception ex)
+           {
+               
+               throw ex;
+           }
         }
 
         [HttpPost("[action]")]
@@ -158,9 +167,9 @@ namespace doCloud.Controllers
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("DELETE FROM DAR_USERS WHERE ID_USERS = :usuario_id", conn))
+                using (var cmd = new NpgsqlCommand("DELETE FROM DAR_USUARIOS WHERE USUARIO_ID = :USUARIO_ID", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("usuario_id", iduser));
+                    cmd.Parameters.Add(new NpgsqlParameter("USUARIO_ID", iduser));
                     cmd.ExecuteNonQuery();
                 }
             }
