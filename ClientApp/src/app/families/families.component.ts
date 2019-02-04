@@ -6,12 +6,12 @@ import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 import { NgForm } from "@angular/forms";
 
-
 @Component({
-  selector: "app-users",
-  templateUrl: "./users.component.html"
+  selector: 'app-families',
+  templateUrl: './families.component.html',
+  styles: []
 })
-export class UsersComponent implements OnInit {
+export class FamiliesComponent implements OnInit {
   // **** Ventanas Modales ****
   modalRef: BsModalRef;
   modalRefAlert: BsModalRef;
@@ -21,8 +21,9 @@ export class UsersComponent implements OnInit {
   public http: HttpClient;
   public headers: Headers;
   public options: RequestOptions;
-  public usuarios: User[];
-  public usuario: User;
+  public familias: Family[];
+  public familia: Family;
+  
   public message: string;
   public title: string;
   public nuevo:boolean = true; 
@@ -39,16 +40,16 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadUsers();
+    this.loadFamilies();
   }
 
-  loadUsers() {
+  loadFamilies() {
     //Aca se llama a la api para obtener todos los usuarios...
     this.http
-      .get<User[]>(this.baseUrl + "api/Users/GetAllUsers")
+      .get<Family[]>(this.baseUrl + "api/Family/GetAllFamilies")
       .subscribe(result => {
-        this.usuarios = result;
-        console.log(this.usuarios);
+        this.familias = result;
+        console.log(this.familias);
       });
   }
 
@@ -77,40 +78,31 @@ export class UsersComponent implements OnInit {
   }
 
   // Abre la ventana modal que muestra las propiedades de la carpeta
-  editUser(template: TemplateRef<any>, usuario: User) {
+  editFamily(template: TemplateRef<any>, familia: Family) {
     //marca de edicion de usuario
     this.nuevo = false;
    
-    this.usuario = usuario;
+    this.familia = familia;
     template.elementRef
-    console.log(this.usuario );
+    console.log(this.familia );
     this.modalUser = this.modalService.show(template);
   }
 
   // Abre la ventana modal que muestra las propiedades de la carpeta
-  newUser(template: TemplateRef<any>) {
-    //marca de creacion de usuario
+  newFamily(template: TemplateRef<any>) {
     this.nuevo = true;
-    
-    //limpio objecto
-    this.usuario = null;
-    this.usuario = new User();
-    
+    this.familia = null;
     this.modalUser = this.modalService.show(template);
   }
 
-  saveUser(forma: NgForm) {
-    // this.usuario.usuario = user;
-    // this.usuario.nombre = username;
-    // this.usuario.apellido = lastname;
-    // this.usuario.telefono = telephone.toString();
-    // this.usuario.email = email;
+  saveFamily(forma: NgForm) {
+
     console.log("Formulario posteado");
     console.log("ngForm" , forma);
     console.log("valor forma", forma.value);
 
-    console.log("Usuario", this.usuario);
-    this.usuario = forma.value;
+    console.log("Usuario", this.familia);
+    this.familia = forma.value;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -120,13 +112,13 @@ export class UsersComponent implements OnInit {
     let url;
     console.log(this.nuevo)
     if (this.nuevo){
-      url = this.baseUrl +  'api/Users/InsertUser';
+      url = this.baseUrl +  'api/Users/InsertFamily';
     }else{
-     url = this.baseUrl +  'api/Users/UpdateUser';
+     url = this.baseUrl +  'api/Users/UpdateFamily';
     }
-    console.log(this.usuario);
+    console.log(this.familia);
 
-    this.http.post<User>(url, this.usuario, httpOptions).subscribe
+    this.http.post<Family>(url, this.familia, httpOptions).subscribe
     (
       res => {
         console.log(res); 
@@ -147,18 +139,8 @@ export class UsersComponent implements OnInit {
   
 }
 
- class User {
-  usuario_id: number;
-  usuario: string;
-  password: string;
-  nombre: string;
-  apellido: string;
-  telefono: string;
-  email: string;
-  documento: number;
-  alta_fecha: Date;
+ class Family {
+  descripcion:string;
+  familia_id:number;
   // familias : family[];
 }
-// class family{
-
-// }

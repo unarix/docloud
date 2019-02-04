@@ -22,7 +22,7 @@ import { MydocsComponent } from './mydocs/mydocs.component';
 import { MydocsdetailComponent } from './mydocsdetail/mydocsdetail.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { UsersComponent } from './users/users.component';
-import { ProfilesComponent } from './profiles/profiles.component';
+import { FamiliesComponent } from './families/families.component';
 import { AccessComponent } from './access/access.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import { AccessComponent } from './access/access.component';
     MydocsComponent,
     MydocsdetailComponent,
     UsersComponent,
-    ProfilesComponent,
+    FamiliesComponent,
     AccessComponent
   ],
   imports: [

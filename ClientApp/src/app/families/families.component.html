@@ -1,42 +1,37 @@
-<p *ngIf="!usuarios"><em>Cargando...</em></p>
+<p *ngIf="!familias"><em>Cargando...</em></p>
 <div class="container-main">
     <table class="table table-striped animated fadeIn fast">
         <thead>
             <tr>
-                <th>Usuario</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Teléfono</th>
-                <th>Email</th>
+                <th>Id</th>
+                <th>Descripcion</th>
+
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let usuario of usuarios">
-                <td>{{usuario.usuario}}</td>
-                <td>{{usuario.nombre}}</td>
-                <td>{{usuario.apellido}}</td>
-                <td>{{usuario.telefono}}</td>
-                <td>{{usuario.email}}</td>
-                <td>
+            <tr *ngFor="let familia of familias">
+                <td>{{familia.familia_id}}</td>
+                <td>{{familia.descripcion}}</td>
 
+                <td>
                     <button type="button" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-cog" aria-hidden="true"  ></span>
                               </button>
-                    <button type="button" class="btn btn-info" (click)="editUser(UserModal, usuario)">
+                    <button type="button" class="btn btn-info" (click)="editFamily(FamilyModal, familia)">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"  ></span>
                       </button>
-                    <button type="button" class="btn btn-danger" (click)="deleteUser(usuario.usuario_id)">
+                    <button type="button" class="btn btn-danger" (click)="deleteUser(familia.familia_id)">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
               </button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-success navbar-btn pull-right" (click)="newUser(UserModal)"><span class="glyphicon glyphicon-plus"  aria-hidden="true"></span> Nuevo Usuario</button>
+    <button type="button" class="btn btn-success navbar-btn pull-right" (click)="newFamily(FamilyModal)"><span class="glyphicon glyphicon-plus"  aria-hidden="true"></span> Nuevo Perfil</button>
 </div>
 
 
-<ng-template #UserModal>
+<ng-template #FamilyModal>
     <div class="modal-header">
         <h4 class="modal-title pull-left">
             Datos de Usuario
@@ -48,18 +43,17 @@
     <div class="modal-body">
 
         <form #forma="ngForm" ngNativeValidate (ngSubmit)="saveUser(forma)" style="padding-top: 1em; padding-bottom: 1em">
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <label>Usuario</label>
-                <input #User type="text" required [value]="usuario.usuario ? usuario.usuario : null" class="form-control" aria-describedby="basic-addon3" placeholder="usuario"> -->
-            <!-- <input class="form-control" required placeholder="Ingrese un usuario" type="text" name="usuario" [(ngModel)]="usuario.usuario" #usuario="ngModel"> -->
-            <!-- <div *ngIf="usuario.errors?.required">
+                <!-- <input #User type="text" required [value]="usuario.usuario ? usuario.usuario : null" class="form-control" aria-describedby="basic-addon3" placeholder="usuario"> -->
+                <input class="form-control" required placeholder="Ingrese un usuario" type="text" name="usuario" [(ngModel)]="usuario.usuario" #usuario="ngModel">
+                <!-- <div *ngIf="usuario.errors?.required">
                     Requerido
                 </div> -->
-            <!-- <div [hidden]="nombre.valid || nombre.pristine" class="alert alert-danger">
+                <!-- <div [hidden]="nombre.valid || nombre.pristine" class="alert alert-danger">
                     Requerido
-                </div>
-            </div> -->
-            <input class="form-control" required placeholder="Ingrese un nombre" type="hidden" name="usuario_id" [(ngModel)]="usuario.usuario_id" #nombre="ngModel">
+                </div> -->
+            </div>
 
 
             <div class="form-group">
