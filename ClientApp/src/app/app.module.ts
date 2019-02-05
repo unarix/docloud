@@ -19,9 +19,12 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { DataTablesModule } from 'angular-datatables';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MydocsComponent } from './mydocs/mydocs.component';
+import { MydocsAddComponent } from './mydocs-add/mydocs-add.component';
 import { MydocsdetailComponent } from './mydocsdetail/mydocsdetail.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { MydocsAddComponent } from './mydocs-add/mydocs-add.component';
+import { UsersComponent } from './users/users.component';
+import { FamiliesComponent } from './families/families.component';
+import { AccessComponent } from './access/access.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { MydocsAddComponent } from './mydocs-add/mydocs-add.component';
     UserSettingsComponent,
     MydocsComponent,
     MydocsdetailComponent,
-    MydocsAddComponent
+    MydocsAddComponent,
+    UsersComponent,
+    FamiliesComponent,
+    AccessComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

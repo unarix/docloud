@@ -1,48 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 
-.loading
-{
-   width:100%; 
-   height:600px; 
-   background:url(/imgs/loading.gif) center center no-repeat;
+.loading {
+    width: 100%;
+    height: 600px;
+    background: url(/imgs/loading.gif) center center no-repeat;
 }
 
-
-.drop-zone[_ngcontent-c3] 
-{
+.drop-zone[_ngcontent-c3] {
     margin: auto;
     height: auto !important;
-    border: 0px !important;;
-    border-radius: 30px; 
+    border: 0px !important;
+    ;
+    border-radius: 30px;
 }
 
-.content[_ngcontent-c3] 
-{
+.content[_ngcontent-c3] {
     color: #0782d0;
     height: auto !important;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
     -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center; 
+    -ms-flex-align: center;
+    align-items: center;
 }
 
-.over[_ngcontent-c3] 
-{
-    background-color: rgba(147, 147, 147, 0.5); 
+.over[_ngcontent-c3] {
+    background-color: rgba(147, 147, 147, 0.5);
 }
 
 .__ngx-form-container {
-    display: block !important; 
-    flex-wrap: wrap; 
+    display: block !important;
+    flex-wrap: wrap;
 }
 
-.form-input[type^="text"]
-{
+.form-input[type^="text"] {
     display: block !important;
     width: 100% !important;
     height: 34px !important;
@@ -54,18 +49,22 @@
     background-image: none!important;
     border: 1px solid #ccc!important;
     border-radius: 4px!important;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075)!important;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075)!important;
-    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s!important;
-    transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s!important;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s!important;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s!important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075)!important;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075)!important;
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s!important;
+    transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s!important;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s!important;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s!important;
+}
+
+.container-main {
+    margin-top: 30px;
 }
 
 .image {
     width: 5em;
 }
-  
+
 .overlay {
     position: absolute;
     top: 0;
@@ -93,4 +92,34 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     text-align: center;
+}
+
+
+/* Animaciones */
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.fast {
+    -webkit-animation-duration: 0.4s;
+    animation-duration: 0.4s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
 }

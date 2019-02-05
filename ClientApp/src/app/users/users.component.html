@@ -1,0 +1,132 @@
+<p *ngIf="!usuarios"><em>Cargando...</em></p>
+<div class="container-main">
+    <table class="table table-striped animated fadeIn fast">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let usuario of usuarios">
+                <td>{{usuario.usuario}}</td>
+                <td>{{usuario.nombre}}</td>
+                <td>{{usuario.apellido}}</td>
+                <td>{{usuario.telefono}}</td>
+                <td>{{usuario.email}}</td>
+                <td>
+
+                    <button type="button" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true"  ></span>
+                              </button>
+                    <button type="button" class="btn btn-info" (click)="editUser(UserModal, usuario)">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"  ></span>
+                      </button>
+                    <button type="button" class="btn btn-danger" (click)="deleteUser(usuario.usuario_id)">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
+              </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-success navbar-btn pull-right" (click)="newUser(UserModal)"><span class="glyphicon glyphicon-plus"  aria-hidden="true"></span> Nuevo Usuario</button>
+</div>
+
+
+<ng-template #UserModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            Datos de Usuario
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalUser.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+
+        <form #forma="ngForm" ngNativeValidate (ngSubmit)="saveUser(forma)" style="padding-top: 1em; padding-bottom: 1em">
+            <!-- <div class="form-group">
+                <label>Usuario</label>
+                <input #User type="text" required [value]="usuario.usuario ? usuario.usuario : null" class="form-control" aria-describedby="basic-addon3" placeholder="usuario"> -->
+            <!-- <input class="form-control" required placeholder="Ingrese un usuario" type="text" name="usuario" [(ngModel)]="usuario.usuario" #usuario="ngModel"> -->
+            <!-- <div *ngIf="usuario.errors?.required">
+                    Requerido
+                </div> -->
+            <!-- <div [hidden]="nombre.valid || nombre.pristine" class="alert alert-danger">
+                    Requerido
+                </div>
+            </div> -->
+            <input class="form-control" required placeholder="Ingrese un nombre" type="hidden" name="usuario_id" [(ngModel)]="usuario.usuario_id" #nombre="ngModel">
+
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <!-- <input #UserName type="text" required [value]="usuario.nombre ? usuario.nombre : null" class="form-control" aria-describedby="basic-addon3" placeholder="Ingrese un nombre"> -->
+                <input class="form-control" required placeholder="Ingrese un nombre" type="text" name="nombre" [(ngModel)]="usuario.nombre" #nombre="ngModel">
+                <!-- <div *ngIf="nombre.errors?.required">
+                    Requerido
+                </div> -->
+            </div>
+            <div class="form-group">
+                <label>Apellido</label>
+                <!-- <input #UserlastName type="text" required [value]="usuario.apellido ? usuario.apellido : null" class="form-control" aria-describedby="basic-addon3" placeholder="Ingrese un apellido"> -->
+                <input class="form-control" required placeholder="Ingrese un apellido" type="text" name="apellido" [(ngModel)]="usuario.apellido" #apellido="ngModel">
+                <!-- <div *ngIf="apellido.errors?.required">
+                    Requerido
+                </div> -->
+            </div>
+            <div class="form-group">
+                <label>Documento</label>
+                <!-- <input #UserTelephone type="number" required [value]="usuario.telefono ? usuario.telefono : null" class="form-control" aria-describedby="basic-addon3" placeholder="Ingrese un teléfono (solo números)"> -->
+                <input class="form-control" required placeholder="Ingrese un documento" type="number" name="documento" [(ngModel)]="usuario.documento" #documento="ngModel">
+                <!-- <div *ngIf="telefono.errors?.required">
+                    Requerido
+                </div> -->
+            </div>
+            <div class="form-group">
+                <label>Teléfono</label>
+                <!-- <input #UserTelephone type="number" required [value]="usuario.telefono ? usuario.telefono : null" class="form-control" aria-describedby="basic-addon3" placeholder="Ingrese un teléfono (solo números)"> -->
+                <input class="form-control" required placeholder="Ingrese un teléfono" type="text" name="telefono" [(ngModel)]="usuario.telefono" #telefono="ngModel">
+                <!-- <div *ngIf="telefono.errors?.required">
+                    Requerido
+                </div> -->
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <!-- <input #UserEmail type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" [value]="usuario.email ? usuario.email : null" class="form-control" aria-describedby="basic-addon3" placeholder="Ingrese un correo"> -->
+                <input class="form-control" required placeholder="Ingrese un correo electrónico" type="email" name="email" [(ngModel)]="usuario.email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #email="ngModel">
+                <!-- <div *ngIf="email.errors?.required">
+                    Requerido
+                </div> -->
+                <div *ngIf="email.errors?.pattern">
+                    Formato de email incorrecto
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <!-- <input #UserTelephone type="number" required [value]="usuario.telefono ? usuario.telefono : null" class="form-control" aria-describedby="basic-addon3" placeholder="Ingrese un teléfono (solo números)"> -->
+                <input class="form-control" id="password" required placeholder="Ingrese un password" type="password" name="password" [(ngModel)]="usuario.password" #password="ngModel">
+                <!-- <div *ngIf="telefono.errors?.required">
+                    Requerido
+                </div> -->
+            </div>
+            <!-- <div class="form-group">
+                <label>Password</label>
+                <input #UserTelephone type="number" required [value]="usuario.telefono ? usuario.telefono : null" class="form-control" aria-describedby="basic-addon3" placeholder="Ingrese un teléfono (solo números)">
+                <input class="form-control" id="confirm_password" required placeholder="Ingrese el mismo password" type="password">
+
+            </div> -->
+
+            <button type="submit" [disabled]="!forma.form.valid" class="btn btn-primary mr-auto">
+            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
+            </button>
+        </form>
+
+        <div class="modal-footer">
+            Usuario
+        </div>
+    </div>
+</ng-template>

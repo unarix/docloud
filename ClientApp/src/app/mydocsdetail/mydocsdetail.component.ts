@@ -88,7 +88,7 @@ class Document {
   ns_documento_subtipo : number;
   sd_nulo : string;
   thumbail : string;
-  atriutos : AtributeValue[];
+  atributos : AtributeValue[];
 }
 
 class AtributeValue {

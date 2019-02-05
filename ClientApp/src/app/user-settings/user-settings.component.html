@@ -1,14 +1,31 @@
-<div class="container-fluid">
+<div class="container-fluid container-main">
 
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
           Configuración
         </a>
-      </div>
-      <span class="navbar-right"> </span>
-    </div>
-  </nav>
+            </div>
+            <span class="navbar-right"> </span>
+        </div>
+    </nav>
 
+
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-4">
+            <button type="button" (click)="isOn= 'us'" class="btn btn-success"> Usuarios</button>
+            <button type="button" (click)="isOn= 'perf'" class="btn btn-success"> Perfiles</button>
+            <button type="button" (click)="isOn= 'perm'" class="btn btn-success">Permisos</button>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-md-12">
+            <app-users *ngIf="isOn=='us'"></app-users>
+            <app-families *ngIf="isOn=='perf'"></app-families>
+            <app-access *ngIf="isOn=='perm'"></app-access>
+        </div>
+    </div>
 </div>

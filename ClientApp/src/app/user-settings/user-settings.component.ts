@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserSettingsComponent implements OnInit {
 
+  isOn:string="us";
   constructor() { }
 
   ngOnInit() {

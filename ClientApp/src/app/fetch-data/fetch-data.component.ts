@@ -165,7 +165,7 @@ export class FetchDataComponent {
       res => {
         console.log(res); 
         this.loadAtributes(this.id_folder_selected);
-        this.openModalAlert(this.ventanaModal,"Exito!","Se creo su nuevo atributo con exito!"); 
+        this.openModalAlert(this.ventanaModal,"Exito!","Se creó su nuevo atributo con éxito!"); 
       }
       , 
       error => { 

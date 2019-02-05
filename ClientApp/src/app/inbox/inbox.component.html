@@ -1,16 +1,16 @@
-<div class="container-fluid">
+<div class="container-fluid container-main">
 
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">
-            <span><img style="width:1.3em" src="http://www.myiconfinder.com/uploads/iconsets/256-256-37736f35fd7d98b10b35287679b223b8.png"> Scanner Inbox</span>
-        </a>
-      </div>
-      <span class="navbar-right">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <span><img style="width:1.3em" src="http://www.myiconfinder.com/uploads/iconsets/256-256-37736f35fd7d98b10b35287679b223b8.png"> Scanner Inbox</span>
+                </a>
+            </div>
+            <span class="navbar-right">
           
       </span>
-      <span class="navbar-right">
+            <span class="navbar-right">
           <file-drop (onFileDrop)="dropped($event)" customstyle="container" >
               
               <div class="overlay">
@@ -18,26 +18,26 @@
               </div>
           </file-drop>  
       </span>
-      
-    </div>
-  </nav>
 
-  <div class="upload-table">
-      <table id="" class="table">
-          <tbody class="upload-name-style">
-              <tr *ngFor="let item of files; let i=index">
-                  <td> 
-                    Subiendo documento <strong>{{ item.relativePath }}</strong> ... 
-                    <span style="font-weight:bold;color:green;" >
+        </div>
+    </nav>
+
+    <div class="upload-table">
+        <table id="" class="table">
+            <tbody class="upload-name-style">
+                <tr *ngFor="let item of files; let i=index">
+                    <td>
+                        Subiendo documento <strong>{{ item.relativePath }}</strong> ...
+                        <span style="font-weight:bold;color:green;">
                       {{progress}}%
                     </span>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
-  </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  <p>Estos son los archivos que estan en inbox, haz click en alguno de ellos para ingresarlos al sistema</p>
+    <p>Estos son los archivos que estan en inbox, haz click en alguno de ellos para ingresarlos al sistema</p>
 
   <table datatable id="datatable" [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
     <thead>
@@ -58,35 +58,26 @@
           <button type="button" class="btn btn-danger" (click)="deleteFile(rec.name)">
             <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
           </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-  <div *ngFor="let alert of alerts">
-    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
-  </div>
+    <div *ngFor="let alert of alerts">
+        <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+    </div>
 
-  <!--button id="openModalButton" type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button-->
+    <!--button id="openModalButton" type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button-->
 
-  <ng-template #alertwin>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">{{title}}</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefAlert.hide()">
+    <ng-template #alertwin>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">{{title}}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefAlert.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
-    </div>
-    <div class="modal-body">
-      {{message}}
-    </div>
-  </ng-template>
-
+        </div>
+        <div class="modal-body">
+            {{message}}
+        </div>
+    </ng-template>
 </div>
-
-
-
-
-
-    
-
-
