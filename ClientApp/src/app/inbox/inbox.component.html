@@ -52,10 +52,10 @@
         <td>{{rec.name}}</td>
         <td>{{rec.LastWriteTime}}</td>
         <td>
-          <button type="button" class="btn btn-primary" (click)="deleteAtribute(rec.name)">
+          <button type="button" class="btn btn-primary" (click)="open(rec.name)">
               <span class="glyphicon glyphicon-open-file" aria-hidden="true" ></span>
           </button>
-          <button type="button" class="btn btn-danger" (click)="deleteAtribute(rec.name)">
+          <button type="button" class="btn btn-danger" (click)="deleteFile(rec.name)">
             <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
           </button>
         </td>
@@ -80,6 +80,7 @@
       {{message}}
     </div>
   </ng-template>
+
 </div>
 
 

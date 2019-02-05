@@ -26,9 +26,8 @@ namespace doCloud.Controllers
             string webRootPath = _hostingEnvironment.WebRootPath;
             string newPath = Path.Combine(webRootPath, "Cloud/Input");
 
-            DirectoryInfo d = new DirectoryInfo(newPath); //Assuming Test is your Folder
-            FileInfo[] Files = d.GetFiles("*.pdf"); //Getting Text files
-            string str = "";
+            DirectoryInfo d = new DirectoryInfo(newPath);
+            FileInfo[] Files = d.GetFiles("*.pdf");
 
             List<Models.File> fls = new List<Models.File>();
             
@@ -38,11 +37,31 @@ namespace doCloud.Controllers
                 fileC.LastWriteTime = file.LastWriteTime;
                 fileC.Length = file.Length;
                 fileC.name = file.Name;
-                
                 fls.Add(fileC);
             }
             
             return fls;
+        }
+
+        [HttpPost("[action]")]
+        [Route("deleteInputFile")]
+        public ActionResult deleteInputFile([FromBody] Models.File fl)
+        {
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            string phisicFile = Path.Combine(webRootPath, "Cloud/Input/" + fl.name);
+            //string[] pdfList = Directory.GetFiles(newPath, fl.name + ".pdf");
+
+            FileInfo file = new FileInfo(phisicFile);
+
+            if(file.Exists)
+            {
+                file.Delete();
+                return Json(fl.name + ", eliminado correctamente");
+            }
+            else
+            {
+                return Json("El archivo " + fl.name + " no existe o ya fue eliminado...");
+            }            
         }
     }
 }

@@ -84,7 +84,7 @@ namespace doCloud.Controllers
         
         [HttpPost, DisableRequestSizeLimit]
         [Route("UploadInputFile")]
-        public ActionResult UploadInputFile()   
+        public ActionResult UploadInputFile()
         {
             
             string fullPath = "";

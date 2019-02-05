@@ -13,7 +13,6 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
@@ -22,18 +21,19 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MydocsComponent } from './mydocs/mydocs.component';
 import { MydocsdetailComponent } from './mydocsdetail/mydocsdetail.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { MydocsAddComponent } from './mydocs-add/mydocs-add.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     FetchDataComponent,
     InboxComponent,
     UserSettingsComponent,
     MydocsComponent,
-    MydocsdetailComponent
+    MydocsdetailComponent,
+    MydocsAddComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -59,6 +59,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ])
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  // Recordar agregar aca todos los componentes que son modales:
+  entryComponents: [MydocsAddComponent]
 })
 export class AppModule { }

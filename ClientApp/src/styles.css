@@ -62,15 +62,11 @@
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s!important;
 }
 
-.container {
-    
-}
-  
 .image {
     width: 5em;
 }
   
-  .overlay {
+.overlay {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -81,13 +77,13 @@
     opacity: 0;
     transition: .5s ease;
     background-color: #008CBA;
-  }
-  
-  .container:hover .overlay {
+}
+
+.container:hover .overlay {
     opacity: 1;
-  }
-  
-  .text {
+}
+
+.text {
     color: white;
     font-size: 20px;
     position: absolute;
@@ -97,4 +93,4 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     text-align: center;
-  }
+}
