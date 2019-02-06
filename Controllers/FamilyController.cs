@@ -40,7 +40,7 @@ namespace doCloud.Controllers
 
                                 Family Fam = new Family();
 
-                                Fam.familia_id = dr.IsDBNull(dr.GetOrdinal("familia_id")) ? 0 : dr.GetInt32(dr.GetOrdinal("familia_id"));
+                                Fam.familia_id = dr.IsDBNull(dr.GetOrdinal("familia_id")) ? 0 : dr.GetDouble(dr.GetOrdinal("familia_id"));
                                 Fam.descripcion = dr.IsDBNull(dr.GetOrdinal("descripcion")) ? "" : dr.GetString(dr.GetOrdinal("descripcion"));
 
 
@@ -85,8 +85,8 @@ namespace doCloud.Controllers
         }
 
         [HttpPost("[action]")]
-        [Route("InsertUser")]
-        public bool InsertUser([FromBody] User us)
+        [Route("InsertFamily")]
+        public bool InsertFamily([FromBody] Family fa)
         {
             
            try
@@ -96,16 +96,9 @@ namespace doCloud.Controllers
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("INSERT INTO DAR_USUARIOS (usuario, password, nombre, apellido, telefono, email, documento ) VALUES (:p_usuario, :password, :p_nombre, :p_apellido, :p_telefono, :p_email, :p_documento)", conn))
+                using (var cmd = new NpgsqlCommand("INSERT INTO DAR_FAMILIA (descripcion) VALUES (:p_Descripcion)", conn))
                 {
- 
-                    cmd.Parameters.Add(new NpgsqlParameter("p_usuario",  us.usuario));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_password", us.password ));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_nombre", us.nombre));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_apellido", us.apellido));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_telefono", us.telefono));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_email", us.email));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_documento",  us.documento));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_Descripcion",  fa.descripcion));                    
                     
                     cmd.ExecuteNonQuery();
                 }
@@ -121,34 +114,39 @@ namespace doCloud.Controllers
         }
 
         [HttpPost("[action]")]
-        [Route("UpdateUser")]
-        public bool UpdateUser([FromBody] User us)
+        [Route("UpdateFamily")]
+        public bool UpdateUser([FromBody] Family fa)
         {
-            
-            using (var conn = new NpgsqlConnection(connString))
+            try
+            {
+                 using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("UPDATE DAR_USERS set (USUARIO, NOMBRE, APELLIDO, TELEFONO, EMAIL) = (:p_usuario,:p_nombre,:p_apellido,:p_telefono,:p_email) WHERE USUARIO_ID = :p_usuario_id", conn))
+                using (var cmd = new NpgsqlCommand("UPDATE DAR_FAMILIA set DESCRIPCION = :p_descripcion WHERE FAMILIA_ID = :p_familia_id", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("p_usuario_id", us.usuario_id));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_usuario", us.usuario));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_nombre", us.nombre));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_apellido", us.apellido));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_telefono", us.telefono));
-                    cmd.Parameters.Add(new NpgsqlParameter("p_email", us.email));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_familia_id", fa.familia_id));
+                    cmd.Parameters.Add(new NpgsqlParameter("p_descripcion", fa.descripcion));
+                    
 
                     cmd.ExecuteNonQuery();
                 }
             }
 
             return true;
+            }
+            catch (System.Exception ex)
+            {
+                
+                throw ex;
+            }
+           
         }
 
         [HttpGet("{id:int}")]
-        [Route("DeleteUser")]
-        public bool DeleteUser(int iduser)
+        [Route("DeleteFamily")]
+        public bool DeleteFamily(int id)
         {           
 
             using (var conn = new NpgsqlConnection(connString))
@@ -156,9 +154,9 @@ namespace doCloud.Controllers
                 conn.Open();
 
                 // Retrieve all rows
-                using (var cmd = new NpgsqlCommand("DELETE FROM DAR_USUARIOS WHERE USUARIO_ID = :USUARIO_ID", conn))
+                using (var cmd = new NpgsqlCommand("DELETE FROM DAR_FAMILIA WHERE FAMILIA_ID = :FAMILIA_ID", conn))
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter("USUARIO_ID", iduser));
+                    cmd.Parameters.Add(new NpgsqlParameter("FAMILIA_ID", id));
                     cmd.ExecuteNonQuery();
                 }
             }

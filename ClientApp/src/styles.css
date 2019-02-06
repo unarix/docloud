@@ -123,3 +123,8 @@
 .fadeIn {
     animation-name: fadeIn;
 }
+
+.table th,
+td {
+    text-align: center;
+}

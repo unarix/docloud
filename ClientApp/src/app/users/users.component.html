@@ -1,6 +1,7 @@
 <p *ngIf="!usuarios"><em>Cargando...</em></p>
 <div class="container-main">
-    <table class="table table-striped animated fadeIn fast">
+    <button type="button" class="btn btn-success navbar-btn pull-right" (click)="newUser(UserModal)"><span class="glyphicon glyphicon-plus"  aria-hidden="true"></span> Nuevo Usuario</button>
+    <table datatable id="datatable" [dtOptions]="dtOptions" class="table animated fadeIn fast" *ngIf="this.temp_var">
         <thead>
             <tr>
                 <th>Usuario</th>
@@ -8,6 +9,7 @@
                 <th>Apellido</th>
                 <th>Teléfono</th>
                 <th>Email</th>
+                <th id="relleno"></th>
             </tr>
         </thead>
         <tbody>
@@ -18,21 +20,19 @@
                 <td>{{usuario.telefono}}</td>
                 <td>{{usuario.email}}</td>
                 <td>
-
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Asociaciones">
                                 <span class="glyphicon glyphicon-cog" aria-hidden="true"  ></span>
                               </button>
-                    <button type="button" class="btn btn-info" (click)="editUser(UserModal, usuario)">
+                    <button type="button" class="btn btn-info" data-toggle="tooltip" title="Editar" (click)="editUser(UserModal, usuario)">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"  ></span>
                       </button>
-                    <button type="button" class="btn btn-danger" (click)="deleteUser(usuario.usuario_id)">
+                    <button type="button" class="btn btn-danger" data-toggle="tooltip" title="Borrar" (click)="deleteUser(usuario.usuario_id)">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
               </button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-success navbar-btn pull-right" (click)="newUser(UserModal)"><span class="glyphicon glyphicon-plus"  aria-hidden="true"></span> Nuevo Usuario</button>
 </div>
 
 
@@ -47,7 +47,7 @@
     </div>
     <div class="modal-body">
 
-        <form #forma="ngForm" ngNativeValidate (ngSubmit)="saveUser(forma)" style="padding-top: 1em; padding-bottom: 1em">
+        <form #forma="ngForm" ngNativeValidate (ngSubmit)="saveUser(forma, UserModal)" style="padding-top: 1em; padding-bottom: 1em">
             <!-- <div class="form-group">
                 <label>Usuario</label>
                 <input #User type="text" required [value]="usuario.usuario ? usuario.usuario : null" class="form-control" aria-describedby="basic-addon3" placeholder="usuario"> -->
@@ -59,7 +59,7 @@
                     Requerido
                 </div>
             </div> -->
-            <input class="form-control" required placeholder="Ingrese un nombre" type="hidden" name="usuario_id" [(ngModel)]="usuario.usuario_id" #nombre="ngModel">
+            <input class="form-control" placeholder="Ingrese un nombre" type="hidden" name="usuario_id" [(ngModel)]="usuario.usuario_id" #nombre="ngModel">
 
 
             <div class="form-group">
