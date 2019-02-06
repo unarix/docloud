@@ -19,6 +19,7 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { DataTablesModule } from 'angular-datatables';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MydocsComponent } from './mydocs/mydocs.component';
+import { MydocsAddComponent } from './mydocs-add/mydocs-add.component';
 import { MydocsdetailComponent } from './mydocsdetail/mydocsdetail.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { UsersComponent } from './users/users.component';
@@ -35,6 +36,7 @@ import { AccessComponent } from './access/access.component';
     UserSettingsComponent,
     MydocsComponent,
     MydocsdetailComponent,
+    MydocsAddComponent,
     UsersComponent,
     FamiliesComponent,
     AccessComponent
@@ -63,6 +65,8 @@ import { AccessComponent } from './access/access.component';
     ])
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  // Recordar agregar aca todos los componentes que son modales:
+  entryComponents: [MydocsAddComponent]
 })
 export class AppModule { }

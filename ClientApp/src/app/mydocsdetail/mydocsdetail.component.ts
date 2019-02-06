@@ -49,20 +49,11 @@ export class MydocsdetailComponent implements OnInit {
 
   loadDocuments(idns_documento: number)
   {
-
     //Aca se llama a la api para obtener los atributos de ese tipo de documento...
     this.http.get<Document[]>(this.baseUrl + 'api/Document/'+idns_documento).subscribe(result => {
       this.documents = result;
       console.log(this.documents);
     });
-
-    // this.http.get<Document[]>(this.baseUrl + 'api/DocumentType/GetDocumentTypes').subscribe(result => {
-    //   this.document = result;
-    // }, error => {
-    //     this.openModalAlert(this.ventanaModal,"Error!", JSON.stringify(error)); 
-    //     console.log(error);
-    //   }
-    // ); 
   }
 
   openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {

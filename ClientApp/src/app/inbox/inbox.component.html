@@ -39,23 +39,23 @@
 
     <p>Estos son los archivos que estan en inbox, haz click en alguno de ellos para ingresarlos al sistema</p>
 
-    <table datatable id="datatable" [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let rec of this.data">
-                <td>{{rec.name}}</td>
-                <td>{{rec.LastWriteTime}}</td>
-                <td>
-                    <button type="button" class="btn btn-primary" (click)="deleteAtribute(rec.name)">
+  <table datatable id="datatable" [dtOptions]="dtOptions" class="table " *ngIf="this.temp_var">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rec of this.data">
+        <td>{{rec.name}}</td>
+        <td>{{rec.LastWriteTime}}</td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="open(rec.name)">
               <span class="glyphicon glyphicon-open-file" aria-hidden="true" ></span>
           </button>
-                    <button type="button" class="btn btn-danger" (click)="deleteAtribute(rec.name)">
+          <button type="button" class="btn btn-danger" (click)="deleteFile(rec.name)">
             <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
           </button>
                 </td>

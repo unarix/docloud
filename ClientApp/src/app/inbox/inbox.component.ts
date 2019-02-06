@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, TemplateRef, ElementRef } from '@angular/core';
-import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http'
 import { ActivatedRoute} from "@angular/router";
 import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -9,6 +9,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { ViewChild } from '@angular/core'
 import { Alert } from 'selenium-webdriver';
 import {Observable} from 'rxjs';
+import { MydocsAddComponent } from '../mydocs-add/mydocs-add.component';
 
 @Component({
   selector: 'app-inbox',
@@ -49,7 +50,6 @@ export class InboxComponent {
     let options = new RequestOptions({ headers: headers });
   }
   
-
   ngOnInit() {
     // Estos dtOptions son las propiedades de la Datatable
     this.dtOptions = {
@@ -79,15 +79,64 @@ export class InboxComponent {
     });
   }
 
+  deleteFile(fileName : string)
+  {
+    let responseMsg: string = "OK!";
+
+    let file = new Filex;
+    file.name = fileName;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    
+    let url = this.baseUrl +  'api/InputFile/deleteInputFile';
+
+    this.http.post<Filex[]>(url, file, httpOptions).subscribe
+    (
+      res => {
+        console.log(JSON.stringify(res)); 
+        responseMsg = JSON.stringify(res);
+      }
+      , 
+      error => { 
+        this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
+        console.error(error) 
+      }, () => {
+        this.openModalAlert(this.ventanaModal,"Todo :D ", responseMsg); 
+      }
+    );
+
+    this.loadFiles();
+  }
+
   openModalAlert(template: TemplateRef<any>,ttl: string, msg: string) {
     this.message = msg;
     this.title = (ttl=="") ? "Alerta" : ttl;
     this.modalRefAlert = this.modalService.show(template, { class: 'second' });
   }
 
+  showAddDocument(title?: string, fileName?: string) {
+    // En initialState se inyectan las variables
+    const initialState = { title, fileName };
+    // En la llamada a la ventana modal, se pasa el initialstate
+    let bsModalRef = this.modalService.show(MydocsAddComponent, Object.assign({}, { class: 'modal-sm', initialState }));
+    // 
+    bsModalRef.content.action.subscribe((value) => {
+      console.log(value) // here you will get the value
+      });
+  }
+
+  open(fileName: string) {
+    this.showAddDocument("Test", fileName);
+  }
 
   public dropped(event: UploadEvent) {
     
+    let responseMsg : string;
+
     this.files = event.files;
     for (const droppedFile of event.files) 
     {
@@ -107,14 +156,11 @@ export class InboxComponent {
           this.http.request(uploadReq).subscribe
           (
             event => 
-              {
+            {
                 if (event.type === HttpEventType.UploadProgress) {
                   this.progress = Math.round(100 * event.loaded / event.total);
                 }
-                else if (event instanceof HttpResponse) {
-                  
-                }
-              }
+            }
           );
 
         });
@@ -128,7 +174,7 @@ export class InboxComponent {
       }
     }
 
-    setTimeout( () => { this.loadFiles() , 2000 });
+    //setTimeout( () => { this.loadFiles() , 2000 });
 
   }
 
