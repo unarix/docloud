@@ -236,3 +236,4 @@ _Pvt_Extensions
 wwwroot/Cloud/
 /PdfRenderer
 /appsettings.Development.json
+/appsettings.json
