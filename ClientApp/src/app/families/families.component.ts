@@ -15,7 +15,7 @@ export class FamiliesComponent implements OnInit {
   // **** Ventanas Modales ****
   modalRef: BsModalRef;
   modalRefAlert: BsModalRef;
-  modalUser: BsModalRef;
+  modalFamily: BsModalRef;
 
   public baseUrl: string;
   public http: HttpClient;
@@ -108,9 +108,8 @@ export class FamiliesComponent implements OnInit {
     this.nuevo = false;
    
     this.familia = familia;
-    template.elementRef
     console.log(this.familia);
-    this.modalUser = this.modalService.show(template);
+    this.modalFamily = this.modalService.show(template);
   }
 
   // Abre la ventana modal que muestra las propiedades de la carpeta
@@ -118,7 +117,7 @@ export class FamiliesComponent implements OnInit {
     this.nuevo = true;
     this.familia = null;
     this.familia = new Family();
-    this.modalUser = this.modalService.show(template);
+    this.modalFamily = this.modalService.show(template);
   }
 
   saveFamily(forma: NgForm) {

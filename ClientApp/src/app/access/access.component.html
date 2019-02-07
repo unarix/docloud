@@ -1,3 +1,63 @@
-<p>
-  access works!
-</p>
+<p *ngIf="!tipodocs"><em>Cargando...</em></p>
+<div class="container-main">
+    <button type="button" placement="bottom" ngbTooltip="Tooltip on bottom" class="btn btn-success navbar-btn pull-right" (click)="newTipoDoc(TipoDocModal)"><span class="glyphicon glyphicon-plus"  aria-hidden="true"></span> Nuevo Tipo Documento</button>
+    <table datatable id="datatable" [dtOptions]="dtOptions" class="table animated fadeIn fast" *ngIf="this.temp_var">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tipodoc of tipodocs">
+                <td>{{tipodoc.idns_documento_tipo}}</td>
+                <td>{{tipodoc.sd_descripcion}}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="tooltip" title="Eliminar" (click)="deleteDocumentType(tipodoc)">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
+              </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<ng-template #TipoDocModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            Tipos de documentos
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalDoctype.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+
+        <form #forma="ngForm" ngNativeValidate (ngSubmit)="saveTipoDoc(forma)" style="padding-top: 1em; padding-bottom: 1em">
+
+            <input class="form-control" type="hidden" name="idns_documento_tipo" [(ngModel)]="tipodoc.idns_documento_tipo" #idns_documento_tipo="ngModel">
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <!-- <input #UserName type="text" required [value]="usuario.nombre ? usuario.nombre : null" class="form-control" aria-describedby="basic-addon3" placeholder="Ingrese un nombre"> -->
+                <input class="form-control" required placeholder="Ingrese una descripcion al tipo de documento" type="text" name="sd_descripcion" [(ngModel)]="tipodoc.sd_descripcion" #sd_descripcion="ngModel">
+                <!-- <div *ngIf="nombre.errors?.required">
+                    Requerido
+                </div> -->
+            </div>
+
+
+
+            <button type="submit" [disabled]="!forma.form.valid" class="btn btn-primary mr-auto">
+            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
+            </button>
+        </form>
+
+        <div class="modal-footer">
+            Perfil
+        </div>
+    </div>
+</ng-template>

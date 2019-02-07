@@ -54,7 +54,8 @@ export class UsersComponent implements OnInit {
       "searching": true,
       "pageLength": 5,
       "language": {
-        "search": "Buscar:"
+        "search": "Buscar:",
+        "zeroRecords": "No se encontraron resultados"
       },
     };
     this.loadUsers();
