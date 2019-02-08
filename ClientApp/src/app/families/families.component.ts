@@ -166,7 +166,7 @@ export class FamiliesComponent implements OnInit {
   
 }
 
- class Family {
+ export class Family {
   descripcion:string;
   familia_id:number;
   // familias : family[];

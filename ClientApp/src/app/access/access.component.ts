@@ -160,7 +160,7 @@ export class AccessComponent implements OnInit {
   
 }
 
- class DocumentType {
+ export class DocumentType {
   sd_descripcion:string;
   idns_documento_tipo:number;
   // familias : family[];
