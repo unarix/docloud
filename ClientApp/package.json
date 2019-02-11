@@ -32,6 +32,7 @@
     "datatables.net-bs4": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
     "jquery": "^3.3.1",
+    "ng-multiselect-dropdown": "^0.2.3",
     "ng2-datepicker": "^3.1.1",
     "ng2-pdf-viewer": "^5.2.1",
     "ngx-bootstrap": "^3.0.1",

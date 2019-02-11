@@ -25,6 +25,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { UsersComponent } from './users/users.component';
 import { FamiliesComponent } from './families/families.component';
 import { AccessComponent } from './access/access.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { AccessComponent } from './access/access.component';
     ReactiveFormsModule,
     CommonModule,
     DynamicFormModule,
+    NgMultiSelectDropDownModule.forRoot(),
     AccordionModule.forRoot(),
     AlertModule.forRoot(),
     ModalModule.forRoot(),

@@ -5,7 +5,8 @@ import { Http, Headers, RequestOptions } from "@angular/http";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 import { NgForm } from "@angular/forms";
-
+import { Family } from "../families/families.component";
+import { DocumentType  } from "../access/access.component";
 
 @Component({
   selector: "app-users",
@@ -16,6 +17,7 @@ export class UsersComponent implements OnInit {
   modalRef: BsModalRef;
   modalRefAlert: BsModalRef;
   modalUser: BsModalRef;
+  modalAsoc: BsModalRef;
 
   public baseUrl: string;
   public http: HttpClient;
@@ -30,6 +32,15 @@ export class UsersComponent implements OnInit {
   table = $('#datatable').DataTable(); // creamos esta variable para la tabla de atributos.
   public data: Object;
   public temp_var: Object=false;
+
+  public PerfilesList = [];
+  public TiposDocList = [];
+
+  public selectedPerfiles = [];
+  public selectedTiposDoc = [];
+
+  public dropdownSettingsPerf = {};
+  public dropdownSettingsTiposDoc = {};
   
   constructor(
     private route: ActivatedRoute, http: HttpClient, @Inject("BASE_URL") baseUrl: string, private modalService: BsModalService) {
@@ -54,11 +65,78 @@ export class UsersComponent implements OnInit {
       "searching": true,
       "pageLength": 5,
       "language": {
-        "search": "Buscar:"
+        "search": "Buscar:",
+        "zeroRecords": "No se encontraron resultados"
       },
     };
     this.loadUsers();
+    //cargo las familias en el dropdownlist
+    this.loadFamilies()
+    //cargo los tipos de documentos en el dropdownlist
+    this.loadTipoDocumentos()
+    
+
+    // this.dropdownList = [
+    //   { item_id: 1, item_text: 'Mumbai' },
+    //   { item_id: 2, item_text: 'Bangaluru' },
+    //   { item_id: 3, item_text: 'Pune' },
+    //   { item_id: 4, item_text: 'Navsari' },
+    //   { item_id: 5, item_text: 'New Delhi' }
+    // ];
+
+    // this.selectedItems = [
+    //   { item_id: 3, item_text: 'Pune' },
+    //   { item_id: 4, item_text: 'Navsari' }
+    // ];
+
+    //configuraciones de dropdownlist de perfiles
+    this.dropdownSettingsPerf = {
+      singleSelection: false,
+      idField: 'familia_id',
+      textField: 'descripcion',
+      selectAllText: 'Seleccionar todos',
+      unSelectAllText: 'Deseleccionar todos',
+      itemsShowLimit: 10,
+      allowSearchFilter: true,
+      searchPlaceholderText: 'Buscar',
+      noDataAvailablePlaceholderText:'No hay datos'
+    };
+     //configuraciones de dropdownlist de tipos de documentos
+    this.dropdownSettingsTiposDoc = {
+      singleSelection: false,
+      idField: 'idns_documento_tipo',
+      textField: 'sd_descripcion',
+      selectAllText: 'Seleccionar todos',
+      unSelectAllText: 'Deseleccionar todos',
+      itemsShowLimit: 10,
+      allowSearchFilter: true,
+      searchPlaceholderText: 'Buscar',
+      noDataAvailablePlaceholderText:'No hay datos'
+    };
+
   }
+
+  loadFamilies() {  
+    //Aca se llama a la api para obtener todos las familias...
+    this.http
+      .get<Family[]>(this.baseUrl + "api/Family/GetAllFamilies")
+      .subscribe(result => {
+        this.PerfilesList = result;       
+        console.log(this.PerfilesList);
+      });
+  }
+
+  loadTipoDocumentos() {
+    //Aca se llama a la api para obtener todos los tipos de documento...
+    this.http
+      .get<DocumentType[]>(this.baseUrl + "api/DocumentType/GetDocumentTypes")
+      .subscribe(result => {
+        this.TiposDocList = result;
+        this.temp_var=true;
+        console.log(this.TiposDocList);
+      });
+  }
+
 
   loadUsers() {
     this.table.destroy() // Trato de destruir la Datatable
@@ -95,6 +173,26 @@ export class UsersComponent implements OnInit {
     } else {
       // Do nothing!
     }
+  }
+
+
+  asocUser(template: TemplateRef<any>, usuario: User) {
+ 
+    this.usuario = usuario;
+  
+    console.log(this.usuario );
+    this.modalAsoc = this.modalService.show(template);
+  }
+
+  saveAsoc(forma2: NgForm, template: TemplateRef<any>) {
+    console.log("Formulario posteado");
+    console.log("ngForm" , forma2);
+    console.log("valor forma", forma2.value);
+
+    console.log("asoc1", this.selectedPerfiles);
+    console.log("asoc2", this.selectedTiposDoc);
+    //this.usuario = forma2.value;
+
   }
 
   // Abre la ventana modal que muestra las propiedades de la carpeta
