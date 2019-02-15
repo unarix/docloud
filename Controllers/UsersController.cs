@@ -186,5 +186,123 @@ namespace doCloud.Controllers
             return true;
         }
 
+
+        [HttpPost("[action]")]
+        [Route("AsocFamiliasTipoDocs")]
+        public bool AsocFamiliasTipoDocs([FromBody] User Us)
+        {
+
+            try
+            {
+                using (var conn = new NpgsqlConnection(connString))
+                { 
+                    conn.Open();
+
+                    using (var cmd = new NpgsqlCommand("DELETE FROM DAR_FAMILIA_USUARIO WHERE usuario_id = :p_usuario_id; DELETE FROM DAR_PATENTE_USUARIO WHERE usuario_id = :p_usuario_id", conn))
+                    {
+                        cmd.Parameters.Add(new NpgsqlParameter("p_usuario_id", Us.usuario_id));                       
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    foreach (var fam in Us.famList)
+                    {
+                        // Retrieve all rows
+                        using (var cmd = new NpgsqlCommand("INSERT INTO DAR_FAMILIA_USUARIO (familia_id, usuario_id, h_alta ) VALUES (:p_familia_id, :p_usuario_id, :p_h_alta)", conn))
+                        {
+
+                            cmd.Parameters.Add(new NpgsqlParameter("p_familia_id", fam.familia_id));
+                            cmd.Parameters.Add(new NpgsqlParameter("p_usuario_id", Us.usuario_id));
+                            cmd.Parameters.Add(new NpgsqlParameter("p_h_alta", DateTime.Now));
+
+                            cmd.ExecuteNonQuery();
+                        }
+                      
+                    }
+
+                    foreach (var doctype in Us.docTypeList)
+                    {
+                        // Retrieve all rows
+                        using (var cmd = new NpgsqlCommand("INSERT INTO DAR_PATENTE_USUARIO (usuario_id, patente_id) VALUES (:p_usuario_id, :p_doctype_id)", conn))
+                        {
+
+                            cmd.Parameters.Add(new NpgsqlParameter("p_doctype_id", doctype.idns_documento_tipo));
+                            cmd.Parameters.Add(new NpgsqlParameter("p_usuario_id", Us.usuario_id));                           
+
+                            cmd.ExecuteNonQuery();
+                        }
+
+                    }
+
+
+                }
+
+                return true;
+            }
+            catch (NpgsqlException ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpGet("{id:int}")]
+        [Route("GetAsocFamiliaTipoDocs")]
+        public User GetAsocFamiliaTipoDocs(int idUser)
+        {
+            try
+            {
+                User us = new User();
+                
+                List<Family> FamLst = new List<Family>();
+                List<DocumentType> TiDocLst = new List<DocumentType>();
+
+                us.famList = FamLst;
+                us.docTypeList = TiDocLst;
+
+
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    // Retrieve all rows
+                    using (var cmd = new NpgsqlCommand("SELECT FU.familia_id, f.descripcion FROM DAR_FAMILIA_USUARIO FU INNER JOIN DAR_FAMILIA F ON FU.familia_id = F.familia_id where usuario_id = :USUARIO_ID", conn))
+                    {
+                        cmd.Parameters.Add(new NpgsqlParameter("USUARIO_ID", idUser));
+
+                        using (var dr = cmd.ExecuteReader())
+
+                            while (dr.Read())
+                            {
+                                Family Fam = new Family();
+                                Fam.familia_id = dr.IsDBNull(dr.GetOrdinal("familia_id")) ? 0 : dr.GetDouble(dr.GetOrdinal("familia_id"));
+                                Fam.descripcion = dr.IsDBNull(dr.GetOrdinal("descripcion")) ? "" : dr.GetString(dr.GetOrdinal("descripcion")); 
+                                                          
+                                FamLst.Add(Fam);
+                            }
+                    }
+
+                    using (var cmd = new NpgsqlCommand("SELECT PU.patente_id, DT.sd_descripcion FROM DAR_PATENTE_USUARIO PU INNER JOIN DAR_DOCUMENTO_TIPO DT ON PU.patente_id = DT.idns_documento_tipo where usuario_id = :USUARIO_ID", conn))
+                    {
+                        cmd.Parameters.Add(new NpgsqlParameter("USUARIO_ID", idUser));
+
+                        using (var dr = cmd.ExecuteReader())
+
+                            while (dr.Read())
+                            {
+                                DocumentType DocTyp = new DocumentType();
+
+                                DocTyp.idns_documento_tipo = dr.IsDBNull(dr.GetOrdinal("patente_id")) ? 0 : dr.GetDouble(dr.GetOrdinal("patente_id"));
+                                DocTyp.sd_descripcion = dr.IsDBNull(dr.GetOrdinal("sd_descripcion")) ? "" : dr.GetString(dr.GetOrdinal("sd_descripcion"));
+                                TiDocLst.Add(DocTyp);
+                            }
+                    }
+
+                    return us;
+                }
+            }
+            catch (System.Exception ex) { throw ex; }
+
+        }
+
     }
 }

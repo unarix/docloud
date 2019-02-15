@@ -6,7 +6,7 @@
             <tr>
                 <th>Id</th>
                 <th>Descripcion</th>
-                <th></th>
+                <th>Acciones</th>
 
             </tr>
         </thead>
@@ -16,7 +16,7 @@
                 <td>{{familia.descripcion}}</td>
 
                 <td>
-                    <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Asociaciones">
+                    <button type="button" class="btn btn-primary" data-toggle="tooltip" (click)="asocFamily(AsocModal, familia)" title="Asociaciones">
                                 <span class="glyphicon glyphicon-cog" aria-hidden="true"  ></span>
                               </button>
                     <button type="button" class="btn btn-info" data-toggle="tooltip" title="Editar" (click)="editFamily(FamilyModal, familia)">
@@ -67,4 +67,37 @@
             Perfil
         </div>
     </div>
+</ng-template>
+
+<ng-template #AsocModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            Asociaciones del perfil
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalAsoc.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
+    <div class="modal-body">
+        <form #forma2="ngForm" ngNativeValidate (ngSubmit)="saveAsoc(forma2, modalAsoc)" style="padding-top: 1em; padding-bottom: 1em">
+
+            <input class="form-control" type="hidden" name="familia_id" [(ngModel)]="familia.familia_id" #familia_id="ngModel">
+
+
+            <div class="form-group">
+                <label>Tipos Documentos</label>
+                <ng-multiselect-dropdown [placeholder]="'Seleccione tipos de documentos a asociar'" [data]="TiposDocList" [(ngModel)]="selectedTiposDoc" [ngModelOptions]="{standalone: true}" [settings]="dropdownSettingsTiposDoc">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <button type="submit" [disabled]="!forma2.form.valid" class="btn btn-primary mr-auto">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
+                    </button>
+        </form>
+
+        <div class="modal-footer">
+            Asociaciones
+        </div>
+    </div>
+
 </ng-template>

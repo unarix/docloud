@@ -7,8 +7,7 @@ namespace doCloud.Models
     {
         public string descripcion { get; set; }
         public double familia_id { get; set; }
-        public List<Patent> patentes { get; set; }
-        public List<DocumentType> documentos_tipos { get; set; }
+        public List<DocumentType> doc_types { get; set; }
         
         
     }
