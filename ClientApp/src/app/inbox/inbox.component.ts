@@ -130,7 +130,7 @@ export class InboxComponent {
   }
 
   open(fileName: string) {
-    this.showAddDocument("Test", fileName);
+    this.showAddDocument("Guardar documento...", fileName);
   }
 
   public dropped(event: UploadEvent) {

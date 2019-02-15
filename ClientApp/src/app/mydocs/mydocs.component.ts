@@ -241,21 +241,21 @@ export class MydocsComponent implements OnInit {
 
 }
 
-class Atribute {
-  idns_atributo: number;
-  sd_atributo: string;
-  ns_documento_tipo: number;
-  ns_atributo_tipo : number;
-  h_alta : Date;
-  sd_opciones : string;
-}
+  class Atribute {
+    idns_atributo: number;
+    sd_atributo: string;
+    ns_documento_tipo: number;
+    ns_atributo_tipo : number;
+    h_alta : Date;
+    sd_opciones : string;
+  }
 
-class AtributeValue {
-  idns_atributo_valor: number;
-  ns_atributo: number;
-  sd_valor: string;
-  ns_documento : number;
-  h_fecha_alta : Date;
-  h_valor : Date;
-  ns_valor : number;
-}
+  class AtributeValue {
+    idns_atributo_valor: number;
+    ns_atributo: number;
+    sd_valor: string;
+    ns_documento : number;
+    h_fecha_alta : Date;
+    h_valor : Date;
+    ns_valor : number;
+  }

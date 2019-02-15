@@ -4,9 +4,28 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <div class="modal-body">
-  {{message}}
+  <h5>
+    En que carpta guardaras {{fileName}}?
+    
+    <p *ngIf="!documentTypes"><em>Cargando...</em></p>
+    <select id="SelectDocType" style="width: 100%;">
+      <!--option ng-repeat="documentTypes in documentTypes" value="{{documentTypes.sd_descripcion}}">{{ documentTypes.sd_descripcion }}</option-->
+      <option *ngFor="let documentTypes of documentTypes">
+        {{ documentTypes.sd_descripcion }}
+      </option>
+    </select>
+
+  </h5>
+  <dynamic-form #dynamicFormName='dynamicForm' [config]='dynamicFormConfig' (submit)='saveAtributes($event)'></dynamic-form>
+
 </div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRefAtribute.hide()">Cerrar</button>
+</div>
+
 <div class="modal-footer">
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide()" translate="cancel"> Cancelar</button>
   <button type="button" class="btn btn-success" (click)="clickOk()" translate="ok"> Ok</button>
