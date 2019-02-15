@@ -9,7 +9,7 @@
                 <th>Apellido</th>
                 <th>Teléfono</th>
                 <th>Email</th>
-                <th id="relleno"></th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -142,6 +142,7 @@
     <div class="modal-body">
         <form #forma2="ngForm" ngNativeValidate (ngSubmit)="saveAsoc(forma2, modalAsoc)" style="padding-top: 1em; padding-bottom: 1em">
 
+            <input class="form-control" placeholder="Ingrese un nombre" type="hidden" name="usuario_id" [(ngModel)]="usuario.usuario_id" #nombre="ngModel">
             <div class="form-group">
                 <label>Perfiles</label>
                 <ng-multiselect-dropdown [placeholder]="'Seleccione perfiles a asociar'" [data]="PerfilesList" [(ngModel)]="selectedPerfiles" [ngModelOptions]="{standalone: true}" [settings]="dropdownSettingsPerf">

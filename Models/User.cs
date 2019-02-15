@@ -15,7 +15,9 @@ namespace doCloud.Models
         public int documento  { get; set; }
         public DateTime alta_fecha  { get; set; }
         public DateTime modif_fecha { get; set; }
-        public List<Family> familias { get; set; }
-        
+        public List<Family> famList { get; set; }        
+        public List<DocumentType> docTypeList { get; set; }
+
+
     }
 }

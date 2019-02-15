@@ -164,5 +164,90 @@ namespace doCloud.Controllers
             return true;
         }
 
+        [HttpPost("[action]")]
+        [Route("AsocTipoDocs")]
+        public bool AsocTipoDocs([FromBody] Family Fam)
+        {
+
+            try
+            {
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    using (var cmd = new NpgsqlCommand("DELETE FROM DAR_FAMILIA_DOC_TIPO WHERE ns_familia = :p_familia_id", conn))
+                    {
+                        cmd.Parameters.Add(new NpgsqlParameter("p_familia_id", Fam.familia_id));
+                        cmd.ExecuteNonQuery();
+                    }
+
+
+                    foreach (var doctype in Fam.doc_types)
+                    {
+                        // Retrieve all rows
+                        using (var cmd = new NpgsqlCommand("INSERT INTO DAR_FAMILIA_DOC_TIPO (ns_familia, ns_documento_tipo) VALUES (:p_family_id, :p_doctype_id)", conn))
+                        {
+
+                            cmd.Parameters.Add(new NpgsqlParameter("p_doctype_id", doctype.idns_documento_tipo));
+                            cmd.Parameters.Add(new NpgsqlParameter("p_family_id", Fam.familia_id));
+
+                            cmd.ExecuteNonQuery();
+                        }
+
+                    }
+
+
+                }
+
+                return true;
+            }
+            catch (NpgsqlException ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpGet("{id:int}")]
+        [Route("GetAsocTipoDocs")]
+        public Family GetAsocTipoDocs(int idFamilia)
+        {
+            try
+            {
+                Family fam = new Family();
+
+                List<DocumentType> TiDocLst = new List<DocumentType>();
+
+                fam.doc_types = TiDocLst;
+
+
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+
+                    using (var cmd = new NpgsqlCommand("SELECT FDT.NS_FAMILIA, DT.SD_DESCRIPCION FROM DAR_FAMILIA_DOC_TIPO FDT INNER JOIN DAR_DOCUMENTO_TIPO DT ON FDT.ns_documento_tipo = DT.idns_documento_tipo where FDT.ns_familia = :FAMILIA_ID", conn))
+                    {
+                        cmd.Parameters.Add(new NpgsqlParameter("FAMILIA_ID", idFamilia));
+
+                        using (var dr = cmd.ExecuteReader())
+
+                            while (dr.Read())
+                            {
+                                DocumentType DocTyp = new DocumentType();
+
+                                DocTyp.idns_documento_tipo = dr.IsDBNull(dr.GetOrdinal("NS_FAMILIA")) ? 0 : dr.GetDouble(dr.GetOrdinal("NS_FAMILIA"));
+                                DocTyp.sd_descripcion = dr.IsDBNull(dr.GetOrdinal("SD_DESCRIPCION")) ? "" : dr.GetString(dr.GetOrdinal("SD_DESCRIPCION"));
+                                TiDocLst.Add(DocTyp);
+                            }
+                    }
+
+                    return fam;
+                }
+            }
+            catch (System.Exception ex) { throw ex; }
+
+        }
+
     }
 }

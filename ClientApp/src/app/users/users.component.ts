@@ -33,11 +33,11 @@ export class UsersComponent implements OnInit {
   public data: Object;
   public temp_var: Object=false;
 
-  public PerfilesList = [];
-  public TiposDocList = [];
+  public PerfilesList: Family[];
+  public TiposDocList: DocumentType[];
 
-  public selectedPerfiles = [];
-  public selectedTiposDoc = [];
+  public selectedPerfiles: Family[];
+  public selectedTiposDoc: DocumentType[];
 
   public dropdownSettingsPerf = {};
   public dropdownSettingsTiposDoc = {};
@@ -70,25 +70,13 @@ export class UsersComponent implements OnInit {
       },
     };
     this.loadUsers();
+
     //cargo las familias en el dropdownlist
     this.loadFamilies()
+
     //cargo los tipos de documentos en el dropdownlist
     this.loadTipoDocumentos()
     
-
-    // this.dropdownList = [
-    //   { item_id: 1, item_text: 'Mumbai' },
-    //   { item_id: 2, item_text: 'Bangaluru' },
-    //   { item_id: 3, item_text: 'Pune' },
-    //   { item_id: 4, item_text: 'Navsari' },
-    //   { item_id: 5, item_text: 'New Delhi' }
-    // ];
-
-    // this.selectedItems = [
-    //   { item_id: 3, item_text: 'Pune' },
-    //   { item_id: 4, item_text: 'Navsari' }
-    // ];
-
     //configuraciones de dropdownlist de perfiles
     this.dropdownSettingsPerf = {
       singleSelection: false,
@@ -179,6 +167,18 @@ export class UsersComponent implements OnInit {
   asocUser(template: TemplateRef<any>, usuario: User) {
  
     this.usuario = usuario;
+    console.log(this.usuario.usuario_id);
+      //Aca se llama a la api para obtener todos los tipos de documento...
+      this.http
+        .get<User>(this.baseUrl + "api/Users/GetAsocFamiliaTipoDocs?iduser="+ this.usuario.usuario_id)
+        .subscribe(result => {
+          this.selectedTiposDoc = result.docTypeList;
+          this.selectedPerfiles = result.famList;
+          this.temp_var=true;
+          
+          console.log(result);
+        });
+    
   
     console.log(this.usuario );
     this.modalAsoc = this.modalService.show(template);
@@ -186,13 +186,39 @@ export class UsersComponent implements OnInit {
 
   saveAsoc(forma2: NgForm, template: TemplateRef<any>) {
     console.log("Formulario posteado");
-    console.log("ngForm" , forma2);
-    console.log("valor forma", forma2.value);
-
+    
     console.log("asoc1", this.selectedPerfiles);
     console.log("asoc2", this.selectedTiposDoc);
-    //this.usuario = forma2.value;
+   
+    //Creo objeto con 2 objetos dentro con las asociaciones de los combos
+    //var asociaciones: AsocUser = new AsocUser();
+    this.usuario.famList = this.selectedPerfiles;
+    this.usuario.docTypeList =  this.selectedTiposDoc;
+   
+    console.log("asociaciones Objeto", this.usuario);
 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+      this.http.post<User>(this.baseUrl + "api/Users/AsocFamiliasTipoDocs", this.usuario, httpOptions).subscribe
+      (
+        res => {
+          console.log(res);          
+          alert("Asociación correcta");
+          //this.openModalAlert(this.ventanaModal,"Exito!","Se creo su nuevo atributo con exito!"); 
+        }
+        , 
+        error => { 
+          //this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
+          console.error(error)
+          alert("Error: "+ error)  
+        }
+      );
+
+      this.modalService.hide(1);
   }
 
   // Abre la ventana modal que muestra las propiedades de la carpeta
@@ -281,8 +307,9 @@ export class UsersComponent implements OnInit {
   email: string;
   documento: number;
   alta_fecha: Date;
-  // familias : family[];
+  famList: Family[];
+  docTypeList: DocumentType[];
+  
 }
-// class family{
 
-// }
+

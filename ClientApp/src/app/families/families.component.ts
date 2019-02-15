@@ -16,6 +16,7 @@ export class FamiliesComponent implements OnInit {
   modalRef: BsModalRef;
   modalRefAlert: BsModalRef;
   modalFamily: BsModalRef;
+  modalAsoc: BsModalRef;
 
   public baseUrl: string;
   public http: HttpClient;
@@ -31,6 +32,10 @@ export class FamiliesComponent implements OnInit {
   table = $('#datatable').DataTable(); // creamos esta variable para la tabla de atributos.
   public data: Object;
   public temp_var: Object=false;
+
+  public TiposDocList: DocumentType[];
+  public selectedTiposDoc: DocumentType[];
+  public dropdownSettingsTiposDoc = {};
   
   constructor(
     private route: ActivatedRoute, private router : Router ,http: HttpClient, @Inject("BASE_URL") baseUrl: string, private modalService: BsModalService) {
@@ -59,11 +64,27 @@ export class FamiliesComponent implements OnInit {
      },
    };
     this.loadFamilies();
+     
+    //cargo los tipos de documentos en el dropdownlist
+     this.loadTipoDocumentos()
+
+      //configuraciones de dropdownlist de tipos de documentos
+      this.dropdownSettingsTiposDoc = {
+        singleSelection: false,
+        idField: 'idns_documento_tipo',
+        textField: 'sd_descripcion',
+        selectAllText: 'Seleccionar todos',
+        unSelectAllText: 'Deseleccionar todos',
+        itemsShowLimit: 10,
+        allowSearchFilter: true,
+        searchPlaceholderText: 'Buscar',
+        noDataAvailablePlaceholderText:'No hay datos'
+      };
     
   }
 
   loadFamilies() {
-    this.table.destroy() // Trato de destruir la Datatable
+    this.table.clear(); // Trato de destruir la Datatable
     //Aca se llama a la api para obtener todos los usuarios...
     this.http
       .get<Family[]>(this.baseUrl + "api/Family/GetAllFamilies")
@@ -71,6 +92,17 @@ export class FamiliesComponent implements OnInit {
         this.familias = result;
         this.temp_var=true;
         console.log(this.familias);
+      });
+  }
+
+  loadTipoDocumentos() {
+    //Aca se llama a la api para obtener todos los tipos de documento...
+    this.http
+      .get<DocumentType[]>(this.baseUrl + "api/DocumentType/GetDocumentTypes")
+      .subscribe(result => {
+        this.TiposDocList = result;
+        this.temp_var=true;
+        console.log(this.TiposDocList);
       });
   }
 
@@ -100,6 +132,56 @@ export class FamiliesComponent implements OnInit {
     } else {
       // Do nothing!
     }
+  }
+
+  asocFamily(template: TemplateRef<any>, familia: Family) {
+ 
+    this.familia = familia;
+    console.log(this.familia.familia_id);
+      //Aca se llama a la api para obtener todos los tipos de documento...
+      this.http
+        .get<Family>(this.baseUrl + "api/Family/GetAsocTipoDocs?idFamilia="+ this.familia.familia_id)
+        .subscribe(result => {
+          this.selectedTiposDoc = result.doc_types;
+          this.temp_var=true;
+          
+          console.log(result);
+        });
+    
+  
+    console.log(this.familia);
+    this.modalAsoc = this.modalService.show(template);
+  }
+
+  saveAsoc(forma2: NgForm, template: TemplateRef<any>) {
+    console.log("Formulario posteado");    
+    console.log("asoc1", this.selectedTiposDoc);  
+    this.familia.doc_types =  this.selectedTiposDoc;
+   
+    console.log("asociaciones Objeto", this.familia);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+      this.http.post<Family>(this.baseUrl + "api/Family/AsocTipoDocs", this.familia, httpOptions).subscribe
+      (
+        res => {
+          console.log(res);          
+          alert("Asociación correcta");
+          //this.openModalAlert(this.ventanaModal,"Exito!","Se creo su nuevo atributo con exito!"); 
+        }
+        , 
+        error => { 
+          //this.openModalAlert(this.ventanaModal,"Error!",JSON.stringify(error)); 
+          console.error(error)
+          alert("Error: "+ error)  
+        }
+      );
+
+      this.modalService.hide(1);
   }
 
   // Abre la ventana modal que muestra las propiedades de la carpeta
@@ -169,5 +251,5 @@ export class FamiliesComponent implements OnInit {
  export class Family {
   descripcion:string;
   familia_id:number;
-  // familias : family[];
+  doc_types : DocumentType[];
 }
